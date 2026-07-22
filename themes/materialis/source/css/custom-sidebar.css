@@ -1,6 +1,15 @@
-/* 尝试为侧边栏增加圆角和阴影 */
+/* 侧边栏悬浮样式优化 */
 .sidebar-content {
   border-radius: 16px !important;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
   overflow: hidden !important;
+  
+  /* 向右微调位置 */
+  left: 12px !important;
+  
+  /* 缩短高度 */
+  top: 72px !important;
+  bottom: 16px !important;
+  height: auto !important;
+  max-height: calc(100vh - 88px) !important;
 }
