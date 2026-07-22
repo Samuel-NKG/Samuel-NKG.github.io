@@ -9,10 +9,13 @@ body.mdui-theme-dark {
   background: #fffbfe !important;
 }
 
-/* 隐藏明暗模式切换按钮 */
+/* 隐藏明暗模式切换 + 动态配色按钮 */
 mdui-dropdown:has(.appbar-display-mode-icon),
 .appbar-display-mode,
-mdui-button-icon:has(.appbar-display-mode-icon) {
+mdui-button-icon:has(.appbar-display-mode-icon),
+#color-picker-trigger,
+.color-picker-icon,
+mdui-button-icon.color-picker-icon {
   display: none !important;
 }
 
