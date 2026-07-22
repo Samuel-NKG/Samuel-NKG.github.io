@@ -16,3 +16,20 @@
   /* 进一步调慢动画（打开和收回） */
   transition: transform 0.55s cubic-bezier(0.32, 0.72, 0, 1) !important;
 }
+
+/* 修复暗色模式下底部大片空白 */
+html, body {
+  min-height: 100vh;
+  background-color: rgb(var(--mdui-color-background)) !important;
+}
+
+.main,
+.page-transition-container,
+#main-content {
+  min-height: calc(100vh - 160px);
+  background-color: rgb(var(--mdui-color-background)) !important;
+}
+
+.site-footer {
+  margin-top: auto !important;
+}
