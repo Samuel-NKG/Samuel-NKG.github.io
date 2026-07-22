@@ -1,4 +1,23 @@
-/* 侧边栏悬浮样式 */
+/* 强制始终使用浅色模式，禁用暗色 */
+body {
+  background-color: #fffbfe !important;
+  background: #fffbfe !important;
+}
+
+body.mdui-theme-dark {
+  background-color: #fffbfe !important;
+  background: #fffbfe !important;
+}
+
+/* 隐藏右上角的暗色模式切换按钮（可选） */
+.appbar-display-mode,
+.mdui-top-app-bar [name="dark_mode"],
+.mdui-top-app-bar [name="light_mode"],
+.mdui-top-app-bar [name="brightness_auto"] {
+  display: none !important;
+}
+
+/* 侧边栏样式（浅色） */
 .sidebar-content {
   border-radius: 16px !important;
   overflow: hidden !important;
@@ -8,43 +27,15 @@
   height: auto !important;
   max-height: calc(100vh - 88px) !important;
   transition: transform 0.55s cubic-bezier(0.32, 0.72, 0, 1) !important;
-}
-
-/* 浅色模式：阴影 + 浅色背景 */
-body:not(.mdui-theme-dark) {
-  background-color: #fffbfe !important;
-  background: #fffbfe !important;
-}
-
-body:not(.mdui-theme-dark) .sidebar-content {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
   border: none !important;
   background-color: #fffbfe !important;
 }
 
-body:not(.mdui-theme-dark) .main,
-body:not(.mdui-theme-dark) .page-transition-container,
-body:not(.mdui-theme-dark) #main-content {
+.main,
+.page-transition-container,
+#main-content {
   background-color: #fffbfe !important;
-}
-
-/* 暗色模式：白色描边 + 深色背景 */
-body.mdui-theme-dark {
-  background-color: #1c1b1f !important;
-  background: #1c1b1f !important;
-}
-
-body.mdui-theme-dark .sidebar-content {
-  box-shadow: none !important;
-  border: 2px solid rgba(255, 255, 255, 0.25) !important;
-  background-color: #1c1b1f !important;
-}
-
-body.mdui-theme-dark .main,
-body.mdui-theme-dark .page-transition-container,
-body.mdui-theme-dark #main-content,
-body.mdui-theme-dark .articles-container {
-  background-color: #1c1b1f !important;
 }
 
 .site-footer {
