@@ -1,7 +1,6 @@
-/* 侧边栏悬浮样式优化 */
+/* 侧边栏悬浮样式 */
 .sidebar-content {
   border-radius: 16px !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
   overflow: hidden !important;
   
   /* 向右微调位置 */
@@ -13,11 +12,24 @@
   height: auto !important;
   max-height: calc(100vh - 88px) !important;
   
-  /* 进一步调慢动画（打开和收回） */
+  /* 动画速度 */
   transition: transform 0.55s cubic-bezier(0.32, 0.72, 0, 1) !important;
 }
 
-/* 修复暗色模式下底部大片空白 */
+/* 浅色模式保留阴影 */
+body:not(.mdui-theme-dark) .sidebar-content {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+  border: none !important;
+}
+
+/* 暗色模式：取消阴影，添加白色描边 */
+body.mdui-theme-dark .sidebar-content {
+  box-shadow: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  background-color: rgb(var(--mdui-color-surface-container)) !important;
+}
+
+/* 修复暗色模式下底部和侧边栏下方的白色空白 */
 html, body {
   min-height: 100vh;
   background-color: rgb(var(--mdui-color-background)) !important;
