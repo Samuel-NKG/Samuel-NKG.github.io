@@ -2,17 +2,11 @@
 .sidebar-content {
   border-radius: 16px !important;
   overflow: hidden !important;
-  
-  /* 向右微调位置 */
   left: 12px !important;
-  
-  /* 缩短高度 */
   top: 72px !important;
   bottom: 16px !important;
   height: auto !important;
   max-height: calc(100vh - 88px) !important;
-  
-  /* 动画速度 */
   transition: transform 0.55s cubic-bezier(0.32, 0.72, 0, 1) !important;
 }
 
@@ -29,17 +23,20 @@ body.mdui-theme-dark .sidebar-content {
   background-color: rgb(var(--mdui-color-surface-container)) !important;
 }
 
-/* 强力修复暗色模式下的白色底色问题 */
-html, body {
-  min-height: 100vh !important;
+/* 强力覆盖暗色模式背景，解决白色底色 */
+html,
+html.mdui-custom-color-scheme-4200931845-0,
+body,
+body.mdui-theme-dark {
   background-color: rgb(var(--mdui-color-background)) !important;
+  background: rgb(var(--mdui-color-background)) !important;
 }
 
-body.mdui-theme-dark,
 body.mdui-theme-dark .main,
 body.mdui-theme-dark .page-transition-container,
 body.mdui-theme-dark #main-content,
-body.mdui-theme-dark .articles-container {
+body.mdui-theme-dark .articles-container,
+body.mdui-theme-dark mdui-navigation-drawer {
   background-color: rgb(var(--mdui-color-background)) !important;
 }
 
