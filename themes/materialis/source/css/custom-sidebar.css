@@ -10,7 +10,7 @@
   transition: transform 0.55s cubic-bezier(0.32, 0.72, 0, 1) !important;
 }
 
-/* 浅色模式保留阴影 */
+/* 浅色模式：保留阴影，正常背景 */
 body:not(.mdui-theme-dark) .sidebar-content {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
   border: none !important;
@@ -23,9 +23,7 @@ body.mdui-theme-dark .sidebar-content {
   background-color: #1c1b1f !important;
 }
 
-/* 强制整个页面在暗色模式下使用深色背景（硬编码，避免被动态配色覆盖） */
-html,
-body,
+/* 只在暗色模式下强制深色背景 */
 body.mdui-theme-dark {
   background-color: #1c1b1f !important;
   background: #1c1b1f !important;
