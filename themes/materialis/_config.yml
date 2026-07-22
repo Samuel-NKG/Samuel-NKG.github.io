@@ -69,6 +69,8 @@ links:
 #---start---
 # 自定义资源文件配置
 custom:
+  css:
+    - /css/custom-sidebar.css
   # 自定义 CSS 文件
   # css:
   #   - /css/custom.css
