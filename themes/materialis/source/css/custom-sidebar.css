@@ -13,6 +13,6 @@
   height: auto !important;
   max-height: calc(100vh - 88px) !important;
   
-  /* 调慢滑出动画速度 */
-  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  /* 进一步调慢动画（打开和收回） */
+  transition: transform 0.55s cubic-bezier(0.32, 0.72, 0, 1) !important;
 }
