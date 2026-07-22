@@ -12,4 +12,7 @@
   bottom: 16px !important;
   height: auto !important;
   max-height: calc(100vh - 88px) !important;
+  
+  /* 调慢滑出动画速度 */
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
