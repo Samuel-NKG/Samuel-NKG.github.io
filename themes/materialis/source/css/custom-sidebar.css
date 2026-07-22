@@ -20,24 +20,22 @@ body:not(.mdui-theme-dark) .sidebar-content {
 body.mdui-theme-dark .sidebar-content {
   box-shadow: none !important;
   border: 2px solid rgba(255, 255, 255, 0.25) !important;
-  background-color: rgb(var(--mdui-color-surface-container)) !important;
+  background-color: #1c1b1f !important;
 }
 
-/* 强力覆盖暗色模式背景，解决白色底色 */
+/* 强制整个页面在暗色模式下使用深色背景（硬编码，避免被动态配色覆盖） */
 html,
-html.mdui-custom-color-scheme-4200931845-0,
 body,
 body.mdui-theme-dark {
-  background-color: rgb(var(--mdui-color-background)) !important;
-  background: rgb(var(--mdui-color-background)) !important;
+  background-color: #1c1b1f !important;
+  background: #1c1b1f !important;
 }
 
 body.mdui-theme-dark .main,
 body.mdui-theme-dark .page-transition-container,
 body.mdui-theme-dark #main-content,
-body.mdui-theme-dark .articles-container,
-body.mdui-theme-dark mdui-navigation-drawer {
-  background-color: rgb(var(--mdui-color-background)) !important;
+body.mdui-theme-dark .articles-container {
+  background-color: #1c1b1f !important;
 }
 
 .site-footer {
