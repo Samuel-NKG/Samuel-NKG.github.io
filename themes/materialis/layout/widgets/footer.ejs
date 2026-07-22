@@ -8,13 +8,13 @@
       <!-- 版权信息 -->
       <div class="copyright">
         <mdui-chip variant="filled" class="footer-chip">
-          <mdui-icon name="copyright" slot="icon"></mdui-icon>
-          &copy; <%= new Date().getFullYear() %> 
-          <a href="<%= url_for() %>" class="site-link"><%= config.title %></a>
-          <% if (theme.footer && theme.footer.copyright) { %>
-            · <%= theme.footer.copyright %>
-          <% } %>
-        </mdui-chip>
+  <mdui-icon name="copyright" slot="icon"></mdui-icon>
+  <%= new Date().getFullYear() %>
+  <a href="<%= url_for() %>" class="site-link"><%= config.title %></a>
+  <% if (theme.footer && theme.footer.copyright) { %>
+    · <%= theme.footer.copyright %>
+  <% } %>
+</mdui-chip>
       </div>
 
       <div class="theme">
