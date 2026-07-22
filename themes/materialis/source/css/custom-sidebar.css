@@ -1,4 +1,4 @@
-/* 强制始终使用浅色模式，禁用暗色 */
+/* 强制浅色模式背景 */
 body {
   background-color: #fffbfe !important;
   background: #fffbfe !important;
@@ -9,15 +9,14 @@ body.mdui-theme-dark {
   background: #fffbfe !important;
 }
 
-/* 隐藏右上角的暗色模式切换按钮（可选） */
+/* 隐藏明暗模式切换按钮 */
+mdui-dropdown:has(.appbar-display-mode-icon),
 .appbar-display-mode,
-.mdui-top-app-bar [name="dark_mode"],
-.mdui-top-app-bar [name="light_mode"],
-.mdui-top-app-bar [name="brightness_auto"] {
+mdui-button-icon:has(.appbar-display-mode-icon) {
   display: none !important;
 }
 
-/* 侧边栏样式（浅色） */
+/* 侧边栏样式 */
 .sidebar-content {
   border-radius: 16px !important;
   overflow: hidden !important;
