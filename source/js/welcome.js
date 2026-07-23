@@ -17,10 +17,10 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
   `;
 
-  // 创建用于拉长滚动距离的空白区域
+  // 拉长滚动距离的空白区域
   var spacer = document.createElement('div');
   spacer.id = 'welcome-spacer';
-  spacer.style.height = '120vh';   // 控制打字需要滚动的距离，可调整
+  spacer.style.height = '140vh';
 
   var content = document.getElementById('content-inner') || document.querySelector('.layout');
   if (content) {
@@ -28,31 +28,46 @@ document.addEventListener('DOMContentLoaded', function () {
     content.insertBefore(spacer, welcome.nextSibling);
   }
 
+  // 先把文章区域藏起来
+  var posts = document.getElementById('recent-posts') || document.querySelector('.recent-posts');
+  if (posts) {
+    posts.style.opacity = '0';
+    posts.style.pointerEvents = 'none';
+    posts.style.transition = 'opacity 0.6s ease';
+  }
+
   const typedEl = document.getElementById('welcome-typed');
   const cursorEl = document.getElementById('welcome-cursor');
   if (!typedEl) return;
 
+  let finished = false;
+
   function updateTextByScroll() {
-    const section = document.getElementById('welcome-section');
     const spacerEl = document.getElementById('welcome-spacer');
-    if (!section || !spacerEl) return;
+    if (!spacerEl) return;
 
     const spacerRect = spacerEl.getBoundingClientRect();
     const windowHeight = window.innerHeight;
 
-    // 计算 spacer 被滚过的进度（0 ~ 1）
     let progress = 0;
     if (spacerRect.top < windowHeight) {
       const scrolled = windowHeight - spacerRect.top;
-      const total = spacerRect.height + windowHeight * 0.3;
+      const total = spacerRect.height + windowHeight * 0.2;
       progress = Math.min(1, Math.max(0, scrolled / total));
     }
 
     const charCount = Math.floor(progress * fullText.length);
     typedEl.textContent = fullText.substring(0, charCount);
-
-    // 光标
     cursorEl.style.opacity = charCount >= fullText.length ? '0' : '1';
+
+    // 打完字后再显示 Hello World 卡片
+    if (progress >= 0.98 && !finished) {
+      finished = true;
+      if (posts) {
+        posts.style.opacity = '1';
+        posts.style.pointerEvents = 'auto';
+      }
+    }
   }
 
   window.addEventListener('scroll', updateTextByScroll, { passive: true });
