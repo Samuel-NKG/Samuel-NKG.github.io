@@ -34,3 +34,34 @@ a.blog-title,
 #nav .site-name {
   display: none !important;
 }
+
+/* 引入手写字体 */
+@import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+KuaiLe&family=Homemade+Apple&display=swap');
+
+/* 标题手写效果 */
+#site-name,
+.site-name,
+#blog_name {
+  font-family: 'Homemade Apple', 'Ma Shan Zheng', cursive !important;
+  font-size: 1.8rem !important;
+  opacity: 0;
+  animation: handwriting 2.2s ease-out forwards;
+  animation-delay: 0.3s;
+}
+
+/* 逐字手写动画 */
+@keyframes handwriting {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(2px);
+  }
+  30% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
