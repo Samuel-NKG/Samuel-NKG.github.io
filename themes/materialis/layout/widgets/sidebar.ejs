@@ -22,11 +22,23 @@
                     class="nav-item"
                     href="<%= url_for(item.url) %>"
                     rounded
-                    <% if (page.path.startsWith(item.url.replace(/^\//, '')) || (item.url === '/' && page.path === 'index.html')) { %>
-                    active
-                    <% } else { %>
-                    variant="filled"
-                    <% } %>
+
+<% 
+  var isActive = false;
+  if (item.url === '/') {
+    // 首页只有在真正是首页时才高亮
+    isActive = (page.path === 'index.html' || page.path === '' || page.path === '/');
+  } else {
+    // 其他页面用路径匹配
+    isActive = page.path.startsWith(item.url.replace(/^\//, ''));
+  }
+%>
+<% if (isActive) { %>
+  active
+<% } else { %>
+  variant="filled"
+<% } %>
+
                 >
                     <mdui-icon slot="icon" name="<%= item.icon %>"></mdui-icon>
                     <%= item.name %>
