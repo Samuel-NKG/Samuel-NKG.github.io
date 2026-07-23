@@ -1,45 +1,4 @@
-/* ========== 强制浅色模式 ========== */
-body {
-  background-color: #fffbfe !important;
-  background: #fffbfe !important;
-}
-
-body.mdui-theme-dark {
-  background-color: #fffbfe !important;
-  background: #fffbfe !important;
-}
-
-/* 隐藏明暗切换 + 动态配色按钮 */
-mdui-dropdown:has(.appbar-display-mode-icon),
-.appbar-display-mode,
-mdui-button-icon:has(.appbar-display-mode-icon),
-#color-picker-trigger,
-.color-picker-icon,
-mdui-button-icon.color-picker-icon {
-  display: none !important;
-}
-
-/* ========== 左栏卡片样式（之前成功的版本） ========== */
 .sidebar-content {
-  border-radius: 16px !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
-  overflow: hidden !important;
-  left: 12px !important;
-  top: 72px !important;
-  bottom: 16px !important;
-  height: auto !important;
-  max-height: calc(100vh - 88px) !important;
-  transition: transform 0.55s cubic-bezier(0.32, 0.72, 0, 1) !important;
-  background-color: #fffbfe !important;
-  border: none !important;
-}
-
-.main,
-.page-transition-container,
-#main-content {
-  background-color: #fffbfe !important;
-}
-
-.site-footer {
-  margin-top: auto !important;
+  background-color: red !important;
+  border: 5px solid blue !important;
 }
