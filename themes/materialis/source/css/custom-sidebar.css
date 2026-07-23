@@ -1,43 +1,55 @@
-/* 强制浅色模式背景 */
-body {
-  background-color: #fffbfe !important;
-  background: #fffbfe !important;
-}
-
-body.mdui-theme-dark {
-  background-color: #fffbfe !important;
-  background: #fffbfe !important;
-}
-
-/* 隐藏明暗模式切换 + 动态配色按钮 */
-mdui-dropdown:has(.appbar-display-mode-icon),
-.appbar-display-mode,
-mdui-button-icon:has(.appbar-display-mode-icon),
-#color-picker-trigger,
-.color-picker-icon,
-mdui-button-icon.color-picker-icon {
+/* ========== 隐藏顶部页眉 ========== */
+mdui-top-app-bar.top-app-bar,
+mdui-top-app-bar {
   display: none !important;
 }
 
-/* 侧边栏样式 */
+/* 去掉因为页眉产生的顶部内边距 */
+body {
+  padding-top: 0 !important;
+  background-color: #fffbfe !important;
+  background: #fffbfe !important;
+}
+
+/* ========== 侧边栏整体上移并调整 ========== */
 .sidebar-content {
   border-radius: 16px !important;
   overflow: hidden !important;
   left: 12px !important;
-  top: 72px !important;
-  bottom: 16px !important;
+  top: 12px !important;          /* 靠近顶部 */
+  bottom: 12px !important;
   height: auto !important;
-  max-height: calc(100vh - 88px) !important;
+  max-height: calc(100vh - 24px) !important;
   transition: transform 0.55s cubic-bezier(0.32, 0.72, 0, 1) !important;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
   border: none !important;
   background-color: #fffbfe !important;
+  position: relative !important;
 }
 
+/* 主内容区域也上移 */
 .main,
 .page-transition-container,
 #main-content {
   background-color: #fffbfe !important;
+  margin-top: 12px !important;
+  padding-top: 0 !important;
+}
+
+/* 预留左栏右上角收回按钮的位置（先做占位样式） */
+.sidebar-close-btn {
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  z-index: 10 !important;
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  background-color: rgba(0, 0, 0, 0.06) !important;
 }
 
 .site-footer {
