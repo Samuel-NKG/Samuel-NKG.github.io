@@ -148,3 +148,17 @@ header#page-header nav {
   max-width: 100% !important;
   flex: 0 0 100% !important;
 }
+
+/* Hello World 卡片左对齐 */
+#recent-posts,
+.recent-posts,
+#content-inner > .recent-posts {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+  padding-left: 5% !important;
+  max-width: 720px !important;
+}
+
+.recent-post-item {
+  margin-left: 0 !important;
+}

@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (window.Typed) {
       new Typed('#welcome-typed', {
-        strings: ['Welcome'],
+        strings: ['Welcome To My Homepage'],
         typeSpeed: 140,
         startDelay: 300,
         showCursor: true,
