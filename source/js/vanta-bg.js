@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
       minWidth: 200.00,
       scale: 1.00,
       scaleMobile: 1.00,
-      color: 0xaaaaaa,        // 更亮的灰色
+      color: 0x3f3f3f,        // 网格线颜色（深灰白）
       backgroundColor: 0x000000, // 纯黑背景
       points: 12.00,
       maxDistance: 22.00,
