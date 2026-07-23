@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const fullText = 'Welcome To My Homepage';
 
-  // 创建 Welcome 全屏区域
+  // 创建 Welcome 区域（sticky）
   var welcome = document.createElement('div');
   welcome.id = 'welcome-section';
   welcome.innerHTML = `
@@ -17,50 +17,44 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
   `;
 
-  // 插入到内容区域最前面
+  // 创建用于拉长滚动距离的空白区域
+  var spacer = document.createElement('div');
+  spacer.id = 'welcome-spacer';
+  spacer.style.height = '120vh';   // 控制打字需要滚动的距离，可调整
+
   var content = document.getElementById('content-inner') || document.querySelector('.layout');
   if (content) {
     content.insertBefore(welcome, content.firstChild);
+    content.insertBefore(spacer, welcome.nextSibling);
   }
 
   const typedEl = document.getElementById('welcome-typed');
   const cursorEl = document.getElementById('welcome-cursor');
   if (!typedEl) return;
 
-  // 滚动驱动打字
   function updateTextByScroll() {
     const section = document.getElementById('welcome-section');
-    if (!section) return;
+    const spacerEl = document.getElementById('welcome-spacer');
+    if (!section || !spacerEl) return;
 
-    const rect = section.getBoundingClientRect();
+    const spacerRect = spacerEl.getBoundingClientRect();
     const windowHeight = window.innerHeight;
 
-    // 计算当前滚动进度（0 ~ 1）
-    // 当 section 顶部到达视口顶部时开始，底部离开时结束
+    // 计算 spacer 被滚过的进度（0 ~ 1）
     let progress = 0;
-
-    if (rect.top <= 0) {
-      // section 已经向上滚出一部分
-      progress = Math.min(1, Math.abs(rect.top) / (rect.height * 0.6));
-    } else if (rect.top < windowHeight) {
-      // section 正在进入视口
-      progress = 0;
+    if (spacerRect.top < windowHeight) {
+      const scrolled = windowHeight - spacerRect.top;
+      const total = spacerRect.height + windowHeight * 0.3;
+      progress = Math.min(1, Math.max(0, scrolled / total));
     }
 
-    // 根据进度决定显示多少个字符
     const charCount = Math.floor(progress * fullText.length);
     typedEl.textContent = fullText.substring(0, charCount);
 
-    // 光标闪烁控制
-    if (charCount >= fullText.length) {
-      cursorEl.style.opacity = '0';
-    } else {
-      cursorEl.style.opacity = '1';
-    }
+    // 光标
+    cursorEl.style.opacity = charCount >= fullText.length ? '0' : '1';
   }
 
-  // 监听滚动
   window.addEventListener('scroll', updateTextByScroll, { passive: true });
-  // 初始执行一次
   updateTextByScroll();
 });

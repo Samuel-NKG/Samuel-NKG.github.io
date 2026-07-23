@@ -96,8 +96,10 @@ header#page-header nav {
   padding-top: 0 !important;
 }
 
-/* Welcome 全屏区域（透明背景） */
+/* Welcome 卡住在视口 */
 #welcome-section {
+  position: sticky;
+  top: 0;
   width: 100%;
   height: 100vh;
   min-height: 100vh;
@@ -106,16 +108,15 @@ header#page-header nav {
   align-items: flex-start;
   justify-content: flex-start;
   padding-top: 18vh;
-  padding-left: 6%;              /* 更靠左 */
+  padding-left: 6%;
   background: transparent !important;
   color: #ffffff;
   box-sizing: border-box;
-  position: relative;
   z-index: 5;
 }
 
 #welcome-section .welcome-inner {
-  font-size: clamp(2.6rem, 6.5vw, 4.4rem);  /* 字号加大 */
+  font-size: clamp(2.6rem, 6.5vw, 4.4rem);
   font-weight: 700;
   letter-spacing: 1.5px;
   line-height: 1.25;
@@ -126,6 +127,17 @@ header#page-header nav {
 
 #welcome-typed {
   color: #ffffff !important;
+}
+
+#welcome-cursor {
+  color: #ffffff;
+  animation: blink 1s step-end infinite;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
 /* 强制 Welcome 独占整行，下面内容另起一行 */
