@@ -1,10 +1,33 @@
 document.addEventListener('DOMContentLoaded', function () {
   // 只在首页执行
-  if (!document.body.classList.contains('index') && 
-      location.pathname !== '/' && 
+  if (!document.body.classList.contains('index') &&
+      location.pathname !== '/' &&
       location.pathname !== '/index.html') {
     return;
   }
+
+  // ========== 在这里插入「初始页淡出」代码 ==========
+  var header = document.getElementById('page-header');
+  if (header) {
+    header.style.transition = 'opacity 0.1s linear';
+    
+    function fadeHeader() {
+      var rect = header.getBoundingClientRect();
+      var windowHeight = window.innerHeight;
+      
+      var progress = 0;
+      if (rect.bottom < windowHeight) {
+        progress = 1 - (rect.bottom / windowHeight);
+      }
+      progress = Math.min(1, Math.max(0, progress));
+      
+      header.style.opacity = 1 - progress;
+    }
+    
+    window.addEventListener('scroll', fadeHeader, { passive: true });
+    fadeHeader();
+  }
+  // ========== 淡出代码结束 ==========
 
   const fullText = 'Welcome To My Homepage';
 
@@ -16,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
       <span id="welcome-typed"></span><span id="welcome-cursor">|</span>
     </div>
   `;
-
+  // ... 后面保持原来的代码不变
   // 拉长滚动距离的空白区域
   var spacer = document.createElement('div');
   spacer.id = 'welcome-spacer';
