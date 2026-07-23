@@ -23,14 +23,19 @@
                     href="<%= url_for(item.url) %>"
                     rounded
 
-<% 
+<%
   var isActive = false;
-  if (item.url === '/') {
-    // 首页只有在真正是首页时才高亮
-    isActive = (page.path === 'index.html' || page.path === '' || page.path === '/');
+  var currentPath = (page.path || '').replace(/\\/g, '/');
+  var itemPath = (item.url || '').replace(/^\//, '').replace(/\/$/, '');
+
+  if (item.url === '/' || itemPath === '') {
+    // 首页
+    isActive = (currentPath === 'index.html' || currentPath === '' || currentPath === '/');
   } else {
-    // 其他页面用路径匹配
-    isActive = page.path.startsWith(item.url.replace(/^\//, ''));
+    // 其他菜单：当前路径以菜单路径开头就高亮（支持子页面）
+    isActive = currentPath === itemPath || 
+               currentPath === itemPath + '/index.html' ||
+               currentPath.startsWith(itemPath + '/');
   }
 %>
 <% if (isActive) { %>
