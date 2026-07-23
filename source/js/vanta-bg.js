@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
       minWidth: 200.00,
       scale: 1.00,
       scaleMobile: 1.00,
-      color: 0xcccccc,        // 接近白色
+      color: 0xaaaaaa,        // 更亮的灰色
       backgroundColor: 0x000000, // 纯黑背景
       points: 12.00,
       maxDistance: 22.00,
