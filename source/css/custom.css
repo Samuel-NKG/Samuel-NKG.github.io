@@ -124,3 +124,27 @@ header#page-header nav {
 #welcome-typed {
   color: #ffffff !important;
 }
+
+/* 强制 Welcome 独占整行，下面内容另起一行 */
+#welcome-section {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: 0 0 100% !important;
+  display: flex !important;
+}
+
+/* 让内容区域变成纵向排列 */
+#content-inner,
+.layout {
+  display: flex !important;
+  flex-direction: column !important;
+  flex-wrap: nowrap !important;
+}
+
+/* 文章区域也占满宽度 */
+#recent-posts,
+.recent-posts {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: 0 0 100% !important;
+}
