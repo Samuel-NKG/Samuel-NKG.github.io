@@ -6,26 +6,13 @@ document.addEventListener('DOMContentLoaded', function () {
     return;
   }
 
-  // 创建 Welcome 区域
+  // 创建 Welcome 全屏区域
   var welcome = document.createElement('div');
   welcome.id = 'welcome-section';
   welcome.innerHTML = `
-    <div class="welcome-text">
+    <div class="welcome-inner">
       <span id="welcome-typed"></span>
     </div>
-  `;
-
-  // 样式
-  welcome.style.cssText = `
-    width: 100%;
-    min-height: 60vh;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding-left: 12%;
-    background: #000;
-    color: #fff;
-    box-sizing: border-box;
   `;
 
   // 插入到内容区域最前面
@@ -34,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function () {
     content.insertBefore(welcome, content.firstChild);
   }
 
-  // 打字机效果（等滚动到这个区域时再触发）
   var typedStarted = false;
 
   function startTyped() {
@@ -44,33 +30,33 @@ document.addEventListener('DOMContentLoaded', function () {
     if (window.Typed) {
       new Typed('#welcome-typed', {
         strings: ['Welcome'],
-        typeSpeed: 120,
-        startDelay: 200,
+        typeSpeed: 140,
+        startDelay: 300,
         showCursor: true,
         cursorChar: '|',
         loop: false
       });
     } else {
-      // 如果 Typed 还没加载，直接显示
       document.getElementById('welcome-typed').textContent = 'Welcome';
     }
   }
 
-  // 监听滚动，当黑色头部滚出后启动
+  // 监听黑色头部是否完全离开视野
   var header = document.getElementById('page-header');
   if (header) {
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        // 当头部完全离开视野时触发
         if (!entry.isIntersecting) {
           startTyped();
         }
       });
-    }, { threshold: 0 });
+    }, {
+      threshold: 0,
+      rootMargin: '0px'
+    });
 
     observer.observe(header);
   } else {
-    // 备用：直接启动
-    setTimeout(startTyped, 800);
+    setTimeout(startTyped, 600);
   }
 });
