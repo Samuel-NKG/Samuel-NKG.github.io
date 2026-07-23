@@ -82,3 +82,16 @@ a.blog-title,
   max-width: 90%;
   height: auto;
 }
+
+/* 隐藏顶栏 */
+#nav,
+#page-header #nav,
+.nav,
+header#page-header nav {
+  display: none !important;
+}
+
+/* 如果需要，顺便去掉顶栏占位高度 */
+#page-header {
+  padding-top: 0 !important;
+}
