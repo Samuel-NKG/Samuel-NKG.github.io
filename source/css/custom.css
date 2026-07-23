@@ -24,3 +24,13 @@
 
 /* 引入像素字体（Google Fonts） */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
+/* 隐藏左上角网站标题 */
+#site-name,
+.site-name,
+#blog_name,
+.blog_name,
+a.blog-title,
+#nav .site-name {
+  display: none !important;
+}
