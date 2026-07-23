@@ -1,4 +1,8 @@
-.sidebar-content {
+/* 测试更高优先级 */
+mdui-navigation-drawer.sidebar-content,
+.sidebar-content,
+body .sidebar-content {
   background-color: red !important;
+  background: red !important;
   border: 5px solid blue !important;
 }
