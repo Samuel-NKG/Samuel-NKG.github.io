@@ -104,9 +104,9 @@ header#page-header nav {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: flex-start;   /* 改为靠上 */
-  padding-top: 18vh;             /* 往上移，并预留下方空间 */
-  padding-left: 12%;
+  justify-content: flex-start;
+  padding-top: 18vh;
+  padding-left: 6%;              /* 更靠左 */
   background: transparent !important;
   color: #ffffff;
   box-sizing: border-box;
@@ -115,18 +115,15 @@ header#page-header nav {
 }
 
 #welcome-section .welcome-inner {
-  font-size: clamp(2.2rem, 5.5vw, 3.8rem);  /* 字体缩小 */
+  font-size: clamp(2.6rem, 6.5vw, 4.4rem);  /* 字号加大 */
   font-weight: 700;
   letter-spacing: 1.5px;
-  line-height: 1.25;                        /* 缩小行间距 */
+  line-height: 1.25;
   color: #ffffff;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
 }
 
-#welcome-typed {
-  color: #ffffff !important;
-}
 #welcome-typed {
   color: #ffffff !important;
 }
