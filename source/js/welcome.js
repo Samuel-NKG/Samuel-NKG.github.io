@@ -6,12 +6,14 @@ document.addEventListener('DOMContentLoaded', function () {
     return;
   }
 
+  const fullText = 'Welcome To My Homepage';
+
   // 创建 Welcome 全屏区域
   var welcome = document.createElement('div');
   welcome.id = 'welcome-section';
   welcome.innerHTML = `
     <div class="welcome-inner">
-      <span id="welcome-typed"></span>
+      <span id="welcome-typed"></span><span id="welcome-cursor">|</span>
     </div>
   `;
 
@@ -21,42 +23,44 @@ document.addEventListener('DOMContentLoaded', function () {
     content.insertBefore(welcome, content.firstChild);
   }
 
-  var typedStarted = false;
+  const typedEl = document.getElementById('welcome-typed');
+  const cursorEl = document.getElementById('welcome-cursor');
+  if (!typedEl) return;
 
-  function startTyped() {
-    if (typedStarted) return;
-    typedStarted = true;
+  // 滚动驱动打字
+  function updateTextByScroll() {
+    const section = document.getElementById('welcome-section');
+    if (!section) return;
 
-    if (window.Typed) {
-      new Typed('#welcome-typed', {
-        strings: ['Welcome To My Homepage'],
-        typeSpeed: 140,
-        startDelay: 300,
-        showCursor: true,
-        cursorChar: '|',
-        loop: false
-      });
+    const rect = section.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+
+    // 计算当前滚动进度（0 ~ 1）
+    // 当 section 顶部到达视口顶部时开始，底部离开时结束
+    let progress = 0;
+
+    if (rect.top <= 0) {
+      // section 已经向上滚出一部分
+      progress = Math.min(1, Math.abs(rect.top) / (rect.height * 0.6));
+    } else if (rect.top < windowHeight) {
+      // section 正在进入视口
+      progress = 0;
+    }
+
+    // 根据进度决定显示多少个字符
+    const charCount = Math.floor(progress * fullText.length);
+    typedEl.textContent = fullText.substring(0, charCount);
+
+    // 光标闪烁控制
+    if (charCount >= fullText.length) {
+      cursorEl.style.opacity = '0';
     } else {
-      document.getElementById('welcome-typed').textContent = 'Welcome';
+      cursorEl.style.opacity = '1';
     }
   }
 
-  // 监听黑色头部是否完全离开视野
-  var header = document.getElementById('page-header');
-  if (header) {
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) {
-          startTyped();
-        }
-      });
-    }, {
-      threshold: 0,
-      rootMargin: '0px'
-    });
-
-    observer.observe(header);
-  } else {
-    setTimeout(startTyped, 600);
-  }
+  // 监听滚动
+  window.addEventListener('scroll', updateTextByScroll, { passive: true });
+  // 初始执行一次
+  updateTextByScroll();
 });
