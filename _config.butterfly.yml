@@ -269,89 +269,20 @@ footer:
 # --------------------------------------
 
 aside:
-  enable: true
-  hide: false
-  # Show the button to hide the aside in bottom right button
-  button: true
-  mobile: true
-  # Position: left / right
-  position: right
-  display:
-    archive: true
-    tag: true
-    category: true
   card_author:
-    enable: true
-    description:
-    button:
-      enable: true
-      icon: fab fa-github
-      text: Follow Me
-      link: https://github.com/xxxxxx
-  card_announcement:
-    enable: true
-    content: This is my Blog
-  card_recent_post:
-    enable: true
-    # If set 0 will show all
-    limit: 5
-    # Sort: date / updated
-    sort: date
-    sort_order:
-  card_newest_comments:
     enable: false
-    sort_order:
-    limit: 6
-    # Unit: mins, save data to localStorage
-    storage: 10
-    avatar: true
+  card_announcement:
+    enable: false
+  card_recent_post:
+    enable: false
   card_categories:
-    enable: true
-    # If set 0 will show all
-    limit: 8
-    # Choose: none / true / false
-    expand: none
-    sort_order:
+    enable: false
   card_tags:
-    enable: true
-    # If set 0 will show all
-    limit: 40
-    color: false
-    custom_colors:
-    # Order of tags, random/name/length
-    orderby: random
-    # Sort of order. 1, asc for ascending; -1, desc for descending
-    order: 1
-    sort_order:
+    enable: false
   card_archives:
-    enable: true
-    # Type: monthly / yearly
-    type: monthly
-    # Eg: YYYY年MM月
-    format: MMMM YYYY
-    # Sort of order. 1, asc for ascending; -1, desc for descending
-    order: -1
-    # If set 0 will show all
-    limit: 8
-    sort_order:
-  card_post_series:
-    enable: true
-    # The title shows the series name
-    series_title: false
-    # Order by title or date
-    orderBy: 'date'
-    # Sort of order. 1, asc for ascending; -1, desc for descending
-    order: -1
+    enable: false
   card_webinfo:
-    enable: true
-    post_count: true
-    last_push_date: true
-    sort_order:
-    # Time difference between publish date and now
-    # Formal: Month/Day/Year Time or Year/Month/Day Time
-    # Leave it empty if you don't enable this feature
-    runtime_date:
-
+    enable: false
 # --------------------------------------
 # Bottom right button
 # --------------------------------------
