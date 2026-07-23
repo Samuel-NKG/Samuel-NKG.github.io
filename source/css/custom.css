@@ -65,3 +65,20 @@ a.blog-title,
     filter: blur(0);
   }
 }
+
+/* 隐藏原来的标题和副标题 */
+#site-title,
+#site-name,
+#site-subtitle,
+#subtitle,
+.subtitle {
+  display: none !important;
+}
+
+/* 手写 SVG 居中显示 */
+#handwriting-title {
+  display: block;
+  margin: 40px auto 20px;
+  max-width: 90%;
+  height: auto;
+}
