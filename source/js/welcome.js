@@ -60,14 +60,14 @@ document.addEventListener('DOMContentLoaded', function () {
     typedEl.textContent = fullText.substring(0, charCount);
     cursorEl.style.opacity = charCount >= fullText.length ? '0' : '1';
 
-    // 打完字后再显示 Hello World 卡片
-    if (progress >= 0.98 && !finished) {
-      finished = true;
-      if (posts) {
-        posts.style.opacity = '1';
-        posts.style.pointerEvents = 'auto';
-      }
-    }
+    // 全部打完后再显示 Hello World 卡片
+if (charCount >= fullText.length && !finished) {
+  finished = true;
+  if (posts) {
+    posts.style.opacity = '1';
+    posts.style.pointerEvents = 'auto';
+  }
+}
   }
 
   window.addEventListener('scroll', updateTextByScroll, { passive: true });
