@@ -1,0 +1,26 @@
+/* 首页横幅区域改成黑底 */
+#banner,
+.banner,
+#page-header,
+.page-header,
+#web_bg {
+  background: #000 !important;
+  background-color: #000 !important;
+}
+
+/* 像素风格文字 */
+#banner h1,
+#banner .banner-title,
+#banner .description,
+.banner-title,
+#site-title,
+#site-subtitle {
+  font-family: "Press Start 2P", "VT323", "Courier New", monospace !important;
+  color: #00ff41 !important;          /* 经典像素绿，可改 */
+  text-shadow: 2px 2px 0 #003300;
+  letter-spacing: 1px;
+  image-rendering: pixelated;
+}
+
+/* 引入像素字体（Google Fonts） */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
