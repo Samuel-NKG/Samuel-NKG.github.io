@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // 拉长滚动距离的空白区域
   var spacer = document.createElement('div');
   spacer.id = 'welcome-spacer';
-  spacer.style.height = '140vh';
+  spacer.style.height = '200vh';
 
   var content = document.getElementById('content-inner') || document.querySelector('.layout');
   if (content) {
