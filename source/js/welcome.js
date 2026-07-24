@@ -35,11 +35,22 @@ document.addEventListener('DOMContentLoaded', function () {
   var welcome = document.createElement('div');
   welcome.id = 'welcome-section';
   welcome.innerHTML = `
-    <div class="welcome-inner">
-      <span id="welcome-typed"></span><span id="welcome-cursor">|</span>
-    </div>
-    <div class="intro-text">
-      Welcome to my personal homepage. I am Xinyang Shen (Samuel), a junior undergraduate in Software Engineering at Xidian University. My research interests are rooted in Computer Vision, with active involvement in projects spanning generative video models, few-shot learning, and advanced vision architectures. I am highly receptive to academic discussions and research collaborations. Should our interests align, please feel free to contact me via the information on the right.
+    <div class="welcome-content">
+      <div class="welcome-left">
+        <div class="welcome-inner">
+          <span id="welcome-typed"></span><span id="welcome-cursor">|</span>
+        </div>
+        <div class="intro-text">
+          Welcome to my personal homepage. I am Xinyang Shen (Samuel), a junior undergraduate in Software Engineering at Xidian University. My research interests are rooted in Computer Vision, with active involvement in projects spanning generative video models, few-shot learning, and advanced vision architectures. I am highly receptive to academic discussions and research collaborations. Should our interests align, please feel free to contact me via the information on the right.
+        </div>
+      </div>
+
+      <div class="welcome-links">
+        <a href="/cv.pdf" target="_blank" class="link-item">CV</a>
+        <a href="https://www.linkedin.com/in/xinyang-shen-857627414/" target="_blank" class="link-item">LinkedIn</a>
+        <a href="https://github.com/Samuel-NKG" target="_blank" class="link-item">GitHub</a>
+        <a href="https://orcid.org/0009-0005-2596-2438" target="_blank" class="link-item">ORCID</a>
+      </div>
     </div>
   `;
   // ... 后面保持原来的代码不变
