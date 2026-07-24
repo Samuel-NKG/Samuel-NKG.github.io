@@ -77,9 +77,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let progress = 0;
     if (spacerRect.top < windowHeight) {
-      const scrolled = windowHeight - spacerRect.top;
-      const total = spacerRect.height + windowHeight * 0.2;
-      progress = Math.min(1, Math.max(0, scrolled / total));
+const scrolled = windowHeight - spacerRect.top;
+const total = spacerRect.height * 0.65;  // 更快打完
+progress = Math.min(1, Math.max(0, scrolled / total));
     }
 
     const charCount = Math.floor(progress * fullText.length);
