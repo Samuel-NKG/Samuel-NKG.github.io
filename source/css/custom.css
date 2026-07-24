@@ -188,3 +188,10 @@ header#page-header nav {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
+
+/* 隐藏首页文章卡片 */
+#recent-posts,
+.recent-posts,
+.recent-post-item {
+  display: none !important;
+}
