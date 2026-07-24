@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (intro) { intro.style.opacity = '0'; intro.style.transform = 'translateY(-20px)'; }
       if (links) { links.style.opacity = '0'; links.style.transform = 'translateY(-20px)'; }
     }
-
+}
   window.addEventListener('scroll', updateTextByScroll, { passive: true });
   updateTextByScroll();
 });
