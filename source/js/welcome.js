@@ -77,23 +77,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let progress = 0;
     if (spacerRect.top < windowHeight) {
-const scrolled = windowHeight - spacerRect.top;
-const total = spacerRect.height * 0.65;  // 更快打完
-progress = Math.min(1, Math.max(0, scrolled / total));
+      const scrolled = windowHeight - spacerRect.top;
+      const total = spacerRect.height * 0.65;
+      progress = Math.min(1, Math.max(0, scrolled / total));
     }
 
     const charCount = Math.floor(progress * fullText.length);
     typedEl.textContent = fullText.substring(0, charCount);
     cursorEl.style.opacity = charCount >= fullText.length ? '0' : '1';
 
-    // 全部打完后再显示 Hello World 卡片
-if (charCount >= fullText.length && !finished) {
-  finished = true;
-  if (posts) {
-    posts.style.opacity = '1';
-    posts.style.pointerEvents = 'auto';
-  }
-}
+    // 介绍文字：等 Samuel 打完后再显示
+    const intro = document.querySelector('.intro-text');
+    if (intro) {
+      if (charCount >= fullText.length) {
+        intro.style.opacity = '1';
+        intro.style.transform = 'translateY(0)';
+      } else {
+        intro.style.opacity = '0';
+        intro.style.transform = 'translateY(12px)';
+      }
+    }
   }
 
   window.addEventListener('scroll', updateTextByScroll, { passive: true });
