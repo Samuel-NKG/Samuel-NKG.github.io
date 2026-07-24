@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   // ========== 淡出代码结束 ==========
 
-  const fullText = 'Welcome To My Homepage';
+  const fullText = "Hi, I'm Samuel";
 
   // 创建 Welcome 区域（sticky）
   var welcome = document.createElement('div');
