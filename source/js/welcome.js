@@ -6,32 +6,28 @@ document.addEventListener('DOMContentLoaded', function () {
     return;
   }
 
-  // ========== 在这里插入「初始页淡出」代码 ==========
+  // 初始页淡出
   var header = document.getElementById('page-header');
   if (header) {
     header.style.transition = 'opacity 0.1s linear';
-    
     function fadeHeader() {
       var rect = header.getBoundingClientRect();
       var windowHeight = window.innerHeight;
-      
       var progress = 0;
       if (rect.bottom < windowHeight) {
         progress = 1 - (rect.bottom / windowHeight);
       }
       progress = Math.min(1, Math.max(0, progress));
-      
       header.style.opacity = 1 - progress;
     }
-    
     window.addEventListener('scroll', fadeHeader, { passive: true });
     fadeHeader();
   }
-  // ========== 淡出代码结束 ==========
 
-  const fullText = "Hi, I'm Samuel";
+  const text1 = "Hi, I'm Samuel";
+  const text2 = "Current Research";
 
-  // 创建 Welcome 区域（sticky）
+  // 创建 Welcome 区域
   var welcome = document.createElement('div');
   welcome.id = 'welcome-section';
   welcome.innerHTML = `
@@ -66,11 +62,10 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
   `;
 
-  // ... 后面保持原来的代码不变
-  // 拉长滚动距离的空白区域
+  // 加长滚动距离（两个阶段）
   var spacer = document.createElement('div');
   spacer.id = 'welcome-spacer';
-  spacer.style.height = '200vh';
+  spacer.style.height = '420vh';
 
   var content = document.getElementById('content-inner') || document.querySelector('.layout');
   if (content) {
@@ -78,19 +73,9 @@ document.addEventListener('DOMContentLoaded', function () {
     content.insertBefore(spacer, welcome.nextSibling);
   }
 
-  // 先把文章区域藏起来
-  var posts = document.getElementById('recent-posts') || document.querySelector('.recent-posts');
-  if (posts) {
-    posts.style.opacity = '0';
-    posts.style.pointerEvents = 'none';
-    posts.style.transition = 'opacity 0.6s ease';
-  }
-
   const typedEl = document.getElementById('welcome-typed');
   const cursorEl = document.getElementById('welcome-cursor');
   if (!typedEl) return;
-
-  let finished = false;
 
   function updateTextByScroll() {
     const spacerEl = document.getElementById('welcome-spacer');
@@ -102,36 +87,56 @@ document.addEventListener('DOMContentLoaded', function () {
     let progress = 0;
     if (spacerRect.top < windowHeight) {
       const scrolled = windowHeight - spacerRect.top;
-      const total = spacerRect.height * 0.65;
+      const total = spacerRect.height * 0.85;
       progress = Math.min(1, Math.max(0, scrolled / total));
     }
 
-    const charCount = Math.floor(progress * fullText.length);
-    typedEl.textContent = fullText.substring(0, charCount);
-    cursorEl.style.opacity = charCount >= fullText.length ? '0' : '1';
+    // 阶段划分
+    // 0.00 - 0.28 : 打出 Hi, I'm Samuel
+    // 0.28 - 0.42 : 显示介绍 + 链接
+    // 0.42 - 0.55 : 介绍和链接消失，标题消失
+    // 0.55 - 0.85 : 打出 Current Research
 
-    // 介绍文字 + 链接：等 Samuel 打完后同时上浮出现
     const intro = document.querySelector('.intro-text');
     const links = document.querySelector('.welcome-links');
 
-    if (charCount >= fullText.length) {
-      if (intro) {
-        intro.style.opacity = '1';
-        intro.style.transform = 'translateY(0)';
-      }
-      if (links) {
-        links.style.opacity = '1';
-        links.style.transform = 'translateY(0)';
-      }
+    if (progress < 0.28) {
+      // 阶段1：打字 Hi, I'm Samuel
+      const p = progress / 0.28;
+      const charCount = Math.floor(p * text1.length);
+      typedEl.textContent = text1.substring(0, charCount);
+      cursorEl.style.opacity = charCount >= text1.length ? '0' : '1';
+
+      if (intro) { intro.style.opacity = '0'; intro.style.transform = 'translateY(16px)'; }
+      if (links) { links.style.opacity = '0'; links.style.transform = 'translateY(16px)'; }
+
+    } else if (progress < 0.42) {
+      // 阶段2：完整显示 Hi, I'm Samuel + 介绍和链接上浮
+      typedEl.textContent = text1;
+      cursorEl.style.opacity = '0';
+
+      if (intro) { intro.style.opacity = '1'; intro.style.transform = 'translateY(0)'; }
+      if (links) { links.style.opacity = '1'; links.style.transform = 'translateY(0)'; }
+
+    } else if (progress < 0.55) {
+      // 阶段3：介绍和链接消失，标题也消失
+      typedEl.textContent = text1;
+      cursorEl.style.opacity = '0';
+      typedEl.style.opacity = String(1 - (progress - 0.42) / 0.13);
+
+      if (intro) { intro.style.opacity = '0'; intro.style.transform = 'translateY(-20px)'; }
+      if (links) { links.style.opacity = '0'; links.style.transform = 'translateY(-20px)'; }
+
     } else {
-      if (intro) {
-        intro.style.opacity = '0';
-        intro.style.transform = 'translateY(16px)';
-      }
-      if (links) {
-        links.style.opacity = '0';
-        links.style.transform = 'translateY(16px)';
-      }
+      // 阶段4：打出 Current Research
+      typedEl.style.opacity = '1';
+      const p = (progress - 0.55) / 0.30;
+      const charCount = Math.floor(Math.min(1, p) * text2.length);
+      typedEl.textContent = text2.substring(0, charCount);
+      cursorEl.style.opacity = charCount >= text2.length ? '0' : '1';
+
+      if (intro) { intro.style.opacity = '0'; intro.style.transform = 'translateY(-20px)'; }
+      if (links) { links.style.opacity = '0'; links.style.transform = 'translateY(-20px)'; }
     }
   }
 
