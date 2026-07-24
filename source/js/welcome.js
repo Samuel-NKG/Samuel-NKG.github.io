@@ -100,29 +100,33 @@ document.addEventListener('DOMContentLoaded', function () {
     const intro = document.querySelector('.intro-text');
     const links = document.querySelector('.welcome-links');
 
-    if (progress < 0.28) {
-      // 阶段1：打字 Hi, I'm Samuel
+        if (progress < 0.28) {
+      // 阶段1：打出 Hi, I'm Samuel
       const p = progress / 0.28;
       const charCount = Math.floor(p * text1.length);
       typedEl.textContent = text1.substring(0, charCount);
       cursorEl.style.opacity = charCount >= text1.length ? '0' : '1';
+      typedEl.style.opacity = '1';
 
       if (intro) { intro.style.opacity = '0'; intro.style.transform = 'translateY(16px)'; }
       if (links) { links.style.opacity = '0'; links.style.transform = 'translateY(16px)'; }
 
     } else if (progress < 0.42) {
-      // 阶段2：完整显示 Hi, I'm Samuel + 介绍和链接上浮
+      // 阶段2：完整显示 + 介绍和链接上浮
       typedEl.textContent = text1;
       cursorEl.style.opacity = '0';
+      typedEl.style.opacity = '1';
 
       if (intro) { intro.style.opacity = '1'; intro.style.transform = 'translateY(0)'; }
       if (links) { links.style.opacity = '1'; links.style.transform = 'translateY(0)'; }
 
     } else if (progress < 0.55) {
-      // 阶段3：介绍和链接消失，标题也消失
-      typedEl.textContent = text1;
-      cursorEl.style.opacity = '0';
-      typedEl.style.opacity = String(1 - (progress - 0.42) / 0.13);
+      // 阶段3：介绍和链接消失 + 标题打字机反向删除
+      const p = (progress - 0.42) / 0.13;
+      const remain = Math.floor((1 - p) * text1.length);
+      typedEl.textContent = text1.substring(0, Math.max(0, remain));
+      cursorEl.style.opacity = remain > 0 ? '1' : '0';
+      typedEl.style.opacity = '1';
 
       if (intro) { intro.style.opacity = '0'; intro.style.transform = 'translateY(-20px)'; }
       if (links) { links.style.opacity = '0'; links.style.transform = 'translateY(-20px)'; }
@@ -138,7 +142,6 @@ document.addEventListener('DOMContentLoaded', function () {
       if (intro) { intro.style.opacity = '0'; intro.style.transform = 'translateY(-20px)'; }
       if (links) { links.style.opacity = '0'; links.style.transform = 'translateY(-20px)'; }
     }
-  }
 
   window.addEventListener('scroll', updateTextByScroll, { passive: true });
   updateTextByScroll();
