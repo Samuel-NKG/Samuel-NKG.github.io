@@ -1,4 +1,4 @@
-/* 首页横幅区域改成黑底 */
+/* ========== 基础设置 ========== */
 #banner,
 .banner,
 #page-header,
@@ -8,102 +8,42 @@
   background-color: #000 !important;
 }
 
-/* 像素风格文字 */
-#banner h1,
-#banner .banner-title,
-#banner .description,
-.banner-title,
-#site-title,
-#site-subtitle {
-  font-family: "Press Start 2P", "VT323", "Courier New", monospace !important;
-  color: #00ff41 !important;          /* 经典像素绿，可改 */
-  text-shadow: 2px 2px 0 #003300;
-  letter-spacing: 1px;
-  image-rendering: pixelated;
-}
-
-/* 引入像素字体（Google Fonts） */
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
-
-/* 隐藏左上角网站标题 */
-#site-name,
-.site-name,
-#blog_name,
-.blog_name,
-a.blog-title,
-#nav .site-name {
-  display: none !important;
-}
-
-/* 引入手写字体 */
-@import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+KuaiLe&family=Homemade+Apple&display=swap');
-
-/* 标题手写效果 */
-#site-name,
-.site-name,
-#blog_name {
-  font-family: 'Homemade Apple', 'Ma Shan Zheng', cursive !important;
-  font-size: 1.8rem !important;
-  opacity: 0;
-  animation: handwriting 2.2s ease-out forwards;
-  animation-delay: 0.3s;
-}
-
-/* 逐字手写动画 */
-@keyframes handwriting {
-  0% {
-    opacity: 0;
-    transform: translateY(8px);
-    filter: blur(2px);
-  }
-  30% {
-    opacity: 0.6;
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
-}
-
-/* 隐藏原来的标题和副标题 */
+/* 隐藏顶栏和原标题 */
+#nav,
+#page-header #nav,
+.nav,
+header#page-header nav,
 #site-title,
 #site-name,
 #site-subtitle,
 #subtitle,
-.subtitle {
+.subtitle,
+#site-name,
+.site-name,
+#blog_name {
   display: none !important;
 }
 
-/* 手写 SVG 居中显示 */
-#handwriting-title {
-  display: block;
-  margin: 40px auto 20px;
-  max-width: 90%;
-  height: auto;
-}
-
-/* 隐藏顶栏 */
-#nav,
-#page-header #nav,
-.nav,
-header#page-header nav {
-  display: none !important;
-}
-
-/* 如果需要，顺便去掉顶栏占位高度 */
 #page-header {
   padding-top: 0 !important;
 }
 
-/* Welcome 卡住在视口 */
+/* 隐藏首页文章卡片 */
+#recent-posts,
+.recent-posts,
+.recent-post-item {
+  display: none !important;
+}
+
+/* ========== Welcome 区域 ========== */
 #welcome-section {
   position: sticky;
   top: 0;
-  width: 100%;
+  width: 100% !important;
+  max-width: 100% !important;
   height: 100vh;
   min-height: 100vh;
-  display: flex;
+  display: flex !important;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
@@ -140,60 +80,23 @@ header#page-header nav {
   50% { opacity: 0; }
 }
 
-/* 强制 Welcome 独占整行，下面内容另起一行 */
-#welcome-section {
-  width: 100% !important;
-  max-width: 100% !important;
-  flex: 0 0 100% !important;
+/* ========== 左右布局（关键） ========== */
+#welcome-section .welcome-content {
   display: flex !important;
-}
-
-/* 让内容区域变成纵向排列 */
-#content-inner,
-.layout {
-  display: flex !important;
-  flex-direction: column !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  justify-content: space-between !important;
+  width: 100%;
+  max-width: 1100px;
+  gap: 3rem;
+  padding-right: 4%;
   flex-wrap: nowrap !important;
 }
 
-/* 文章区域也占满宽度 */
-#recent-posts,
-.recent-posts {
-  width: 100% !important;
-  max-width: 100% !important;
-  flex: 0 0 100% !important;
-}
-
-/* Hello World 卡片左对齐 */
-#recent-posts,
-.recent-posts,
-#content-inner > .recent-posts {
-  margin-left: 0 !important;
-  margin-right: auto !important;
-  padding-left: 5% !important;
-  max-width: 720px !important;
-}
-
-.recent-post-item {
-  margin-left: 0 !important;
-}
-
-#welcome-cursor {
-  color: #ffffff;
-  animation: blink 1s step-end infinite;
-  margin-left: 2px;
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-/* 隐藏首页文章卡片 */
-#recent-posts,
-.recent-posts,
-.recent-post-item {
-  display: none !important;
+#welcome-section .welcome-left {
+  flex: 1 1 auto;
+  max-width: 680px;
+  min-width: 0;
 }
 
 /* 介绍文字 */
@@ -215,11 +118,12 @@ header#page-header nav {
 
 /* 右侧链接 */
 #welcome-section .welcome-links {
-  display: flex;
-  flex-direction: column;
+  display: flex !important;
+  flex-direction: column !important;
   gap: 1.1rem;
   padding-top: 5.8rem;
   min-width: 130px;
+  flex-shrink: 0;
   opacity: 0;
   transform: translateY(16px);
   transition: opacity 0.7s ease, transform 0.7s ease;
@@ -237,6 +141,7 @@ header#page-header nav {
   opacity: 0.9;
   transition: opacity 0.25s ease, transform 0.25s ease;
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
 }
 
 #welcome-section .link-item:hover {
@@ -247,4 +152,12 @@ header#page-header nav {
 #welcome-section .link-icon {
   flex-shrink: 0;
   opacity: 0.9;
+}
+
+/* 内容区域纵向排列 */
+#content-inner,
+.layout {
+  display: flex !important;
+  flex-direction: column !important;
+  flex-wrap: nowrap !important;
 }
