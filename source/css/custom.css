@@ -121,7 +121,7 @@ header#page-header nav,
   display: flex !important;
   flex-direction: column !important;
   gap: 1.1rem;
-  padding-top: 5.8rem;
+  padding-top: 7.2rem;
   min-width: 130px;
   flex-shrink: 0;
   opacity: 0;
