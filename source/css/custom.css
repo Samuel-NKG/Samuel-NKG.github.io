@@ -161,3 +161,108 @@ header#page-header nav,
   flex-direction: column !important;
   flex-wrap: nowrap !important;
 }
+
+/* ========== Current Research 卡片（加强版） ========== */
+#research-card {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 3.5rem;
+  margin-top: 3.5rem;
+  max-width: 1000px;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.research-left {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.9rem;
+  min-width: 270px;
+  flex-shrink: 0;
+}
+
+.research-btn {
+  display: flex !important;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.3rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  color: #ffffff !important;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-size: 0.95rem;
+  user-select: none;
+  width: fit-content;
+}
+
+.research-btn:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+.research-btn.active {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.btn-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ff6b2c;
+  display: none;
+  flex-shrink: 0;
+}
+
+.research-btn.active .btn-dot {
+  display: inline-block !important;
+}
+
+.btn-plus {
+  font-size: 1.15rem;
+  opacity: 0.75;
+  line-height: 1;
+}
+
+.research-btn.active .btn-plus {
+  display: none !important;
+}
+
+.research-right {
+  flex: 1;
+  min-height: 160px;
+}
+
+.research-panel {
+  display: none !important;
+  color: #ffffff;
+  animation: researchFadeIn 0.4s ease;
+}
+
+.research-panel.active {
+  display: block !important;
+}
+
+.research-panel h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 0.9rem 0;
+  line-height: 1.4;
+  color: #ffffff;
+}
+
+.research-panel p {
+  font-size: 0.97rem;
+  line-height: 1.7;
+  opacity: 0.88;
+  margin: 0;
+  color: #ffffff;
+}
+
+@keyframes researchFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
