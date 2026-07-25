@@ -167,7 +167,7 @@ header#page-header nav,
   display: flex !important;
   flex-direction: row !important;
   gap: 3.5rem;
-  margin-top: 3.5rem;
+  margin-top: 1.8rem;
   max-width: 1000px;
   width: 100%;
   opacity: 0;
