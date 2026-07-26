@@ -87,6 +87,42 @@ document.addEventListener('DOMContentLoaded', function () {
         </div>
       </div>
     </div>
+
+    <!-- Personal Interest 卡片 -->
+    <div class="interest-cards" id="interest-cards">
+      <div class="interest-card">
+        <div class="interest-card-content">
+          <div class="interest-label">Interest 01</div>
+          <h3>Sports</h3>
+          <p>Staying active through basketball, running and fitness. Movement keeps both body and mind sharp.</p>
+        </div>
+        <div class="interest-card-bottom">
+          <span class="interest-plus">+</span>
+        </div>
+      </div>
+
+      <div class="interest-card">
+        <div class="interest-card-content">
+          <div class="interest-label">Interest 02</div>
+          <h3>Photography</h3>
+          <p>Capturing moments through the lens, exploring light, composition and visual storytelling.</p>
+        </div>
+        <div class="interest-card-bottom">
+          <span class="interest-plus">+</span>
+        </div>
+      </div>
+
+      <div class="interest-card">
+        <div class="interest-card-content">
+          <div class="interest-label">Interest 03</div>
+          <h3>Games</h3>
+          <p>From competitive esports to immersive single-player worlds, games are a source of inspiration and relaxation.</p>
+        </div>
+        <div class="interest-card-bottom">
+          <span class="interest-plus">+</span>
+        </div>
+      </div>
+    </div>
   `;
 
   // 加长滚动距离
@@ -103,11 +139,14 @@ document.addEventListener('DOMContentLoaded', function () {
   const typedEl = document.getElementById('welcome-typed');
   const cursorEl = document.getElementById('welcome-cursor');
   const researchCard = document.getElementById('research-card');
+  const interestCards = document.getElementById('interest-cards');
   if (!typedEl) return;
 
-  // 默认让卡片不可点击
-  if (researchCard) {
-    researchCard.style.pointerEvents = 'none';
+  // 默认隐藏并禁止点击
+  if (researchCard) researchCard.style.pointerEvents = 'none';
+  if (interestCards) {
+    interestCards.style.opacity = '0';
+    interestCards.style.pointerEvents = 'none';
   }
 
   // 研究卡片按钮切换
@@ -184,6 +223,22 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  function showInterestCards() {
+    if (interestCards) {
+      interestCards.style.opacity = '1';
+      interestCards.style.transform = 'translateY(0)';
+      interestCards.style.pointerEvents = 'auto';
+    }
+  }
+
+  function hideInterestCards() {
+    if (interestCards) {
+      interestCards.style.opacity = '0';
+      interestCards.style.transform = 'translateY(20px)';
+      interestCards.style.pointerEvents = 'none';
+    }
+  }
+
   function updateByScroll() {
     const spacerEl = document.getElementById('welcome-spacer');
     if (!spacerEl) return;
@@ -247,6 +302,7 @@ document.addEventListener('DOMContentLoaded', function () {
         typeText(text2, function () {
           currentStage = 5;
           showResearchCard();
+          hideInterestCards();
         });
       });
     }
@@ -259,6 +315,7 @@ document.addEventListener('DOMContentLoaded', function () {
       deleteText(function () {
         typeText(text3, function () {
           currentStage = 8;
+          showInterestCards();
         });
       });
     }
@@ -268,6 +325,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 从 Personal Interest 回到 Current Research
     if (progress < 0.62 && currentStage === 8 && !typing) {
       currentStage = 9;
+      hideInterestCards();
 
       deleteText(function () {
         typeText(text2, function () {
@@ -281,6 +339,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (progress < 0.34 && currentStage === 5 && !typing) {
       currentStage = 6;
       hideResearchCard();
+      hideInterestCards();
 
       deleteText(function () {
         typeText(text1, function () {
@@ -307,11 +366,13 @@ document.addEventListener('DOMContentLoaded', function () {
     if (currentStage === 5 && progress >= 0.38 && progress < 0.66) {
       typedEl.textContent = text2;
       showResearchCard();
+      hideInterestCards();
     }
 
     if (currentStage === 8) {
       typedEl.textContent = text3;
       hideResearchCard();
+      showInterestCards();
     }
   }
 
