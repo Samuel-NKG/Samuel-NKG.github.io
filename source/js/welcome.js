@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const intro = document.querySelector('.intro-text');
     const links = document.querySelector('.welcome-links');
 
-    if (progress < 0.22) {
+        if (progress < 0.22) {
       // 阶段1：打出 Hi, I'm Samuel
       const p = progress / 0.22;
       const charCount = Math.floor(p * text1.length);
@@ -154,8 +154,20 @@ document.addEventListener('DOMContentLoaded', function () {
       cursorEl.style.opacity = charCount >= text1.length ? '0' : '1';
       typedEl.style.opacity = '1';
 
-      if (intro) { intro.style.opacity = '0'; intro.style.transform = 'translateY(16px)'; }
-      if (links) { links.style.opacity = '0'; links.style.transform = 'translateY(16px)'; }
+      if (intro) {
+        intro.style.opacity = '0';
+        intro.style.transform = 'translateY(16px)';
+        intro.style.height = '';
+        intro.style.margin = '';
+        intro.style.overflow = '';
+      }
+      if (links) {
+        links.style.opacity = '0';
+        links.style.transform = 'translateY(16px)';
+        links.style.height = '';
+        links.style.margin = '';
+        links.style.overflow = '';
+      }
       if (researchCard) researchCard.style.opacity = '0';
 
     } else if (progress < 0.34) {
@@ -164,8 +176,20 @@ document.addEventListener('DOMContentLoaded', function () {
       cursorEl.style.opacity = '0';
       typedEl.style.opacity = '1';
 
-      if (intro) { intro.style.opacity = '1'; intro.style.transform = 'translateY(0)'; }
-      if (links) { links.style.opacity = '1'; links.style.transform = 'translateY(0)'; }
+      if (intro) {
+        intro.style.opacity = '1';
+        intro.style.transform = 'translateY(0)';
+        intro.style.height = '';
+        intro.style.margin = '';
+        intro.style.overflow = '';
+      }
+      if (links) {
+        links.style.opacity = '1';
+        links.style.transform = 'translateY(0)';
+        links.style.height = '';
+        links.style.margin = '';
+        links.style.overflow = '';
+      }
       if (researchCard) researchCard.style.opacity = '0';
 
     } else if (progress < 0.44) {
