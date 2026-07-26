@@ -88,11 +88,10 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>
     </div>
 
-    <!-- Personal Interest 卡片 -->
+        <!-- Personal Interest 卡片 -->
     <div class="interest-cards" id="interest-cards">
       <div class="interest-card">
         <div class="interest-card-content">
-          <div class="interest-label">Interest 01</div>
           <h3>Sports</h3>
           <p>Staying active through basketball, running and fitness. Movement keeps both body and mind sharp.</p>
         </div>
@@ -103,7 +102,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
       <div class="interest-card">
         <div class="interest-card-content">
-          <div class="interest-label">Interest 02</div>
           <h3>Photography</h3>
           <p>Capturing moments through the lens, exploring light, composition and visual storytelling.</p>
         </div>
@@ -114,7 +112,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
       <div class="interest-card">
         <div class="interest-card-content">
-          <div class="interest-label">Interest 03</div>
           <h3>Games</h3>
           <p>From competitive esports to immersive single-player worlds, games are a source of inspiration and relaxation.</p>
         </div>

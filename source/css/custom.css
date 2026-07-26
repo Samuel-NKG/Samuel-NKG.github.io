@@ -312,7 +312,7 @@ header#page-header nav,
 #interest-cards {
   display: flex;
   gap: 1.4rem;
-  margin-top: 2.2rem;
+  margin-top: 1.2rem;          /* 往上提 */
   max-width: 1100px;
   width: 100%;
   opacity: 0;
