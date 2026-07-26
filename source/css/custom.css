@@ -166,10 +166,13 @@ header#page-header nav,
 #research-card {
   display: flex !important;
   flex-direction: row !important;
-  gap: 2.5rem;
+  gap: 2.8rem;
   margin-top: 1.5rem !important;
-  max-width: 1080px;              /* 更宽 */
-  width: 100%;
+  
+  width: 1100px;                 /* 固定宽度 */
+  max-width: 92vw;               /* 小屏幕时不超过屏幕 */
+  min-height: 480px;             /* 固定最小高度 */
+  
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.7s ease, transform 0.7s ease;
@@ -177,10 +180,9 @@ header#page-header nav,
   background: rgba(12, 12, 14, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
-  padding: 2rem 2.3rem;
+  padding: 2.2rem 2.5rem;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(12px);
-  max-height: 520px;              /* 更高 */
   overflow: hidden;
 }
 
@@ -254,7 +256,7 @@ header#page-header nav,
 .research-right {
   flex: 1;
   min-height: 0;
-  max-height: 450px;              /* 跟着加高 */
+  max-height: 420px;
   overflow-y: auto;
   padding-right: 0.6rem;
   scrollbar-width: thin;
