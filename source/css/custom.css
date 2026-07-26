@@ -168,21 +168,20 @@ header#page-header nav,
   flex-direction: row !important;
   gap: 2.5rem;
   margin-top: 1.5rem !important;
-  max-width: 920px;
+  max-width: 1080px;              /* 更宽 */
   width: 100%;
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.7s ease, transform 0.7s ease;
 
-  /* 黑色卡片样式 */
   background: rgba(12, 12, 14, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
-  padding: 1.8rem 2rem;
+  padding: 2rem 2.3rem;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(12px);
-  max-height: 420px;          /* 卡片最大高度 */
-  overflow: hidden;           /* 超出部分裁剪 */
+  max-height: 520px;              /* 更高 */
+  overflow: hidden;
 }
 
 .research-left {
@@ -255,7 +254,7 @@ header#page-header nav,
 .research-right {
   flex: 1;
   min-height: 0;
-  max-height: 360px;          /* 限制高度，超出可滚动 */
+  max-height: 450px;              /* 跟着加高 */
   overflow-y: auto;
   padding-right: 0.6rem;
   scrollbar-width: thin;
