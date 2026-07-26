@@ -65,11 +65,13 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="research-card" id="research-card">
       <div class="research-left">
         <div class="research-btn active" data-index="0">
+          <span class="btn-plus">+</span>
           <span class="btn-dot"></span>
           <span class="btn-text">Few-Shot Learning</span>
         </div>
         <div class="research-btn" data-index="1">
           <span class="btn-plus">+</span>
+          <span class="btn-dot"></span>
           <span class="btn-text">Satellite Video Tracking</span>
         </div>
       </div>

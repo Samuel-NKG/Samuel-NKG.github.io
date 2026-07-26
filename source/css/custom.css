@@ -209,27 +209,29 @@ header#page-header nav,
   border-color: rgba(255, 255, 255, 0.4) !important;
 }
 
+/* 默认显示 + ，激活时显示橙色圆点 */
+.btn-plus {
+  font-size: 1.15rem;
+  opacity: 0.75;
+  line-height: 1;
+  display: inline !important;
+}
+
 .btn-dot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
   background: #ff6b2c;
-  display: none;
+  display: none !important;
   flex-shrink: 0;
-}
-
-.research-btn.active .btn-dot {
-  display: inline-block !important;
-}
-
-.btn-plus {
-  font-size: 1.15rem;
-  opacity: 0.75;
-  line-height: 1;
 }
 
 .research-btn.active .btn-plus {
   display: none !important;
+}
+
+.research-btn.active .btn-dot {
+  display: inline-block !important;
 }
 
 .research-right {
