@@ -207,11 +207,14 @@ document.addEventListener('DOMContentLoaded', function () {
     tick();
   }
 
-  function showResearchCard() {
+    function showResearchCard() {
     if (researchCard) {
       researchCard.style.opacity = '1';
       researchCard.style.transform = 'translateY(0)';
       researchCard.style.pointerEvents = 'auto';
+      researchCard.style.height = '';
+      researchCard.style.margin = '';
+      researchCard.style.overflow = '';
     }
   }
 
@@ -220,6 +223,9 @@ document.addEventListener('DOMContentLoaded', function () {
       researchCard.style.opacity = '0';
       researchCard.style.transform = 'translateY(20px)';
       researchCard.style.pointerEvents = 'none';
+      researchCard.style.height = '0';
+      researchCard.style.margin = '0';
+      researchCard.style.overflow = 'hidden';
     }
   }
 
@@ -228,6 +234,9 @@ document.addEventListener('DOMContentLoaded', function () {
       interestCards.style.opacity = '1';
       interestCards.style.transform = 'translateY(0)';
       interestCards.style.pointerEvents = 'auto';
+      interestCards.style.height = '';
+      interestCards.style.margin = '';
+      interestCards.style.overflow = '';
     }
   }
 
@@ -236,6 +245,9 @@ document.addEventListener('DOMContentLoaded', function () {
       interestCards.style.opacity = '0';
       interestCards.style.transform = 'translateY(20px)';
       interestCards.style.pointerEvents = 'none';
+      interestCards.style.height = '0';
+      interestCards.style.margin = '0';
+      interestCards.style.overflow = 'hidden';
     }
   }
 
