@@ -188,33 +188,44 @@ header#page-header nav,
   display: flex !important;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.75rem 1.3rem;
+  padding: 0.85rem 1.4rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08) !important;
-  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  background: rgba(255, 255, 255, 0.07) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
   color: #ffffff !important;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
   font-size: 0.95rem;
   user-select: none;
   width: fit-content;
+  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
 }
 
 .research-btn:hover {
-  background: rgba(255, 255, 255, 0.15) !important;
+  background: rgba(255, 255, 255, 0.14) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.research-btn:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
 }
 
 .research-btn.active {
   background: rgba(255, 255, 255, 0.2) !important;
-  border-color: rgba(255, 255, 255, 0.4) !important;
+  border-color: rgba(255, 255, 255, 0.45) !important;
+  box-shadow: 0 0 0 1px rgba(255, 107, 44, 0.25);
 }
 
-/* 默认显示 + ，激活时显示橙色圆点 */
+/* 图标 */
 .btn-plus {
   font-size: 1.15rem;
   opacity: 0.75;
   line-height: 1;
   display: inline !important;
+  transition: opacity 0.2s ease;
 }
 
 .btn-dot {
@@ -224,6 +235,7 @@ header#page-header nav,
   background: #ff6b2c;
   display: none !important;
   flex-shrink: 0;
+  box-shadow: 0 0 6px rgba(255, 107, 44, 0.6);
 }
 
 .research-btn.active .btn-plus {
