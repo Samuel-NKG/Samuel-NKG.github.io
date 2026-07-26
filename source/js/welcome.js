@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const text1 = "Hi, I'm Samuel";
   const text2 = "Current Research";
+  const text3 = "Personal Interest";
 
   // 创建 Welcome 区域
   var welcome = document.createElement('div');
@@ -91,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // 加长滚动距离
   var spacer = document.createElement('div');
   spacer.id = 'welcome-spacer';
-  spacer.style.height = '420vh';
+  spacer.style.height = '560vh';
 
   var content = document.getElementById('content-inner') || document.querySelector('.layout');
   if (content) {
@@ -179,7 +180,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const links = document.querySelector('.welcome-links');
 
     // ========== 前进 ==========
-    // 进入区域 → 自动打出 Hi, I'm Samuel
+
+    // 1. 打出 Hi, I'm Samuel
     if (progress >= 0.06 && currentStage === 0 && !typing) {
       currentStage = 1;
       typeText(text1, function () {
@@ -201,8 +203,8 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-    // 继续往下 → 删除标题，打出 Current Research
-    if (progress >= 0.40 && currentStage === 2 && !typing) {
+    // 2. 切换到 Current Research
+    if (progress >= 0.38 && currentStage === 2 && !typing) {
       currentStage = 3;
 
       if (intro) {
@@ -221,7 +223,6 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       deleteText(function () {
-        currentStage = 4;
         typeText(text2, function () {
           currentStage = 5;
           if (researchCard) {
@@ -232,18 +233,48 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-    // ========== 回滑返回 ==========
-    // 从 Current Research 往回滑
-    if (progress < 0.36 && currentStage >= 4 && !typing) {
-      currentStage = 6; // 临时状态，防止重复触发
+    // 3. 切换到 Personal Interest
+    if (progress >= 0.66 && currentStage === 5 && !typing) {
+      currentStage = 7;
 
-      // 先隐藏研究卡片
       if (researchCard) {
         researchCard.style.opacity = '0';
         researchCard.style.transform = 'translateY(20px)';
       }
 
-      // 删除 Current Research，再打回 Hi, I'm Samuel
+      deleteText(function () {
+        typeText(text3, function () {
+          currentStage = 8;
+        });
+      });
+    }
+
+    // ========== 回滑 ==========
+
+    // 从 Personal Interest 回到 Current Research
+    if (progress < 0.62 && currentStage === 8 && !typing) {
+      currentStage = 9;
+
+      deleteText(function () {
+        typeText(text2, function () {
+          currentStage = 5;
+          if (researchCard) {
+            researchCard.style.opacity = '1';
+            researchCard.style.transform = 'translateY(0)';
+          }
+        });
+      });
+    }
+
+    // 从 Current Research 回到 Hi, I'm Samuel
+    if (progress < 0.34 && currentStage === 5 && !typing) {
+      currentStage = 6;
+
+      if (researchCard) {
+        researchCard.style.opacity = '0';
+        researchCard.style.transform = 'translateY(20px)';
+      }
+
       deleteText(function () {
         typeText(text1, function () {
           currentStage = 2;
@@ -265,12 +296,19 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-    // 保持最终状态
-    if (currentStage >= 5 && progress >= 0.40) {
+    // 保持状态
+    if (currentStage === 5 && progress >= 0.38 && progress < 0.66) {
       typedEl.textContent = text2;
       if (researchCard) {
         researchCard.style.opacity = '1';
         researchCard.style.transform = 'translateY(0)';
+      }
+    }
+
+    if (currentStage === 8) {
+      typedEl.textContent = text3;
+      if (researchCard) {
+        researchCard.style.opacity = '0';
       }
     }
   }
