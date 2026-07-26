@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // 加长滚动距离
   var spacer = document.createElement('div');
   spacer.id = 'welcome-spacer';
-  spacer.style.height = '520vh';
+  spacer.style.height = '420vh';
 
   var content = document.getElementById('content-inner') || document.querySelector('.layout');
   if (content) {
@@ -111,109 +111,101 @@ document.addEventListener('DOMContentLoaded', function () {
   btns.forEach(btn => {
     btn.addEventListener('click', function () {
       const index = this.getAttribute('data-index');
-
-      btns.forEach(b => {
-        b.classList.remove('active');
-        const plus = b.querySelector('.btn-plus');
-        const dot = b.querySelector('.btn-dot');
-        if (plus) plus.style.display = 'inline';
-        if (dot) dot.style.display = 'none';
-      });
-
+      btns.forEach(b => b.classList.remove('active'));
       this.classList.add('active');
-      const plus = this.querySelector('.btn-plus');
-      const dot = this.querySelector('.btn-dot');
-      if (plus) plus.style.display = 'none';
-      if (dot) dot.style.display = 'inline-block';
-
       panels.forEach(p => p.classList.remove('active'));
       document.querySelector(`.research-panel[data-index="${index}"]`).classList.add('active');
     });
   });
 
-  function updateTextByScroll() {
+  // ========== 自动打字逻辑 ==========
+  let currentStage = 0;
+  let typing = false;
+
+  function typeText(text, callback) {
+    if (typing) return;
+    typing = true;
+    let i = 0;
+    typedEl.textContent = '';
+    cursorEl.style.opacity = '1';
+
+    function tick() {
+      if (i <= text.length) {
+        typedEl.textContent = text.substring(0, i);
+        i++;
+        setTimeout(tick, 65);
+      } else {
+        cursorEl.style.opacity = '0';
+        typing = false;
+        if (callback) callback();
+      }
+    }
+    tick();
+  }
+
+  function deleteText(callback) {
+    if (typing) return;
+    typing = true;
+    cursorEl.style.opacity = '1';
+
+    function tick() {
+      const current = typedEl.textContent;
+      if (current.length > 0) {
+        typedEl.textContent = current.slice(0, -1);
+        setTimeout(tick, 40);
+      } else {
+        cursorEl.style.opacity = '0';
+        typing = false;
+        if (callback) callback();
+      }
+    }
+    tick();
+  }
+
+  function updateByScroll() {
     const spacerEl = document.getElementById('welcome-spacer');
     if (!spacerEl) return;
 
-    const spacerRect = spacerEl.getBoundingClientRect();
+    const rect = spacerEl.getBoundingClientRect();
     const windowHeight = window.innerHeight;
 
     let progress = 0;
-    if (spacerRect.top < windowHeight) {
-      const scrolled = windowHeight - spacerRect.top;
-      const total = spacerRect.height * 0.85;
-      progress = Math.min(1, Math.max(0, scrolled / total));
+    if (rect.top < windowHeight) {
+      const scrolled = windowHeight - rect.top;
+      progress = Math.min(1, Math.max(0, scrolled / (rect.height * 0.8)));
     }
 
     const intro = document.querySelector('.intro-text');
     const links = document.querySelector('.welcome-links');
 
-        if (progress < 0.22) {
-      // 阶段1：打出 Hi, I'm Samuel
-      const p = progress / 0.22;
-      const charCount = Math.floor(p * text1.length);
-      typedEl.textContent = text1.substring(0, charCount);
-      cursorEl.style.opacity = charCount >= text1.length ? '0' : '1';
-      typedEl.style.opacity = '1';
+    // 进入区域 → 自动打出 Hi, I'm Samuel
+    if (progress >= 0.06 && currentStage === 0 && !typing) {
+      currentStage = 1;
+      typeText(text1, function () {
+        currentStage = 2;
+        // 显示介绍和链接
+        if (intro) {
+          intro.style.opacity = '1';
+          intro.style.transform = 'translateY(0)';
+          intro.style.height = '';
+          intro.style.margin = '';
+          intro.style.overflow = '';
+        }
+        if (links) {
+          links.style.opacity = '1';
+          links.style.transform = 'translateY(0)';
+          links.style.height = '';
+          links.style.margin = '';
+          links.style.overflow = '';
+        }
+      });
+    }
 
-      if (intro) {
-        intro.style.opacity = '0';
-        intro.style.transform = 'translateY(16px)';
-        intro.style.height = '';
-        intro.style.margin = '';
-        intro.style.overflow = '';
-      }
-      if (links) {
-        links.style.opacity = '0';
-        links.style.transform = 'translateY(16px)';
-        links.style.height = '';
-        links.style.margin = '';
-        links.style.overflow = '';
-      }
-      if (researchCard) researchCard.style.opacity = '0';
+    // 继续往下 → 自动删除标题，再打出 Current Research
+    if (progress >= 0.40 && currentStage === 2 && !typing) {
+      currentStage = 3;
 
-    } else if (progress < 0.34) {
-      // 阶段2：完整显示 + 介绍和链接上浮
-      typedEl.textContent = text1;
-      cursorEl.style.opacity = '0';
-      typedEl.style.opacity = '1';
-
-      if (intro) {
-        intro.style.opacity = '1';
-        intro.style.transform = 'translateY(0)';
-        intro.style.height = '';
-        intro.style.margin = '';
-        intro.style.overflow = '';
-      }
-      if (links) {
-        links.style.opacity = '1';
-        links.style.transform = 'translateY(0)';
-        links.style.height = '';
-        links.style.margin = '';
-        links.style.overflow = '';
-      }
-      if (researchCard) researchCard.style.opacity = '0';
-
-    } else if (progress < 0.44) {
-      // 阶段3：介绍和链接消失 + 标题打字机反向删除
-      const p = (progress - 0.34) / 0.10;
-      const remain = Math.floor((1 - p) * text1.length);
-      typedEl.textContent = text1.substring(0, Math.max(0, remain));
-      cursorEl.style.opacity = remain > 0 ? '1' : '0';
-      typedEl.style.opacity = '1';
-
-      if (intro) { intro.style.opacity = '0'; intro.style.transform = 'translateY(-20px)'; }
-      if (links) { links.style.opacity = '0'; links.style.transform = 'translateY(-20px)'; }
-      if (researchCard) researchCard.style.opacity = '0';
-
-        } else if (progress < 0.58) {
-      // 阶段4：打出 Current Research
-      typedEl.style.opacity = '1';
-      const p = (progress - 0.44) / 0.14;
-      const charCount = Math.floor(Math.min(1, p) * text2.length);
-      typedEl.textContent = text2.substring(0, charCount);
-      cursorEl.style.opacity = charCount >= text2.length ? '0' : '1';
-
+      // 隐藏介绍和链接
       if (intro) {
         intro.style.opacity = '0';
         intro.style.transform = 'translateY(-20px)';
@@ -228,26 +220,22 @@ document.addEventListener('DOMContentLoaded', function () {
         links.style.margin = '0';
         links.style.overflow = 'hidden';
       }
-      if (researchCard) researchCard.style.opacity = '0';
 
-    } else {
-      // 阶段5：显示研究卡片
+      deleteText(function () {
+        currentStage = 4;
+        typeText(text2, function () {
+          currentStage = 5;
+          if (researchCard) {
+            researchCard.style.opacity = '1';
+            researchCard.style.transform = 'translateY(0)';
+          }
+        });
+      });
+    }
+
+    // 保持最终状态
+    if (currentStage >= 5) {
       typedEl.textContent = text2;
-      cursorEl.style.opacity = '0';
-      typedEl.style.opacity = '1';
-
-      if (intro) {
-        intro.style.opacity = '0';
-        intro.style.height = '0';
-        intro.style.margin = '0';
-        intro.style.overflow = 'hidden';
-      }
-      if (links) {
-        links.style.opacity = '0';
-        links.style.height = '0';
-        links.style.margin = '0';
-        links.style.overflow = 'hidden';
-      }
       if (researchCard) {
         researchCard.style.opacity = '1';
         researchCard.style.transform = 'translateY(0)';
@@ -255,6 +243,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  window.addEventListener('scroll', updateTextByScroll, { passive: true });
-  updateTextByScroll();
+  window.addEventListener('scroll', updateByScroll, { passive: true });
+  updateByScroll();
 });
