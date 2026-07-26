@@ -105,6 +105,11 @@ document.addEventListener('DOMContentLoaded', function () {
   const researchCard = document.getElementById('research-card');
   if (!typedEl) return;
 
+  // 默认让卡片不可点击
+  if (researchCard) {
+    researchCard.style.pointerEvents = 'none';
+  }
+
   // 研究卡片按钮切换
   const btns = document.querySelectorAll('.research-btn');
   const panels = document.querySelectorAll('.research-panel');
@@ -161,6 +166,22 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
     tick();
+  }
+
+  function showResearchCard() {
+    if (researchCard) {
+      researchCard.style.opacity = '1';
+      researchCard.style.transform = 'translateY(0)';
+      researchCard.style.pointerEvents = 'auto';
+    }
+  }
+
+  function hideResearchCard() {
+    if (researchCard) {
+      researchCard.style.opacity = '0';
+      researchCard.style.transform = 'translateY(20px)';
+      researchCard.style.pointerEvents = 'none';
+    }
   }
 
   function updateByScroll() {
@@ -225,10 +246,7 @@ document.addEventListener('DOMContentLoaded', function () {
       deleteText(function () {
         typeText(text2, function () {
           currentStage = 5;
-          if (researchCard) {
-            researchCard.style.opacity = '1';
-            researchCard.style.transform = 'translateY(0)';
-          }
+          showResearchCard();
         });
       });
     }
@@ -236,11 +254,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 3. 切换到 Personal Interest
     if (progress >= 0.66 && currentStage === 5 && !typing) {
       currentStage = 7;
-
-      if (researchCard) {
-        researchCard.style.opacity = '0';
-        researchCard.style.transform = 'translateY(20px)';
-      }
+      hideResearchCard();
 
       deleteText(function () {
         typeText(text3, function () {
@@ -258,10 +272,7 @@ document.addEventListener('DOMContentLoaded', function () {
       deleteText(function () {
         typeText(text2, function () {
           currentStage = 5;
-          if (researchCard) {
-            researchCard.style.opacity = '1';
-            researchCard.style.transform = 'translateY(0)';
-          }
+          showResearchCard();
         });
       });
     }
@@ -269,11 +280,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 从 Current Research 回到 Hi, I'm Samuel
     if (progress < 0.34 && currentStage === 5 && !typing) {
       currentStage = 6;
-
-      if (researchCard) {
-        researchCard.style.opacity = '0';
-        researchCard.style.transform = 'translateY(20px)';
-      }
+      hideResearchCard();
 
       deleteText(function () {
         typeText(text1, function () {
@@ -299,17 +306,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // 保持状态
     if (currentStage === 5 && progress >= 0.38 && progress < 0.66) {
       typedEl.textContent = text2;
-      if (researchCard) {
-        researchCard.style.opacity = '1';
-        researchCard.style.transform = 'translateY(0)';
-      }
+      showResearchCard();
     }
 
     if (currentStage === 8) {
       typedEl.textContent = text3;
-      if (researchCard) {
-        researchCard.style.opacity = '0';
-      }
+      hideResearchCard();
     }
   }
 
