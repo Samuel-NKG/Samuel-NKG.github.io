@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (links) { links.style.opacity = '0'; links.style.transform = 'translateY(-20px)'; }
       if (researchCard) researchCard.style.opacity = '0';
 
-    } else if (progress < 0.58) {
+        } else if (progress < 0.58) {
       // 阶段4：打出 Current Research
       typedEl.style.opacity = '1';
       const p = (progress - 0.44) / 0.14;
@@ -188,8 +188,20 @@ document.addEventListener('DOMContentLoaded', function () {
       typedEl.textContent = text2.substring(0, charCount);
       cursorEl.style.opacity = charCount >= text2.length ? '0' : '1';
 
-      if (intro) { intro.style.opacity = '0'; intro.style.transform = 'translateY(-20px)'; }
-      if (links) { links.style.opacity = '0'; links.style.transform = 'translateY(-20px)'; }
+      if (intro) {
+        intro.style.opacity = '0';
+        intro.style.transform = 'translateY(-20px)';
+        intro.style.height = '0';
+        intro.style.margin = '0';
+        intro.style.overflow = 'hidden';
+      }
+      if (links) {
+        links.style.opacity = '0';
+        links.style.transform = 'translateY(-20px)';
+        links.style.height = '0';
+        links.style.margin = '0';
+        links.style.overflow = 'hidden';
+      }
       if (researchCard) researchCard.style.opacity = '0';
 
     } else {
@@ -198,8 +210,18 @@ document.addEventListener('DOMContentLoaded', function () {
       cursorEl.style.opacity = '0';
       typedEl.style.opacity = '1';
 
-      if (intro) { intro.style.opacity = '0'; intro.style.transform = 'translateY(-20px)'; }
-      if (links) { links.style.opacity = '0'; links.style.transform = 'translateY(-20px)'; }
+      if (intro) {
+        intro.style.opacity = '0';
+        intro.style.height = '0';
+        intro.style.margin = '0';
+        intro.style.overflow = 'hidden';
+      }
+      if (links) {
+        links.style.opacity = '0';
+        links.style.height = '0';
+        links.style.margin = '0';
+        links.style.overflow = 'hidden';
+      }
       if (researchCard) {
         researchCard.style.opacity = '1';
         researchCard.style.transform = 'translateY(0)';
