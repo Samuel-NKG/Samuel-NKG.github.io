@@ -162,70 +162,75 @@ header#page-header nav,
   flex-wrap: nowrap !important;
 }
 
-/* ========== Current Research 卡片（加强版） ========== */
+/* ========== Current Research 独立黑色卡片 ========== */
 #research-card {
   display: flex !important;
   flex-direction: row !important;
-  gap: 3.5rem;
-  margin-top: 0.8rem !important;
-  margin-bottom: 0 !important;
-  max-width: 1000px;
+  gap: 2.5rem;
+  margin-top: 1.5rem !important;
+  max-width: 920px;
   width: 100%;
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.7s ease, transform 0.7s ease;
+
+  /* 黑色卡片样式 */
+  background: rgba(12, 12, 14, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 1.8rem 2rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(12px);
+  max-height: 420px;          /* 卡片最大高度 */
+  overflow: hidden;           /* 超出部分裁剪 */
 }
 
 .research-left {
   display: flex !important;
   flex-direction: column !important;
-  gap: 0.9rem;
-  min-width: 270px;
+  gap: 0.85rem;
+  min-width: 240px;
   flex-shrink: 0;
+  padding-top: 0.2rem;
 }
 
 .research-btn {
   display: flex !important;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.85rem 1.4rem;
+  padding: 0.8rem 1.3rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.07) !important;
-  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
   color: #ffffff !important;
   cursor: pointer;
   transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
   font-size: 0.95rem;
   user-select: none;
   width: fit-content;
-  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
 }
 
 .research-btn:hover {
-  background: rgba(255, 255, 255, 0.14) !important;
-  border-color: rgba(255, 255, 255, 0.3) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(255, 255, 255, 0.28) !important;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .research-btn:active {
   transform: translateY(1px) scale(0.98);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
 }
 
 .research-btn.active {
-  background: rgba(255, 255, 255, 0.2) !important;
-  border-color: rgba(255, 255, 255, 0.45) !important;
+  background: rgba(255, 255, 255, 0.16) !important;
+  border-color: rgba(255, 255, 255, 0.38) !important;
   box-shadow: 0 0 0 1px rgba(255, 107, 44, 0.25);
 }
 
-/* 图标 */
 .btn-plus {
   font-size: 1.15rem;
   opacity: 0.75;
   line-height: 1;
   display: inline !important;
-  transition: opacity 0.2s ease;
 }
 
 .btn-dot {
@@ -235,7 +240,7 @@ header#page-header nav,
   background: #ff6b2c;
   display: none !important;
   flex-shrink: 0;
-  box-shadow: 0 0 6px rgba(255, 107, 44, 0.6);
+  box-shadow: 0 0 6px rgba(255, 107, 44, 0.55);
 }
 
 .research-btn.active .btn-plus {
@@ -246,9 +251,27 @@ header#page-header nav,
   display: inline-block !important;
 }
 
+/* 右侧可滚动区域 */
 .research-right {
   flex: 1;
-  min-height: 160px;
+  min-height: 0;
+  max-height: 360px;          /* 限制高度，超出可滚动 */
+  overflow-y: auto;
+  padding-right: 0.6rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.25) transparent;
+}
+
+/* 自定义滚动条（Chrome） */
+.research-right::-webkit-scrollbar {
+  width: 5px;
+}
+.research-right::-webkit-scrollbar-track {
+  background: transparent;
+}
+.research-right::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: 10px;
 }
 
 .research-panel {
@@ -262,15 +285,15 @@ header#page-header nav,
 }
 
 .research-panel h3 {
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   font-weight: 600;
-  margin: 0 0 0.9rem 0;
+  margin: 0 0 0.85rem 0;
   line-height: 1.4;
   color: #ffffff;
 }
 
 .research-panel p {
-  font-size: 0.97rem;
+  font-size: 0.96rem;
   line-height: 1.7;
   opacity: 0.88;
   margin: 0;
@@ -278,6 +301,6 @@ header#page-header nav,
 }
 
 @keyframes researchFadeIn {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
