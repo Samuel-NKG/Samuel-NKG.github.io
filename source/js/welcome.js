@@ -178,12 +178,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const intro = document.querySelector('.intro-text');
     const links = document.querySelector('.welcome-links');
 
+    // ========== 前进 ==========
     // 进入区域 → 自动打出 Hi, I'm Samuel
     if (progress >= 0.06 && currentStage === 0 && !typing) {
       currentStage = 1;
       typeText(text1, function () {
         currentStage = 2;
-        // 显示介绍和链接
         if (intro) {
           intro.style.opacity = '1';
           intro.style.transform = 'translateY(0)';
@@ -201,11 +201,10 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-    // 继续往下 → 自动删除标题，再打出 Current Research
+    // 继续往下 → 删除标题，打出 Current Research
     if (progress >= 0.40 && currentStage === 2 && !typing) {
       currentStage = 3;
 
-      // 隐藏介绍和链接
       if (intro) {
         intro.style.opacity = '0';
         intro.style.transform = 'translateY(-20px)';
@@ -233,8 +232,41 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
+    // ========== 回滑返回 ==========
+    // 从 Current Research 往回滑
+    if (progress < 0.36 && currentStage >= 4 && !typing) {
+      currentStage = 6; // 临时状态，防止重复触发
+
+      // 先隐藏研究卡片
+      if (researchCard) {
+        researchCard.style.opacity = '0';
+        researchCard.style.transform = 'translateY(20px)';
+      }
+
+      // 删除 Current Research，再打回 Hi, I'm Samuel
+      deleteText(function () {
+        typeText(text1, function () {
+          currentStage = 2;
+          if (intro) {
+            intro.style.opacity = '1';
+            intro.style.transform = 'translateY(0)';
+            intro.style.height = '';
+            intro.style.margin = '';
+            intro.style.overflow = '';
+          }
+          if (links) {
+            links.style.opacity = '1';
+            links.style.transform = 'translateY(0)';
+            links.style.height = '';
+            links.style.margin = '';
+            links.style.overflow = '';
+          }
+        });
+      });
+    }
+
     // 保持最终状态
-    if (currentStage >= 5) {
+    if (currentStage >= 5 && progress >= 0.40) {
       typedEl.textContent = text2;
       if (researchCard) {
         researchCard.style.opacity = '1';
