@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>
     </div>
 
-        <!-- Personal Interest 卡片 -->
+    <!-- Personal Interest 卡片 -->
     <div class="interest-cards" id="interest-cards">
       <div class="interest-card">
         <div class="interest-card-content">
@@ -139,9 +139,13 @@ document.addEventListener('DOMContentLoaded', function () {
   const interestCards = document.getElementById('interest-cards');
   if (!typedEl) return;
 
-  // 默认隐藏并禁止点击
-  if (researchCard) researchCard.style.pointerEvents = 'none';
+  // 默认完全隐藏
+  if (researchCard) {
+    researchCard.style.display = 'none';
+    researchCard.style.pointerEvents = 'none';
+  }
   if (interestCards) {
+    interestCards.style.display = 'none';
     interestCards.style.opacity = '0';
     interestCards.style.pointerEvents = 'none';
   }
@@ -204,47 +208,37 @@ document.addEventListener('DOMContentLoaded', function () {
     tick();
   }
 
-    function showResearchCard() {
+  function showResearchCard() {
     if (researchCard) {
+      researchCard.style.display = 'flex';
       researchCard.style.opacity = '1';
       researchCard.style.transform = 'translateY(0)';
       researchCard.style.pointerEvents = 'auto';
-      researchCard.style.height = '';
-      researchCard.style.margin = '';
-      researchCard.style.overflow = '';
     }
   }
 
   function hideResearchCard() {
     if (researchCard) {
       researchCard.style.opacity = '0';
-      researchCard.style.transform = 'translateY(20px)';
       researchCard.style.pointerEvents = 'none';
-      researchCard.style.height = '0';
-      researchCard.style.margin = '0';
-      researchCard.style.overflow = 'hidden';
+      researchCard.style.display = 'none';
     }
   }
 
   function showInterestCards() {
     if (interestCards) {
+      interestCards.style.display = 'flex';
       interestCards.style.opacity = '1';
       interestCards.style.transform = 'translateY(0)';
       interestCards.style.pointerEvents = 'auto';
-      interestCards.style.height = '';
-      interestCards.style.margin = '';
-      interestCards.style.overflow = '';
     }
   }
 
   function hideInterestCards() {
     if (interestCards) {
       interestCards.style.opacity = '0';
-      interestCards.style.transform = 'translateY(20px)';
       interestCards.style.pointerEvents = 'none';
-      interestCards.style.height = '0';
-      interestCards.style.margin = '0';
-      interestCards.style.overflow = 'hidden';
+      interestCards.style.display = 'none';
     }
   }
 
