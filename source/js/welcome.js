@@ -139,15 +139,11 @@ document.addEventListener('DOMContentLoaded', function () {
   const interestCards = document.getElementById('interest-cards');
   if (!typedEl) return;
 
-  // 默认完全隐藏
   if (researchCard) {
-    researchCard.style.display = 'none';
-    researchCard.style.pointerEvents = 'none';
+    researchCard.classList.add('is-hidden');
   }
   if (interestCards) {
-    interestCards.style.display = 'none';
-    interestCards.style.opacity = '0';
-    interestCards.style.pointerEvents = 'none';
+    interestCards.classList.add('is-hidden');
   }
 
   // 研究卡片按钮切换
@@ -210,6 +206,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function showResearchCard() {
     if (researchCard) {
+      researchCard.classList.remove('is-hidden');
       researchCard.style.display = 'flex';
       researchCard.style.opacity = '1';
       researchCard.style.transform = 'translateY(0)';
@@ -219,14 +216,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function hideResearchCard() {
     if (researchCard) {
-      researchCard.style.opacity = '0';
-      researchCard.style.pointerEvents = 'none';
-      researchCard.style.display = 'none';
+      researchCard.classList.add('is-hidden');
     }
   }
 
   function showInterestCards() {
     if (interestCards) {
+      interestCards.classList.remove('is-hidden');
       interestCards.style.display = 'flex';
       interestCards.style.opacity = '1';
       interestCards.style.transform = 'translateY(0)';
@@ -236,9 +232,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function hideInterestCards() {
     if (interestCards) {
-      interestCards.style.opacity = '0';
-      interestCards.style.pointerEvents = 'none';
-      interestCards.style.display = 'none';
+      interestCards.classList.add('is-hidden');
     }
   }
 

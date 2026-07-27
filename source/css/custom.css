@@ -47,7 +47,7 @@ header#page-header nav,
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  padding-top: 14vh;
+  padding-top: 12vh;
   padding-left: 6%;
   background: transparent !important;
   color: #ffffff;
@@ -80,7 +80,7 @@ header#page-header nav,
   50% { opacity: 0; }
 }
 
-/* ========== 左右布局（关键） ========== */
+/* ========== 左右布局 ========== */
 #welcome-section .welcome-content {
   display: flex !important;
   flex-direction: row !important;
@@ -168,15 +168,12 @@ header#page-header nav,
   flex-direction: row !important;
   gap: 2.8rem;
   margin-top: 1.5rem !important;
-  
-  width: 1100px;                 /* 固定宽度 */
-  max-width: 92vw;               /* 小屏幕时不超过屏幕 */
-  min-height: 480px;             /* 固定最小高度 */
-  
+  width: 1100px;
+  max-width: 92vw;
+  min-height: 480px;
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.7s ease, transform 0.7s ease;
-
   background: rgba(12, 12, 14, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
@@ -184,8 +181,19 @@ header#page-header nav,
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(12px);
   overflow: hidden;
+  pointer-events: none;
+}
 
-  pointer-events: none;   /* 默认不可点击，显示时再打开 */
+/* 隐藏时彻底不占位 */
+#research-card.is-hidden {
+  display: none !important;
+  min-height: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  border: none !important;
 }
 
 .research-left {
@@ -254,7 +262,6 @@ header#page-header nav,
   display: inline-block !important;
 }
 
-/* 右侧可滚动区域 */
 .research-right {
   flex: 1;
   min-height: 0;
@@ -265,7 +272,6 @@ header#page-header nav,
   scrollbar-color: rgba(255,255,255,0.25) transparent;
 }
 
-/* 自定义滚动条（Chrome） */
 .research-right::-webkit-scrollbar {
   width: 5px;
 }
@@ -312,13 +318,20 @@ header#page-header nav,
 #interest-cards {
   display: flex;
   gap: 1.4rem;
-  margin-top: 1.2rem;          /* 往上提 */
+  margin-top: 1.2rem;
   max-width: 1100px;
   width: 100%;
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.7s ease, transform 0.7s ease;
   pointer-events: none;
+}
+
+#interest-cards.is-hidden {
+  display: none !important;
+  margin: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 .interest-card {
@@ -331,7 +344,7 @@ header#page-header nav,
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), 
+  transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1),
               box-shadow 0.35s ease,
               border-color 0.3s ease;
   cursor: pointer;
@@ -341,15 +354,6 @@ header#page-header nav,
   transform: scale(1.04);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
   border-color: rgba(255, 255, 255, 0.22);
-}
-
-.interest-label {
-  font-size: 0.78rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  opacity: 0.55;
-  margin-bottom: 0.9rem;
-  color: #fff;
 }
 
 .interest-card h3 {
