@@ -208,15 +208,30 @@ document.addEventListener('DOMContentLoaded', function () {
     if (researchCard) {
       researchCard.classList.remove('is-hidden');
       researchCard.style.display = 'flex';
-      researchCard.style.opacity = '1';
-      researchCard.style.transform = 'translateY(0)';
-      researchCard.style.pointerEvents = 'auto';
+      // 先设为准备状态
+      researchCard.style.opacity = '0';
+      researchCard.style.transform = 'translateY(24px)';
+      researchCard.style.pointerEvents = 'none';
+      // 下一帧再触发上浮
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          researchCard.style.opacity = '1';
+          researchCard.style.transform = 'translateY(0)';
+          researchCard.style.pointerEvents = 'auto';
+        });
+      });
     }
   }
 
   function hideResearchCard() {
     if (researchCard) {
-      researchCard.classList.add('is-hidden');
+      researchCard.style.opacity = '0';
+      researchCard.style.transform = 'translateY(24px)';
+      researchCard.style.pointerEvents = 'none';
+      // 等动画结束后再彻底隐藏
+      setTimeout(function () {
+        researchCard.classList.add('is-hidden');
+      }, 500);
     }
   }
 
@@ -224,15 +239,27 @@ document.addEventListener('DOMContentLoaded', function () {
     if (interestCards) {
       interestCards.classList.remove('is-hidden');
       interestCards.style.display = 'flex';
-      interestCards.style.opacity = '1';
-      interestCards.style.transform = 'translateY(0)';
-      interestCards.style.pointerEvents = 'auto';
+      interestCards.style.opacity = '0';
+      interestCards.style.transform = 'translateY(24px)';
+      interestCards.style.pointerEvents = 'none';
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          interestCards.style.opacity = '1';
+          interestCards.style.transform = 'translateY(0)';
+          interestCards.style.pointerEvents = 'auto';
+        });
+      });
     }
   }
 
   function hideInterestCards() {
     if (interestCards) {
-      interestCards.classList.add('is-hidden');
+      interestCards.style.opacity = '0';
+      interestCards.style.transform = 'translateY(24px)';
+      interestCards.style.pointerEvents = 'none';
+      setTimeout(function () {
+        interestCards.classList.add('is-hidden');
+      }, 500);
     }
   }
 
