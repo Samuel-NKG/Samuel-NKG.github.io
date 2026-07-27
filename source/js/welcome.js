@@ -201,11 +201,12 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function showResearchCard() {
-    if (!researchCard) return;
+    if (!researchCard || !researchCard.classList.contains('is-hidden')) return;
     researchCard.classList.remove('is-hidden');
     researchCard.style.display = 'flex';
+    researchCard.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
     researchCard.style.opacity = '0';
-    researchCard.style.transform = 'translateY(28px)';
+    researchCard.style.transform = 'translateY(32px)';
     researchCard.style.pointerEvents = 'none';
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
@@ -217,21 +218,23 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function hideResearchCard() {
-    if (!researchCard) return;
+    if (!researchCard || researchCard.classList.contains('is-hidden')) return;
+    researchCard.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
     researchCard.style.opacity = '0';
-    researchCard.style.transform = 'translateY(28px)'; // 下沉
+    researchCard.style.transform = 'translateY(32px)';
     researchCard.style.pointerEvents = 'none';
     setTimeout(function () {
       researchCard.classList.add('is-hidden');
-    }, 550);
+    }, 560);
   }
 
   function showInterestCards() {
-    if (!interestCards) return;
+    if (!interestCards || !interestCards.classList.contains('is-hidden')) return;
     interestCards.classList.remove('is-hidden');
     interestCards.style.display = 'flex';
+    interestCards.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
     interestCards.style.opacity = '0';
-    interestCards.style.transform = 'translateY(28px)';
+    interestCards.style.transform = 'translateY(32px)';
     interestCards.style.pointerEvents = 'none';
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
@@ -243,13 +246,14 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function hideInterestCards() {
-    if (!interestCards) return;
+    if (!interestCards || interestCards.classList.contains('is-hidden')) return;
+    interestCards.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
     interestCards.style.opacity = '0';
-    interestCards.style.transform = 'translateY(28px)'; // 下沉
+    interestCards.style.transform = 'translateY(32px)';
     interestCards.style.pointerEvents = 'none';
     setTimeout(function () {
       interestCards.classList.add('is-hidden');
-    }, 550);
+    }, 560);
   }
 
   function updateByScroll() {
@@ -292,13 +296,13 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-    // 2. 切换到 Current Research（介绍文字一起下沉）
+    // 2. 切换到 Current Research
     if (progress >= 0.38 && currentStage === 2 && !typing) {
       currentStage = 3;
 
       if (intro) {
         intro.style.opacity = '0';
-        intro.style.transform = 'translateY(28px)'; // 下沉
+        intro.style.transform = 'translateY(28px)';
         setTimeout(function () {
           intro.style.height = '0';
           intro.style.margin = '0';
@@ -307,7 +311,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       if (links) {
         links.style.opacity = '0';
-        links.style.transform = 'translateY(28px)'; // 下沉
+        links.style.transform = 'translateY(28px)';
         setTimeout(function () {
           links.style.height = '0';
           links.style.margin = '0';
@@ -325,10 +329,10 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-    // 3. 切换到 Personal Interest（研究卡片一起下沉）
+    // 3. 切换到 Personal Interest（研究卡片下沉）
     if (progress >= 0.66 && currentStage === 5 && !typing) {
       currentStage = 7;
-      hideResearchCard(); // 立刻下沉
+      hideResearchCard();
 
       deleteText(function () {
         typeText(text3, function () {
@@ -343,7 +347,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 从 Personal Interest 回到 Current Research
     if (progress < 0.62 && currentStage === 8 && !typing) {
       currentStage = 9;
-      hideInterestCards(); // 立刻下沉
+      hideInterestCards();
 
       deleteText(function () {
         typeText(text2, function () {
@@ -356,7 +360,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 从 Current Research 回到 Hi, I'm Samuel
     if (progress < 0.34 && currentStage === 5 && !typing) {
       currentStage = 6;
-      hideResearchCard(); // 立刻下沉
+      hideResearchCard();
       hideInterestCards();
 
       deleteText(function () {
@@ -380,17 +384,13 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-    // 保持状态
+    // 保持状态（只同步文字，不每帧强制 show/hide）
     if (currentStage === 5 && progress >= 0.38 && progress < 0.66) {
-      typedEl.textContent = text2;
-      showResearchCard();
-      hideInterestCards();
+      if (!typing) typedEl.textContent = text2;
     }
 
     if (currentStage === 8) {
-      typedEl.textContent = text3;
-      hideResearchCard();
-      showInterestCards();
+      if (!typing) typedEl.textContent = text3;
     }
   }
 
