@@ -139,12 +139,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const interestCards = document.getElementById('interest-cards');
   if (!typedEl) return;
 
-  if (researchCard) {
-    researchCard.classList.add('is-hidden');
-  }
-  if (interestCards) {
-    interestCards.classList.add('is-hidden');
-  }
+  if (researchCard) researchCard.classList.add('is-hidden');
+  if (interestCards) interestCards.classList.add('is-hidden');
 
   // 研究卡片按钮切换
   const btns = document.querySelectorAll('.research-btn');
@@ -205,62 +201,55 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function showResearchCard() {
-    if (researchCard) {
-      researchCard.classList.remove('is-hidden');
-      researchCard.style.display = 'flex';
-      // 先设为准备状态
-      researchCard.style.opacity = '0';
-      researchCard.style.transform = 'translateY(24px)';
-      researchCard.style.pointerEvents = 'none';
-      // 下一帧再触发上浮
+    if (!researchCard) return;
+    researchCard.classList.remove('is-hidden');
+    researchCard.style.display = 'flex';
+    researchCard.style.opacity = '0';
+    researchCard.style.transform = 'translateY(28px)';
+    researchCard.style.pointerEvents = 'none';
+    requestAnimationFrame(function () {
       requestAnimationFrame(function () {
-        requestAnimationFrame(function () {
-          researchCard.style.opacity = '1';
-          researchCard.style.transform = 'translateY(0)';
-          researchCard.style.pointerEvents = 'auto';
-        });
+        researchCard.style.opacity = '1';
+        researchCard.style.transform = 'translateY(0)';
+        researchCard.style.pointerEvents = 'auto';
       });
-    }
+    });
   }
 
   function hideResearchCard() {
-    if (researchCard) {
-      researchCard.style.opacity = '0';
-      researchCard.style.transform = 'translateY(24px)';
-      researchCard.style.pointerEvents = 'none';
-      // 等动画结束后再彻底隐藏
-      setTimeout(function () {
-        researchCard.classList.add('is-hidden');
-      }, 500);
-    }
+    if (!researchCard) return;
+    researchCard.style.opacity = '0';
+    researchCard.style.transform = 'translateY(28px)'; // 下沉
+    researchCard.style.pointerEvents = 'none';
+    setTimeout(function () {
+      researchCard.classList.add('is-hidden');
+    }, 550);
   }
 
   function showInterestCards() {
-    if (interestCards) {
-      interestCards.classList.remove('is-hidden');
-      interestCards.style.display = 'flex';
-      interestCards.style.opacity = '0';
-      interestCards.style.transform = 'translateY(24px)';
-      interestCards.style.pointerEvents = 'none';
+    if (!interestCards) return;
+    interestCards.classList.remove('is-hidden');
+    interestCards.style.display = 'flex';
+    interestCards.style.opacity = '0';
+    interestCards.style.transform = 'translateY(28px)';
+    interestCards.style.pointerEvents = 'none';
+    requestAnimationFrame(function () {
       requestAnimationFrame(function () {
-        requestAnimationFrame(function () {
-          interestCards.style.opacity = '1';
-          interestCards.style.transform = 'translateY(0)';
-          interestCards.style.pointerEvents = 'auto';
-        });
+        interestCards.style.opacity = '1';
+        interestCards.style.transform = 'translateY(0)';
+        interestCards.style.pointerEvents = 'auto';
       });
-    }
+    });
   }
 
   function hideInterestCards() {
-    if (interestCards) {
-      interestCards.style.opacity = '0';
-      interestCards.style.transform = 'translateY(24px)';
-      interestCards.style.pointerEvents = 'none';
-      setTimeout(function () {
-        interestCards.classList.add('is-hidden');
-      }, 500);
-    }
+    if (!interestCards) return;
+    interestCards.style.opacity = '0';
+    interestCards.style.transform = 'translateY(28px)'; // 下沉
+    interestCards.style.pointerEvents = 'none';
+    setTimeout(function () {
+      interestCards.classList.add('is-hidden');
+    }, 550);
   }
 
   function updateByScroll() {
@@ -303,38 +292,43 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-    // 2. 切换到 Current Research
+    // 2. 切换到 Current Research（介绍文字一起下沉）
     if (progress >= 0.38 && currentStage === 2 && !typing) {
       currentStage = 3;
 
       if (intro) {
         intro.style.opacity = '0';
-        intro.style.transform = 'translateY(-20px)';
-        intro.style.height = '0';
-        intro.style.margin = '0';
-        intro.style.overflow = 'hidden';
+        intro.style.transform = 'translateY(28px)'; // 下沉
+        setTimeout(function () {
+          intro.style.height = '0';
+          intro.style.margin = '0';
+          intro.style.overflow = 'hidden';
+        }, 500);
       }
       if (links) {
         links.style.opacity = '0';
-        links.style.transform = 'translateY(-20px)';
-        links.style.height = '0';
-        links.style.margin = '0';
-        links.style.overflow = 'hidden';
+        links.style.transform = 'translateY(28px)'; // 下沉
+        setTimeout(function () {
+          links.style.height = '0';
+          links.style.margin = '0';
+          links.style.overflow = 'hidden';
+        }, 500);
       }
+
+      hideInterestCards();
 
       deleteText(function () {
         typeText(text2, function () {
           currentStage = 5;
           showResearchCard();
-          hideInterestCards();
         });
       });
     }
 
-    // 3. 切换到 Personal Interest
+    // 3. 切换到 Personal Interest（研究卡片一起下沉）
     if (progress >= 0.66 && currentStage === 5 && !typing) {
       currentStage = 7;
-      hideResearchCard();
+      hideResearchCard(); // 立刻下沉
 
       deleteText(function () {
         typeText(text3, function () {
@@ -349,7 +343,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 从 Personal Interest 回到 Current Research
     if (progress < 0.62 && currentStage === 8 && !typing) {
       currentStage = 9;
-      hideInterestCards();
+      hideInterestCards(); // 立刻下沉
 
       deleteText(function () {
         typeText(text2, function () {
@@ -362,7 +356,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 从 Current Research 回到 Hi, I'm Samuel
     if (progress < 0.34 && currentStage === 5 && !typing) {
       currentStage = 6;
-      hideResearchCard();
+      hideResearchCard(); // 立刻下沉
       hideInterestCards();
 
       deleteText(function () {
