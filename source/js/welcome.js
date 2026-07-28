@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const text1 = "Hi, I'm Samuel";
   const text2 = "Current Research";
-  const text3 = "Awards";
+  const text3 = "Awards and Scholarships";
   const text4 = "Personal Interest";
 
   // 创建 Welcome 区域
@@ -89,37 +89,49 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>
     </div>
 
-    <!-- Awards 时间线 -->
+    <!-- Awards and Scholarships -->
     <div class="awards-section" id="awards-section">
-      <div class="award-item">
-        <div class="award-year">2025</div>
-        <div class="award-content">
-          <div class="award-title">15th National University Student E-commerce “ICE” Challenge</div>
-          <div class="award-detail">Silver Award</div>
+      <div class="awards-col">
+        <div class="awards-col-title">Awards</div>
+
+        <div class="award-item">
+          <div class="award-year">2025</div>
+          <div class="award-content">
+            <div class="award-title">15th National University Student E-commerce “ICE” Challenge</div>
+            <div class="award-detail">Silver Award</div>
+          </div>
+        </div>
+
+        <div class="award-item">
+          <div class="award-year">2024</div>
+          <div class="award-content">
+            <div class="award-title">Chinese Collegiate Computing Competition</div>
+            <div class="award-detail">The Northwest Regional Competition · Second Prize</div>
+
+            <div class="award-title" style="margin-top: 1rem;">China International College Students’ Innovation Competition</div>
+            <div class="award-detail">University-level Silver Award</div>
+
+            <div class="award-title" style="margin-top: 1rem;">College Students’ Innovation and Entrepreneurship Training Program</div>
+            <div class="award-detail">Provincial-level Silver Award</div>
+          </div>
         </div>
       </div>
 
-      <div class="award-item">
-        <div class="award-year">2024</div>
-        <div class="award-content">
-          <div class="award-title">Chinese Collegiate Computing Competition</div>
-          <div class="award-detail">The Northwest Regional Competition · Second Prize</div>
-        </div>
-      </div>
+      <div class="awards-col">
+        <div class="awards-col-title">Scholarships</div>
 
-      <div class="award-item">
-        <div class="award-year">2024</div>
-        <div class="award-content">
-          <div class="award-title">China International College Students’ Innovation Competition</div>
-          <div class="award-detail">University-level Silver Award</div>
+        <div class="award-item">
+          <div class="award-year">2024–2025</div>
+          <div class="award-content">
+            <div class="award-title">University-level Second-Class Scholarship</div>
+          </div>
         </div>
-      </div>
 
-      <div class="award-item">
-        <div class="award-year">2024</div>
-        <div class="award-content">
-          <div class="award-title">College Students’ Innovation and Entrepreneurship Training Program</div>
-          <div class="award-detail">Provincial-level Silver Award</div>
+        <div class="award-item">
+          <div class="award-year">2023–2024</div>
+          <div class="award-content">
+            <div class="award-title">University-level First-Class Scholarship</div>
+          </div>
         </div>
       </div>
     </div>

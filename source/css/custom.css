@@ -394,13 +394,13 @@ header#page-header nav,
   background: rgba(255, 255, 255, 0.22);
 }
 
-/* ========== Awards 时间线 ========== */
+/* ========== Awards and Scholarships ========== */
 #awards-section {
   display: flex;
-  flex-direction: column;
-  gap: 1.6rem;
+  flex-direction: row;
+  gap: 3.5rem;
   margin-top: 1.5rem;
-  max-width: 720px;
+  max-width: 1000px;
   width: 100%;
   opacity: 0;
   transform: translateY(32px);
@@ -411,12 +411,27 @@ header#page-header nav,
   display: none !important;
 }
 
+.awards-col {
+  flex: 1;
+  min-width: 0;
+}
+
+.awards-col-title {
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 1.4rem;
+  font-weight: 600;
+}
+
 .award-item {
   display: flex;
-  gap: 1.4rem;
+  gap: 1.2rem;
   align-items: flex-start;
   position: relative;
-  padding-left: 1.2rem;
+  padding-left: 1.1rem;
+  margin-bottom: 1.6rem;
 }
 
 .award-item::before {
@@ -426,20 +441,25 @@ header#page-header nav,
   top: 0.35rem;
   bottom: -1.6rem;
   width: 2px;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.award-item:last-child {
+  margin-bottom: 0;
 }
 
 .award-item:last-child::before {
-  bottom: 0.4rem;
+  bottom: 0.3rem;
 }
 
 .award-year {
-  min-width: 64px;
-  font-size: 1.25rem;
+  min-width: 78px;
+  font-size: 1.05rem;
   font-weight: 700;
   color: #ffffff;
-  letter-spacing: 0.5px;
-  line-height: 1.3;
+  letter-spacing: 0.3px;
+  line-height: 1.35;
+  flex-shrink: 0;
 }
 
 .award-content {
@@ -447,15 +467,15 @@ header#page-header nav,
 }
 
 .award-title {
-  font-size: 1.02rem;
+  font-size: 0.98rem;
   font-weight: 600;
   color: #ffffff;
   line-height: 1.45;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.2rem;
 }
 
 .award-detail {
-  font-size: 0.92rem;
-  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
   line-height: 1.5;
 }
