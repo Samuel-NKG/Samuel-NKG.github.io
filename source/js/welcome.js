@@ -26,7 +26,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const text1 = "Hi, I'm Samuel";
   const text2 = "Current Research";
-  const text3 = "Personal Interest";
+  const text3 = "Awards";
+  const text4 = "Personal Interest";
 
   // 创建 Welcome 区域
   var welcome = document.createElement('div');
@@ -56,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
           GitHub
         </a>
         <a href="https://orcid.org/0009-0005-2596-2438" target="_blank" class="link-item">
-          <svg class="link-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.5 15.5h-2v-9h2v9zm1.5-11c-.83 0-1.5-.67-1.5-1.5S11.17 3.5 12 3.5s1.5.67 1.5 1.5S12.83 6.5 12 6.5zm5.5 11h-2v-4.5c0-1.1-.4-1.8-1.4-1.8-1 0-1.5.7-1.5 1.8V17.5h-2v-9h2v1.1c.5-.8 1.3-1.3 2.4-1.3 1.8 0 3 1.2 3 3.5v5.7z"/></svg>
+          <svg class="link-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.5 15.5h-2v-9h2v9zm1.5-11c-.83 0-1.5-.67-1.5-1.5S11.17 3.5 12 3.5s1.5.67 1.5 1.5S12.83 6.5 12 6.5zm5.5 11h-2v-9h2v1.1c.5-.8 1.3-1.3 2.4-1.3 1.8 0 3 1.2 3 3.5v5.7z"/></svg>
           ORCID
         </a>
       </div>
@@ -125,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // 加长滚动距离
   var spacer = document.createElement('div');
   spacer.id = 'welcome-spacer';
-  spacer.style.height = '560vh';
+  spacer.style.height = '680vh';
 
   var content = document.getElementById('content-inner') || document.querySelector('.layout');
   if (content) {
@@ -274,8 +275,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ========== 前进 ==========
 
-    // 1. 打出 Hi, I'm Samuel
-    if (progress >= 0.06 && currentStage === 0 && !typing) {
+    // 1. Hi, I'm Samuel
+    if (progress >= 0.05 && currentStage === 0 && !typing) {
       currentStage = 1;
       typeText(text1, function () {
         currentStage = 2;
@@ -296,8 +297,8 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-    // 2. 切换到 Current Research
-    if (progress >= 0.38 && currentStage === 2 && !typing) {
+    // 2. → Current Research
+    if (progress >= 0.28 && currentStage === 2 && !typing) {
       currentStage = 3;
 
       if (intro) {
@@ -329,13 +330,26 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-    // 3. 切换到 Personal Interest（研究卡片下沉）
-    if (progress >= 0.66 && currentStage === 5 && !typing) {
-      currentStage = 7;
+    // 3. → Awards
+    if (progress >= 0.48 && currentStage === 5 && !typing) {
+      currentStage = 10;
       hideResearchCard();
 
       deleteText(function () {
         typeText(text3, function () {
+          currentStage = 11;
+        });
+      });
+    }
+
+    // 4. → Personal Interest
+    if (progress >= 0.68 && currentStage === 11 && !typing) {
+      currentStage = 7;
+      hideResearchCard();
+      hideInterestCards();
+
+      deleteText(function () {
+        typeText(text4, function () {
           currentStage = 8;
           showInterestCards();
         });
@@ -344,10 +358,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ========== 回滑 ==========
 
-    // 从 Personal Interest 回到 Current Research
-    if (progress < 0.62 && currentStage === 8 && !typing) {
-      currentStage = 9;
+    // Personal Interest → Awards
+    if (progress < 0.64 && currentStage === 8 && !typing) {
+      currentStage = 12;
       hideInterestCards();
+
+      deleteText(function () {
+        typeText(text3, function () {
+          currentStage = 11;
+        });
+      });
+    }
+
+    // Awards → Current Research
+    if (progress < 0.44 && currentStage === 11 && !typing) {
+      currentStage = 13;
 
       deleteText(function () {
         typeText(text2, function () {
@@ -357,8 +382,8 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-    // 从 Current Research 回到 Hi, I'm Samuel
-    if (progress < 0.34 && currentStage === 5 && !typing) {
+    // Current Research → Hi, I'm Samuel
+    if (progress < 0.24 && currentStage === 5 && !typing) {
       currentStage = 6;
       hideResearchCard();
       hideInterestCards();
@@ -384,13 +409,15 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-    // 保持状态（只同步文字，不每帧强制 show/hide）
-    if (currentStage === 5 && progress >= 0.38 && progress < 0.66) {
+    // 保持状态
+    if (currentStage === 5 && progress >= 0.28 && progress < 0.48) {
       if (!typing) typedEl.textContent = text2;
     }
-
-    if (currentStage === 8) {
+    if (currentStage === 11) {
       if (!typing) typedEl.textContent = text3;
+    }
+    if (currentStage === 8) {
+      if (!typing) typedEl.textContent = text4;
     }
   }
 
