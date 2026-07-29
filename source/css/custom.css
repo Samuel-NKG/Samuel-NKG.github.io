@@ -1,11 +1,13 @@
 /* ========== 基础设置 ========== */
 #banner,
-.banner,
-#page-header,
-.page-header,
+.banner {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
 #web_bg {
-  background: #000 !important;
-  background-color: #000 !important;
+  background: transparent !important;
+  background-color: transparent !important;
 }
 
 /* 只隐藏导航和副标题 */
@@ -20,18 +22,25 @@ header#page-header nav,
   display: none !important;
 }
 
-/* ========== 开场页：全屏 + 标题居中 + 150px 空滑 ========== */
+/* ========== 开场页：固定视口，由 JS 控制淡出 ========== */
 #page-header {
-  min-height: calc(100vh + 150px) !important;
-  height: auto !important;
-  padding: 0 !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
   margin: 0 !important;
+  padding: 0 !important;
+  z-index: 20 !important;
   background: #000 !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  overflow: visible !important;
-  display: block !important;
-  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  /* 禁止 opacity: 1 !important，否则 JS 无法淡出 */
+  pointer-events: none !important;
+  transition: none !important;
 }
 
 #page-header #site-info,
@@ -44,13 +53,13 @@ header#page-header nav,
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
-  height: 100vh !important;
+  height: 100% !important;
   width: 100% !important;
   min-height: 100vh !important;
   padding: 0 !important;
   margin: 0 !important;
-  position: sticky !important;
-  top: 0 !important;
+  position: relative !important;
+  top: auto !important;
   bottom: auto !important;
   transform: none !important;
 }
@@ -73,7 +82,6 @@ header#page-header nav,
   text-align: center !important;
   max-width: 90vw !important;
   color: #ffffff !important;
-  opacity: 1 !important;
 }
 
 #page-header #handwriting-wrap,
@@ -106,7 +114,24 @@ header#page-header nav,
   pointer-events: none !important;
 }
 
-/* 去掉滚动条（不要吸附） */
+/* 去掉主题遮罩 / 页脚 */
+#mask,
+.mask,
+#loading-box,
+.loading-bg,
+#footer,
+#footer-wrap,
+footer,
+.footer {
+  display: none !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  pointer-events: none !important;
+}
+
+/* 去掉滚动条 */
 html {
   scrollbar-width: none;
 }
@@ -117,19 +142,40 @@ body::-webkit-scrollbar {
   height: 0 !important;
 }
 
-/* 内容区域纵向排列 */
-#content-inner,
-.layout {
-  display: flex !important;
-  flex-direction: column !important;
-  flex-wrap: nowrap !important;
+/* 页面兜底黑 + vanta 在下层 */
+html,
+body {
   background: #000 !important;
 }
 
-/* ========== 多页纵向布局（每页多 150px，内容 sticky） ========== */
+#vanta-bg,
+.vanta-canvas,
+canvas.vanta-canvas {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+}
+
+#body-wrap,
+#content-inner,
+.layout {
+  position: relative;
+  z-index: 1;
+  background: transparent !important;
+  box-shadow: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  flex-wrap: nowrap !important;
+}
+
+/* ========== 多页内容：第一屏留给开场淡出 ========== */
 #home-pages {
   width: 100%;
-  background: #000;
+  padding-top: 100vh !important;
+  position: relative !important;
+  z-index: 10 !important;
+  background: transparent !important;
 }
 
 .home-page {
@@ -139,7 +185,7 @@ body::-webkit-scrollbar {
   padding: 0 6%;
   box-sizing: border-box;
   position: relative;
-  background: #000;
+  background: transparent !important;
 }
 
 .page-inner {
@@ -149,6 +195,13 @@ body::-webkit-scrollbar {
   max-width: 1100px;
   padding-bottom: 10vh;
   box-sizing: border-box;
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.home-page.is-leaving .page-inner {
+  opacity: 0;
+  transform: translateY(-28px);
+  pointer-events: none;
 }
 
 .page-title {
@@ -174,7 +227,7 @@ body::-webkit-scrollbar {
   50% { opacity: 0; }
 }
 
-/* Intro 页左右布局 */
+/* Intro 左右布局 */
 .home-page .welcome-content {
   display: flex !important;
   flex-direction: row !important;
@@ -267,7 +320,7 @@ body::-webkit-scrollbar {
   pointer-events: auto !important;
 }
 
-/* ========== Current Research / Finished Projects（透明底） ========== */
+/* ========== Current Research / Finished Projects（黑底） ========== */
 #research-card,
 #projects-card {
   display: flex !important;
@@ -282,7 +335,6 @@ body::-webkit-scrollbar {
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 20px;
   padding: 2.2rem 2.5rem;
-  backdrop-filter: none !important;
   overflow: hidden;
 }
 
@@ -359,7 +411,7 @@ body::-webkit-scrollbar {
   overflow-y: auto;
   padding-right: 0.6rem;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,0.25) transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
 }
 
 .research-right::-webkit-scrollbar {
@@ -404,7 +456,7 @@ body::-webkit-scrollbar {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ========== Personal Interest（透明底） ========== */
+/* ========== Personal Interest（黑底） ========== */
 #interest-cards {
   display: flex;
   gap: 1.4rem;
@@ -551,7 +603,7 @@ body::-webkit-scrollbar {
   line-height: 1.5;
 }
 
-/* ========== Publication（透明底） ========== */
+/* ========== Publication（黑底） ========== */
 #pub-section {
   display: flex;
   flex-direction: column;
@@ -681,119 +733,4 @@ body::-webkit-scrollbar {
   .side-nav-item.active {
     width: 20px;
   }
-}
-
-/* 去掉主题自带的遮罩 / 页脚黑块 */
-#mask,
-.mask,
-#loading-box,
-.loading-bg,
-#footer,
-#footer-wrap,
-footer,
-.footer {
-  display: none !important;
-  opacity: 0 !important;
-  height: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  pointer-events: none !important;
-}
-
-/* 防止多余黑块撑开 */
-#body-wrap,
-#content-inner,
-.layout,
-#home-pages {
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
-/* 页面本身仍用纯黑底 */
-body,
-html {
-  background: #000 !important;
-}
-
-/* 离开视口时：标题 + 正文一起上浮淡出 */
-.home-page .page-inner {
-  transition: opacity 0.45s ease, transform 0.45s ease;
-}
-
-.home-page.is-leaving .page-inner {
-  opacity: 0;
-  transform: translateY(-28px);
-  pointer-events: none;
-}
-
-/* 不要盖住动态背景 */
-#web_bg {
-  background: transparent !important;
-  background-color: transparent !important;
-}
-
-#banner,
-.banner,
-#page-header {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  height: 100vh !important;
-  min-height: 100vh !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  z-index: 20 !important;
-  background: #000 !important; /* 开场仍用黑底，盖住后面 */
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  pointer-events: none; /* 由 JS 控制，淡出后不挡点击 */
-  transition: none; /* 透明度交给 JS 跟滚动 */
-}
-
-
-#page-header {
-  background: transparent !important;
-}
-
-.home-page {
-  background: transparent !important;
-}
-
-/* 下面内容从第二屏开始，留出一屏滚动距离用来淡出 */
-#home-pages {
-  padding-top: 100vh; /* 第一屏专门给开场淡出 */
-  position: relative;
-  z-index: 10;
-}
-
-#content-inner,
-.layout,
-#body-wrap {
-  background: transparent !important;
-}
-
-/* 页面兜底黑（在 vanta 下层） */
-html,
-body {
-  background: #000 !important;
-}
-
-/* 确保 vanta 画布在内容下面、能看见 */
-#vanta-bg,
-.vanta-canvas,
-canvas.vanta-canvas {
-  position: fixed !important;
-  inset: 0 !important;
-  z-index: 0 !important;
-  pointer-events: none !important;
-}
-
-#body-wrap,
-#content-inner,
-#home-pages,
-#page-header {
-  position: relative;
-  z-index: 1;
 }
