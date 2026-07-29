@@ -548,35 +548,36 @@ header#page-header nav,
 
 /* ========== 右侧节点导航 ========== */
 #side-nav {
-  position: fixed;
-  right: 28px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  z-index: 100;
-  padding: 8px 0;
+  position: fixed !important;
+  right: 28px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+  z-index: 9999 !important;
+  padding: 8px 0 !important;
+  pointer-events: auto !important;
 }
 
 .side-nav-item {
-  width: 18px;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.28);
-  border-radius: 2px;
-  cursor: pointer;
-  transition: all 0.25s ease;
+  width: 18px !important;
+  height: 2px !important;
+  background: rgba(255, 255, 255, 0.45) !important;
+  border-radius: 2px !important;
+  cursor: pointer !important;
+  transition: all 0.25s ease !important;
 }
 
 .side-nav-item:hover {
-  background: rgba(255, 255, 255, 0.65);
-  width: 24px;
+  background: rgba(255, 255, 255, 0.85) !important;
+  width: 24px !important;
 }
 
 .side-nav-item.active {
-  background: #ffffff;
-  width: 28px;
-  height: 2.5px;
+  background: #ffffff !important;
+  width: 28px !important;
+  height: 2.5px !important;
 }
 
 @media (max-width: 768px) {
