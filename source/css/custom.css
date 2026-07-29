@@ -162,8 +162,9 @@ header#page-header nav,
   flex-wrap: nowrap !important;
 }
 
-/* ========== Current Research 独立黑色卡片 ========== */
-#research-card {
+/* ========== Current Research / Finished Projects 共用卡片 ========== */
+#research-card,
+#projects-card {
   display: flex !important;
   flex-direction: row !important;
   gap: 2.8rem;
@@ -173,7 +174,7 @@ header#page-header nav,
   min-height: 480px;
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transition: opacity 0.55s ease, transform 0.55s ease;
   background: rgba(12, 12, 14, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
@@ -185,7 +186,8 @@ header#page-header nav,
 }
 
 /* 隐藏时彻底不占位 */
-#research-card.is-hidden {
+#research-card.is-hidden,
+#projects-card.is-hidden {
   display: none !important;
   min-height: 0 !important;
   height: 0 !important;
@@ -394,7 +396,7 @@ header#page-header nav,
   background: rgba(255, 255, 255, 0.22);
 }
 
-/* ========== Awards and Scholarships ========== */
+/* ========== Awards and Honors ========== */
 #awards-section {
   display: flex;
   flex-direction: row;
@@ -535,19 +537,7 @@ header#page-header nav,
   line-height: 1.4;
 }
 
-/* Finished Projects 隐藏 */
-#projects-card.is-hidden {
-  display: none !important;
-  min-height: 0 !important;
-  height: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  border: none !important;
-}
-
-/* 保险：所有带 is-hidden 的卡片统一隐藏 */
+/* 统一隐藏保险 */
 #research-card.is-hidden,
 #projects-card.is-hidden,
 #pub-section.is-hidden,
