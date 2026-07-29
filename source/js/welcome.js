@@ -907,52 +907,70 @@ document.addEventListener('DOMContentLoaded', function () {
     tick();
   }
 
-  // 进入视口时播放
+  // 进入视口时播放动画（只播一次）
   var pages = document.querySelectorAll('.home-page');
   var played = {};
 
+  function playPage(page) {
+    if (!page || played[page.id]) return;
+    played[page.id] = true;
+
+    var typed = page.querySelector('.typed');
+    var cursor = page.querySelector('.cursor');
+    var card = page.querySelector('.page-card');
+    var intro = page.querySelector('.intro-text');
+    var links = page.querySelector('.welcome-links');
+
+    if (typed) {
+      var text = typed.getAttribute('data-text') || '';
+      typeInto(typed, text, cursor, function () {
+        if (intro) {
+          intro.style.opacity = '1';
+          intro.style.transform = 'translateY(0)';
+        }
+        if (links) {
+          links.style.opacity = '1';
+          links.style.transform = 'translateY(0)';
+        }
+        if (card) card.classList.add('show');
+      });
+    } else if (card) {
+      card.classList.add('show');
+    }
+  }
+
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
-      if (!entry.isIntersecting) return;
-      var page = entry.target;
-      var id = page.id;
-      if (played[id]) return;
-      played[id] = true;
-
-      var typed = page.querySelector('.typed');
-      var cursor = page.querySelector('.cursor');
-      var card = page.querySelector('.page-card');
-      var intro = page.querySelector('.intro-text');
-      var links = page.querySelector('.welcome-links');
-
-      if (typed) {
-        var text = typed.getAttribute('data-text') || '';
-        typeInto(typed, text, cursor, function () {
-          if (intro) {
-            intro.style.opacity = '1';
-            intro.style.transform = 'translateY(0)';
-          }
-          if (links) {
-            links.style.opacity = '1';
-            links.style.transform = 'translateY(0)';
-          }
-          if (card) {
-            card.classList.add('show');
-          }
-        });
-      } else if (card) {
-        card.classList.add('show');
-      }
-
-      // 高亮节点
-      var idx = parseInt(page.getAttribute('data-page'), 10);
-      document.querySelectorAll('.side-nav-item').forEach(function (item, i) {
-        item.classList.toggle('active', i === idx);
-      });
+      if (entry.isIntersecting) playPage(entry.target);
     });
-  }, { threshold: 0.45 });
+  }, { threshold: 0.4 });
 
   pages.forEach(function (p) { io.observe(p); });
+
+  // 高亮：按当前可见比例，回滑也能正确更新
+  function updateSideNavByVisibility() {
+    var best = 0;
+    var bestRatio = 0;
+    pages.forEach(function (page) {
+      var rect = page.getBoundingClientRect();
+      var visible = Math.max(0, Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0));
+      var ratio = visible / window.innerHeight;
+      if (ratio > bestRatio) {
+        bestRatio = ratio;
+        best = parseInt(page.getAttribute('data-page'), 10);
+      }
+    });
+    document.querySelectorAll('.side-nav-item').forEach(function (item, i) {
+      item.classList.toggle('active', i === best);
+    });
+  }
+
+  window.addEventListener('scroll', updateSideNavByVisibility, { passive: true });
+  updateSideNavByVisibility();
+
+  // 首屏强制播一次
+  var first = document.getElementById('page-intro');
+  if (first) setTimeout(function () { playPage(first); }, 200);
 
   // 节点点击
   document.querySelectorAll('.side-nav-item').forEach(function (item) {

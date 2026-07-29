@@ -8,7 +8,7 @@
   background-color: #000 !important;
 }
 
-/* 只隐藏导航和副标题，不要隐藏开场标题 */
+/* 只隐藏导航和副标题 */
 #nav,
 #page-header #nav,
 .nav,
@@ -34,6 +34,8 @@ header#page-header nav,
   align-items: center !important;
   justify-content: center !important;
   position: relative !important;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 #page-header #site-info,
@@ -57,7 +59,6 @@ header#page-header nav,
   transform: none !important;
 }
 
-/* 开场标题本身居中 */
 #page-header #site-title,
 #page-header .site-title,
 #page-header #site-name,
@@ -79,7 +80,6 @@ header#page-header nav,
   opacity: 1 !important;
 }
 
-/* SVG 绝对居中（如果用的是插进去的 handwriting） */
 #page-header #handwriting-wrap,
 #page-header #handwriting-title {
   position: absolute !important;
@@ -95,6 +95,32 @@ header#page-header nav,
 .recent-posts,
 .recent-post-item {
   display: none !important;
+}
+
+/* 去掉右下角设置 / 回顶 */
+#rightside,
+#go-up,
+.go-up,
+#sidebar-menus,
+.rightside-show,
+#rightside-config-hide,
+#rightside-config-show {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* 去掉最右侧滚动条 + 整页吸附 */
+html {
+  scrollbar-width: none;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 /* 内容区域纵向排列 */
@@ -122,6 +148,8 @@ header#page-header nav,
   box-sizing: border-box;
   position: relative;
   background: #000;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 .page-inner {
@@ -245,7 +273,7 @@ header#page-header nav,
   pointer-events: auto !important;
 }
 
-/* ========== Current Research / Finished Projects ========== */
+/* ========== Current Research / Finished Projects（透明底） ========== */
 #research-card,
 #projects-card {
   display: flex !important;
@@ -255,12 +283,12 @@ header#page-header nav,
   width: 1100px;
   max-width: 92vw;
   min-height: 480px;
-  background: rgba(12, 12, 14, 0.92);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 20px;
   padding: 2.2rem 2.5rem;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(12px);
+  box-shadow: none !important;
+  backdrop-filter: none !important;
   overflow: hidden;
 }
 
@@ -382,7 +410,7 @@ header#page-header nav,
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ========== Personal Interest ========== */
+/* ========== Personal Interest（透明底） ========== */
 #interest-cards {
   display: flex;
   gap: 1.4rem;
@@ -393,8 +421,8 @@ header#page-header nav,
 
 .interest-card {
   flex: 1;
-  background: rgba(16, 16, 18, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 22px;
   padding: 1.8rem 1.6rem 1.4rem;
   min-height: 280px;
@@ -402,15 +430,14 @@ header#page-header nav,
   flex-direction: column;
   justify-content: space-between;
   transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1),
-              box-shadow 0.35s ease,
               border-color 0.3s ease;
   cursor: pointer;
+  box-shadow: none !important;
 }
 
 .interest-card:hover {
   transform: scale(1.04);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
-  border-color: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.28);
 }
 
 .interest-card h3 {
@@ -530,7 +557,7 @@ header#page-header nav,
   line-height: 1.5;
 }
 
-/* ========== Publication ========== */
+/* ========== Publication（透明底） ========== */
 #pub-section {
   display: flex;
   flex-direction: column;
@@ -547,7 +574,7 @@ header#page-header nav,
   padding: 1.1rem 1.25rem;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 16px;
-  background: rgba(16, 16, 18, 0.88);
+  background: transparent !important;
   transition: border-color 0.25s ease, transform 0.25s ease;
 }
 
