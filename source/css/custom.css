@@ -20,22 +20,18 @@ header#page-header nav,
   display: none !important;
 }
 
-/* ========== 开场页：全屏 + 标题居中 ========== */
+/* ========== 开场页：全屏 + 标题居中 + 150px 空滑 ========== */
 #page-header {
-  min-height: 100vh !important;
-  height: 100vh !important;
+  min-height: calc(100vh + 150px) !important;
+  height: auto !important;
   padding: 0 !important;
   margin: 0 !important;
   background: #000 !important;
   opacity: 1 !important;
   pointer-events: auto !important;
-  overflow: hidden !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
+  overflow: visible !important;
+  display: block !important;
   position: relative !important;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
 }
 
 #page-header #site-info,
@@ -48,13 +44,13 @@ header#page-header nav,
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
-  height: 100% !important;
+  height: 100vh !important;
   width: 100% !important;
   min-height: 100vh !important;
   padding: 0 !important;
   margin: 0 !important;
-  position: relative !important;
-  top: auto !important;
+  position: sticky !important;
+  top: 0 !important;
   bottom: auto !important;
   transform: none !important;
 }
@@ -110,11 +106,9 @@ header#page-header nav,
   pointer-events: none !important;
 }
 
-/* 去掉最右侧滚动条 + 整页吸附 */
+/* 去掉滚动条（不要吸附） */
 html {
   scrollbar-width: none;
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
 }
 html::-webkit-scrollbar,
 body::-webkit-scrollbar {
@@ -132,29 +126,29 @@ body::-webkit-scrollbar {
   background: #000 !important;
 }
 
-/* ========== 多页纵向布局 ========== */
+/* ========== 多页纵向布局（每页多 150px，内容 sticky） ========== */
 #home-pages {
   width: 100%;
   background: #000;
 }
 
 .home-page {
-  min-height: 100vh;
+  min-height: calc(100vh + 150px);
   width: 100%;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: 12vh 6% 10vh;
+  display: block;
+  padding: 0 6%;
   box-sizing: border-box;
   position: relative;
   background: #000;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
 }
 
 .page-inner {
+  position: sticky;
+  top: 12vh;
   width: 100%;
   max-width: 1100px;
+  padding-bottom: 10vh;
+  box-sizing: border-box;
 }
 
 .page-title {
@@ -641,7 +635,11 @@ body::-webkit-scrollbar {
 
 @media (max-width: 768px) {
   .home-page {
-    padding: 10vh 5% 8vh;
+    padding: 0 5%;
+  }
+
+  .page-inner {
+    top: 8vh;
   }
 
   .home-page .welcome-content {
