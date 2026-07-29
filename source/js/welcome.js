@@ -1,12 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // 只在首页执行
   if (!document.body.classList.contains('index') &&
       location.pathname !== '/' &&
       location.pathname !== '/index.html') {
     return;
   }
 
-  // 初始页淡出
   var header = document.getElementById('page-header');
   if (header) {
     header.style.transition = 'opacity 0.1s linear';
@@ -28,9 +26,9 @@ document.addEventListener('DOMContentLoaded', function () {
   const text2 = "Current Research";
   const text3 = "Publication";
   const text4 = "Awards and Honors";
-  const text5 = "Personal Interest";
+  const text5 = "Finished Projects";
+  const text6 = "Personal Interest";
 
-  // 创建 Welcome 区域
   var welcome = document.createElement('div');
   welcome.id = 'welcome-section';
   welcome.innerHTML = `
@@ -64,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>
     </div>
 
-    <!-- Current Research 卡片区域 -->
+    <!-- Current Research -->
     <div class="research-card" id="research-card">
       <div class="research-left">
         <div class="research-btn active" data-index="0">
@@ -90,11 +88,35 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>
     </div>
 
+    <!-- Publication -->
+    <div class="pub-section" id="pub-section">
+      <div class="pub-item">
+        <div class="pub-index">01</div>
+        <div class="pub-body">
+          <div class="pub-title">Decoupling Confusion via Complementary Attention for Few-Shot Learning</div>
+          <div class="pub-meta">Computer Vision · Few-Shot Learning</div>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-index">02</div>
+        <div class="pub-body">
+          <div class="pub-title">SMTrack: Subspace Memory via Low-Rank Manifold Modeling</div>
+          <div class="pub-meta">Satellite Video Tracking · Computer Vision</div>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-index">03</div>
+        <div class="pub-body">
+          <div class="pub-title">请替换为你的第三篇论文标题</div>
+          <div class="pub-meta">请替换为会议 / 期刊或领域</div>
+        </div>
+      </div>
+    </div>
+
     <!-- Awards and Honors -->
     <div class="awards-section" id="awards-section">
       <div class="awards-col">
         <div class="awards-col-title">Awards</div>
-
         <div class="award-item">
           <div class="award-year">2025</div>
           <div class="award-content">
@@ -102,32 +124,26 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="award-detail">Silver Award</div>
           </div>
         </div>
-
         <div class="award-item">
           <div class="award-year">2024</div>
           <div class="award-content">
             <div class="award-title">Chinese Collegiate Computing Competition</div>
             <div class="award-detail">The Northwest Regional Competition · Second Prize</div>
-
             <div class="award-title" style="margin-top: 1rem;">China International College Students’ Innovation Competition</div>
             <div class="award-detail">University-level Silver Award</div>
-
             <div class="award-title" style="margin-top: 1rem;">College Students’ Innovation and Entrepreneurship Training Program</div>
             <div class="award-detail">Provincial-level Silver Award</div>
           </div>
         </div>
       </div>
-
       <div class="awards-col">
         <div class="awards-col-title">Scholarships</div>
-
         <div class="award-item">
           <div class="award-year">2024–2025</div>
           <div class="award-content">
             <div class="award-title">University-level Second-Class Scholarship</div>
           </div>
         </div>
-
         <div class="award-item">
           <div class="award-year">2023–2024</div>
           <div class="award-content">
@@ -137,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>
     </div>
 
-    <!-- Personal Interest 卡片 -->
+    <!-- Personal Interest -->
     <div class="interest-cards" id="interest-cards">
       <div class="interest-card">
         <div class="interest-card-content">
@@ -148,7 +164,6 @@ document.addEventListener('DOMContentLoaded', function () {
           <span class="interest-plus">+</span>
         </div>
       </div>
-
       <div class="interest-card">
         <div class="interest-card-content">
           <h3>Photography</h3>
@@ -158,7 +173,6 @@ document.addEventListener('DOMContentLoaded', function () {
           <span class="interest-plus">+</span>
         </div>
       </div>
-
       <div class="interest-card">
         <div class="interest-card-content">
           <h3>Games</h3>
@@ -171,10 +185,9 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
   `;
 
-  // 加长滚动距离
   var spacer = document.createElement('div');
   spacer.id = 'welcome-spacer';
-  spacer.style.height = '800vh';
+  spacer.style.height = '920vh';
 
   var content = document.getElementById('content-inner') || document.querySelector('.layout');
   if (content) {
@@ -187,16 +200,16 @@ document.addEventListener('DOMContentLoaded', function () {
   const researchCard = document.getElementById('research-card');
   const interestCards = document.getElementById('interest-cards');
   const awardsSection = document.getElementById('awards-section');
+  const pubSection = document.getElementById('pub-section');
   if (!typedEl) return;
 
   if (researchCard) researchCard.classList.add('is-hidden');
   if (interestCards) interestCards.classList.add('is-hidden');
   if (awardsSection) awardsSection.classList.add('is-hidden');
+  if (pubSection) pubSection.classList.add('is-hidden');
 
-  // 研究卡片按钮切换
   const btns = document.querySelectorAll('.research-btn');
   const panels = document.querySelectorAll('.research-panel');
-
   btns.forEach(btn => {
     btn.addEventListener('click', function () {
       const index = this.getAttribute('data-index');
@@ -207,7 +220,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // ========== 自动打字逻辑 ==========
   let currentStage = 0;
   let typing = false;
 
@@ -217,7 +229,6 @@ document.addEventListener('DOMContentLoaded', function () {
     let i = 0;
     typedEl.textContent = '';
     cursorEl.style.opacity = '1';
-
     function tick() {
       if (i <= text.length) {
         typedEl.textContent = text.substring(0, i);
@@ -236,7 +247,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (typing) return;
     typing = true;
     cursorEl.style.opacity = '1';
-
     function tick() {
       const current = typedEl.textContent;
       if (current.length > 0) {
@@ -251,85 +261,47 @@ document.addEventListener('DOMContentLoaded', function () {
     tick();
   }
 
-  function showResearchCard() {
-    if (!researchCard || !researchCard.classList.contains('is-hidden')) return;
-    researchCard.classList.remove('is-hidden');
-    researchCard.style.display = 'flex';
-    researchCard.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
-    researchCard.style.opacity = '0';
-    researchCard.style.transform = 'translateY(32px)';
-    researchCard.style.pointerEvents = 'none';
+  function showEl(el, display) {
+    if (!el || !el.classList.contains('is-hidden')) return;
+    el.classList.remove('is-hidden');
+    el.style.display = display || 'flex';
+    el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(32px)';
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
-        researchCard.style.opacity = '1';
-        researchCard.style.transform = 'translateY(0)';
-        researchCard.style.pointerEvents = 'auto';
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+        el.style.pointerEvents = 'auto';
       });
     });
   }
 
-  function hideResearchCard() {
-    if (!researchCard || researchCard.classList.contains('is-hidden')) return;
-    researchCard.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
-    researchCard.style.opacity = '0';
-    researchCard.style.transform = 'translateY(32px)';
-    researchCard.style.pointerEvents = 'none';
+  function hideEl(el) {
+    if (!el || el.classList.contains('is-hidden')) return;
+    el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(32px)';
+    el.style.pointerEvents = 'none';
     setTimeout(function () {
-      researchCard.classList.add('is-hidden');
+      el.classList.add('is-hidden');
     }, 560);
   }
 
-  function showInterestCards() {
-    if (!interestCards || !interestCards.classList.contains('is-hidden')) return;
-    interestCards.classList.remove('is-hidden');
-    interestCards.style.display = 'flex';
-    interestCards.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
-    interestCards.style.opacity = '0';
-    interestCards.style.transform = 'translateY(32px)';
-    interestCards.style.pointerEvents = 'none';
-    requestAnimationFrame(function () {
-      requestAnimationFrame(function () {
-        interestCards.style.opacity = '1';
-        interestCards.style.transform = 'translateY(0)';
-        interestCards.style.pointerEvents = 'auto';
-      });
-    });
-  }
+  function showResearchCard() { showEl(researchCard, 'flex'); }
+  function hideResearchCard() { hideEl(researchCard); }
+  function showInterestCards() { showEl(interestCards, 'flex'); }
+  function hideInterestCards() { hideEl(interestCards); }
+  function showAwards() { showEl(awardsSection, 'flex'); }
+  function hideAwards() { hideEl(awardsSection); }
+  function showPubs() { showEl(pubSection, 'flex'); }
+  function hidePubs() { hideEl(pubSection); }
 
-  function hideInterestCards() {
-    if (!interestCards || interestCards.classList.contains('is-hidden')) return;
-    interestCards.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
-    interestCards.style.opacity = '0';
-    interestCards.style.transform = 'translateY(32px)';
-    interestCards.style.pointerEvents = 'none';
-    setTimeout(function () {
-      interestCards.classList.add('is-hidden');
-    }, 560);
-  }
-
-  function showAwards() {
-    if (!awardsSection || !awardsSection.classList.contains('is-hidden')) return;
-    awardsSection.classList.remove('is-hidden');
-    awardsSection.style.display = 'flex';
-    awardsSection.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
-    awardsSection.style.opacity = '0';
-    awardsSection.style.transform = 'translateY(32px)';
-    requestAnimationFrame(function () {
-      requestAnimationFrame(function () {
-        awardsSection.style.opacity = '1';
-        awardsSection.style.transform = 'translateY(0)';
-      });
-    });
-  }
-
-  function hideAwards() {
-    if (!awardsSection || awardsSection.classList.contains('is-hidden')) return;
-    awardsSection.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
-    awardsSection.style.opacity = '0';
-    awardsSection.style.transform = 'translateY(32px)';
-    setTimeout(function () {
-      awardsSection.classList.add('is-hidden');
-    }, 560);
+  function hideAllCards() {
+    hideResearchCard();
+    hideInterestCards();
+    hideAwards();
+    hidePubs();
   }
 
   function updateByScroll() {
@@ -338,7 +310,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const rect = spacerEl.getBoundingClientRect();
     const windowHeight = window.innerHeight;
-
     let progress = 0;
     if (rect.top < windowHeight) {
       const scrolled = windowHeight - rect.top;
@@ -348,10 +319,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const intro = document.querySelector('.intro-text');
     const links = document.querySelector('.welcome-links');
 
-    // ========== 前进 ==========
-
     // 1. Hi, I'm Samuel
-    if (progress >= 0.04 && currentStage === 0 && !typing) {
+    if (progress >= 0.03 && currentStage === 0 && !typing) {
       currentStage = 1;
       typeText(text1, function () {
         currentStage = 2;
@@ -373,9 +342,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // 2. → Current Research
-    if (progress >= 0.22 && currentStage === 2 && !typing) {
+    if (progress >= 0.18 && currentStage === 2 && !typing) {
       currentStage = 3;
-
       if (intro) {
         intro.style.opacity = '0';
         intro.style.transform = 'translateY(28px)';
@@ -394,10 +362,7 @@ document.addEventListener('DOMContentLoaded', function () {
           links.style.overflow = 'hidden';
         }, 500);
       }
-
-      hideInterestCards();
-      hideAwards();
-
+      hideAllCards();
       deleteText(function () {
         typeText(text2, function () {
           currentStage = 5;
@@ -407,25 +372,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // 3. → Publication
-    if (progress >= 0.40 && currentStage === 5 && !typing) {
+    if (progress >= 0.34 && currentStage === 5 && !typing) {
       currentStage = 14;
-      hideResearchCard();
-      hideAwards();
-      hideInterestCards();
-
+      hideAllCards();
       deleteText(function () {
         typeText(text3, function () {
           currentStage = 15;
+          showPubs();
         });
       });
     }
 
     // 4. → Awards and Honors
-    if (progress >= 0.56 && currentStage === 15 && !typing) {
+    if (progress >= 0.48 && currentStage === 15 && !typing) {
       currentStage = 10;
-      hideResearchCard();
-      hideInterestCards();
-
+      hideAllCards();
       deleteText(function () {
         typeText(text4, function () {
           currentStage = 11;
@@ -434,27 +395,46 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-    // 5. → Personal Interest
-    if (progress >= 0.72 && currentStage === 11 && !typing) {
-      currentStage = 7;
-      hideAwards();
-      hideResearchCard();
-
+    // 5. → Finished Projects
+    if (progress >= 0.62 && currentStage === 11 && !typing) {
+      currentStage = 18;
+      hideAllCards();
       deleteText(function () {
         typeText(text5, function () {
+          currentStage = 19;
+        });
+      });
+    }
+
+    // 6. → Personal Interest
+    if (progress >= 0.76 && currentStage === 19 && !typing) {
+      currentStage = 7;
+      hideAllCards();
+      deleteText(function () {
+        typeText(text6, function () {
           currentStage = 8;
           showInterestCards();
         });
       });
     }
 
-    // ========== 回滑 ==========
+    // ===== 回滑 =====
 
-    // Personal Interest → Awards and Honors
-    if (progress < 0.68 && currentStage === 8 && !typing) {
-      currentStage = 12;
+    // Personal Interest → Finished Projects
+    if (progress < 0.72 && currentStage === 8 && !typing) {
+      currentStage = 20;
       hideInterestCards();
+      deleteText(function () {
+        typeText(text5, function () {
+          currentStage = 19;
+        });
+      });
+    }
 
+    // Finished Projects → Awards
+    if (progress < 0.58 && currentStage === 19 && !typing) {
+      currentStage = 21;
+      hideAllCards();
       deleteText(function () {
         typeText(text4, function () {
           currentStage = 11;
@@ -463,22 +443,22 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-    // Awards and Honors → Publication
-    if (progress < 0.52 && currentStage === 11 && !typing) {
+    // Awards → Publication
+    if (progress < 0.44 && currentStage === 11 && !typing) {
       currentStage = 16;
       hideAwards();
-
       deleteText(function () {
         typeText(text3, function () {
           currentStage = 15;
+          showPubs();
         });
       });
     }
 
     // Publication → Current Research
-    if (progress < 0.36 && currentStage === 15 && !typing) {
+    if (progress < 0.30 && currentStage === 15 && !typing) {
       currentStage = 17;
-
+      hidePubs();
       deleteText(function () {
         typeText(text2, function () {
           currentStage = 5;
@@ -487,13 +467,10 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-    // Current Research → Hi, I'm Samuel
-    if (progress < 0.18 && currentStage === 5 && !typing) {
+    // Current Research → Hi
+    if (progress < 0.14 && currentStage === 5 && !typing) {
       currentStage = 6;
-      hideResearchCard();
-      hideInterestCards();
-      hideAwards();
-
+      hideAllCards();
       deleteText(function () {
         typeText(text1, function () {
           currentStage = 2;
@@ -516,7 +493,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // 保持状态
-    if (currentStage === 5 && progress >= 0.22 && progress < 0.40) {
+    if (currentStage === 5 && progress >= 0.18 && progress < 0.34) {
       if (!typing) typedEl.textContent = text2;
     }
     if (currentStage === 15) {
@@ -525,8 +502,11 @@ document.addEventListener('DOMContentLoaded', function () {
     if (currentStage === 11) {
       if (!typing) typedEl.textContent = text4;
     }
-    if (currentStage === 8) {
+    if (currentStage === 19) {
       if (!typing) typedEl.textContent = text5;
+    }
+    if (currentStage === 8) {
+      if (!typing) typedEl.textContent = text6;
     }
   }
 
