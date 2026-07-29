@@ -8,30 +8,86 @@
   background-color: #000 !important;
 }
 
-/* 隐藏顶栏和原标题 */
+/* 只隐藏导航和副标题，不要隐藏开场标题 */
 #nav,
 #page-header #nav,
 .nav,
 header#page-header nav,
-#site-title,
-#site-name,
 #site-subtitle,
 #subtitle,
 .subtitle,
-#site-name,
-.site-name,
 #blog_name {
   display: none !important;
 }
 
+/* ========== 开场页：全屏 + 标题居中 ========== */
 #page-header {
-  padding-top: 0 !important;
   min-height: 100vh !important;
   height: 100vh !important;
+  padding: 0 !important;
+  margin: 0 !important;
   background: #000 !important;
   opacity: 1 !important;
   pointer-events: auto !important;
   overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+}
+
+#page-header #site-info,
+#page-header .site-info,
+#page-header .headers,
+#page-header .page-header-content,
+#page-header .header-inner,
+#page-header #page-site-info {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 100% !important;
+  width: 100% !important;
+  min-height: 100vh !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  position: relative !important;
+  top: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+}
+
+/* 开场标题本身居中 */
+#page-header #site-title,
+#page-header .site-title,
+#page-header #site-name,
+#page-header .site-name,
+#page-header #handwriting-title,
+#page-header #handwriting-wrap,
+#page-header svg {
+  display: block !important;
+  position: relative !important;
+  top: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  right: auto !important;
+  margin: 0 auto !important;
+  transform: none !important;
+  text-align: center !important;
+  max-width: 90vw !important;
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+/* SVG 绝对居中（如果用的是插进去的 handwriting） */
+#page-header #handwriting-wrap,
+#page-header #handwriting-title {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  max-width: 90vw !important;
+  width: auto !important;
 }
 
 /* 隐藏首页文章卡片 */
@@ -600,15 +656,4 @@ header#page-header nav,
   .side-nav-item.active {
     width: 20px;
   }
-}
-
-/* 开场页保持全屏黑底，给 SVG 居中空间 */
-#page-header #site-info,
-#page-header .site-info,
-#page-header .headers {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  height: 100% !important;
-  min-height: 100vh !important;
 }
