@@ -221,6 +221,21 @@ document.addEventListener('DOMContentLoaded', function () {
     content.insertBefore(spacer, welcome.nextSibling);
   }
 
+  // ===== 右侧节点导航 =====
+  if (!document.getElementById('side-nav')) {
+    var sideNav = document.createElement('div');
+    sideNav.id = 'side-nav';
+    sideNav.innerHTML = `
+      <div class="side-nav-item" data-section="0" title="Intro"></div>
+      <div class="side-nav-item" data-section="1" title="Current Research"></div>
+      <div class="side-nav-item" data-section="2" title="Publication"></div>
+      <div class="side-nav-item" data-section="3" title="Awards and Honors"></div>
+      <div class="side-nav-item" data-section="4" title="Finished Projects"></div>
+      <div class="side-nav-item" data-section="5" title="Personal Interest"></div>
+    `;
+    document.body.appendChild(sideNav);
+  }
+
   const typedEl = document.getElementById('welcome-typed');
   const cursorEl = document.getElementById('welcome-cursor');
   const researchCard = document.getElementById('research-card');
@@ -349,6 +364,20 @@ document.addEventListener('DOMContentLoaded', function () {
     hideProjects();
   }
 
+  function updateSideNav() {
+    var sectionIndex = 0;
+    if (currentStage >= 8) sectionIndex = 5;
+    else if (currentStage >= 19) sectionIndex = 4;
+    else if (currentStage >= 11) sectionIndex = 3;
+    else if (currentStage >= 15) sectionIndex = 2;
+    else if (currentStage >= 5) sectionIndex = 1;
+    else sectionIndex = 0;
+
+    document.querySelectorAll('.side-nav-item').forEach(function (item, i) {
+      item.classList.toggle('active', i === sectionIndex);
+    });
+  }
+
   function updateByScroll() {
     const spacerEl = document.getElementById('welcome-spacer');
     if (!spacerEl) return;
@@ -383,6 +412,7 @@ document.addEventListener('DOMContentLoaded', function () {
           links.style.margin = '';
           links.style.overflow = '';
         }
+        updateSideNav();
       });
     }
 
@@ -412,6 +442,7 @@ document.addEventListener('DOMContentLoaded', function () {
         typeText(text2, function () {
           currentStage = 5;
           showResearchCard();
+          updateSideNav();
         });
       });
     }
@@ -424,6 +455,7 @@ document.addEventListener('DOMContentLoaded', function () {
         typeText(text3, function () {
           currentStage = 15;
           showPubs();
+          updateSideNav();
         });
       });
     }
@@ -436,6 +468,7 @@ document.addEventListener('DOMContentLoaded', function () {
         typeText(text4, function () {
           currentStage = 11;
           showAwards();
+          updateSideNav();
         });
       });
     }
@@ -448,6 +481,7 @@ document.addEventListener('DOMContentLoaded', function () {
         typeText(text5, function () {
           currentStage = 19;
           showProjects();
+          updateSideNav();
         });
       });
     }
@@ -460,13 +494,13 @@ document.addEventListener('DOMContentLoaded', function () {
         typeText(text6, function () {
           currentStage = 8;
           showInterestCards();
+          updateSideNav();
         });
       });
     }
 
     // ===== 回滑 =====
 
-    // Personal Interest → Finished Projects
     if (progress < 0.72 && currentStage === 8 && !typing) {
       currentStage = 20;
       hideInterestCards();
@@ -474,11 +508,11 @@ document.addEventListener('DOMContentLoaded', function () {
         typeText(text5, function () {
           currentStage = 19;
           showProjects();
+          updateSideNav();
         });
       });
     }
 
-    // Finished Projects → Awards
     if (progress < 0.58 && currentStage === 19 && !typing) {
       currentStage = 21;
       hideAllCards();
@@ -486,11 +520,11 @@ document.addEventListener('DOMContentLoaded', function () {
         typeText(text4, function () {
           currentStage = 11;
           showAwards();
+          updateSideNav();
         });
       });
     }
 
-    // Awards → Publication
     if (progress < 0.44 && currentStage === 11 && !typing) {
       currentStage = 16;
       hideAwards();
@@ -498,11 +532,11 @@ document.addEventListener('DOMContentLoaded', function () {
         typeText(text3, function () {
           currentStage = 15;
           showPubs();
+          updateSideNav();
         });
       });
     }
 
-    // Publication → Current Research
     if (progress < 0.30 && currentStage === 15 && !typing) {
       currentStage = 17;
       hidePubs();
@@ -510,11 +544,11 @@ document.addEventListener('DOMContentLoaded', function () {
         typeText(text2, function () {
           currentStage = 5;
           showResearchCard();
+          updateSideNav();
         });
       });
     }
 
-    // Current Research → Hi
     if (progress < 0.14 && currentStage === 5 && !typing) {
       currentStage = 6;
       hideAllCards();
@@ -535,6 +569,7 @@ document.addEventListener('DOMContentLoaded', function () {
             links.style.margin = '';
             links.style.overflow = '';
           }
+          updateSideNav();
         });
       });
     }
@@ -555,7 +590,22 @@ document.addEventListener('DOMContentLoaded', function () {
     if (currentStage === 8) {
       if (!typing) typedEl.textContent = text6;
     }
+
+    updateSideNav();
   }
+
+  // 节点点击跳转
+  document.querySelectorAll('.side-nav-item').forEach(function (item) {
+    item.addEventListener('click', function () {
+      var section = parseInt(this.getAttribute('data-section'), 10);
+      var spacerEl = document.getElementById('welcome-spacer');
+      if (!spacerEl) return;
+      var total = spacerEl.offsetHeight * 0.8;
+      var targets = [0.06, 0.24, 0.40, 0.54, 0.68, 0.82];
+      var y = spacerEl.offsetTop + targets[section] * total - window.innerHeight * 0.3;
+      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+    });
+  });
 
   window.addEventListener('scroll', updateByScroll, { passive: true });
   updateByScroll();
