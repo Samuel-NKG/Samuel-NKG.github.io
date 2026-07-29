@@ -682,3 +682,46 @@ body::-webkit-scrollbar {
     width: 20px;
   }
 }
+
+/* 去掉主题自带的遮罩 / 页脚黑块 */
+#mask,
+.mask,
+#loading-box,
+.loading-bg,
+#footer,
+#footer-wrap,
+footer,
+.footer {
+  display: none !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  pointer-events: none !important;
+}
+
+/* 防止多余黑块撑开 */
+#body-wrap,
+#content-inner,
+.layout,
+#home-pages {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* 页面本身仍用纯黑底 */
+body,
+html {
+  background: #000 !important;
+}
+
+/* 离开视口时：标题 + 正文一起上浮淡出 */
+.home-page .page-inner {
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.home-page.is-leaving .page-inner {
+  opacity: 0;
+  transform: translateY(-28px);
+  pointer-events: none;
+}
