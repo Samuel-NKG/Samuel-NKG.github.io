@@ -652,85 +652,69 @@ canvas.vanta-canvas {
 }
 
 /* ========== 右侧节点导航 ========== */
+/* ========== 右侧节点导航 ========== */
 #side-nav {
   position: fixed !important;
-  right: 28px !important;
+  right: 20px !important;
   top: 50% !important;
   transform: translateY(-50%) !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 14px !important;
+  gap: 6px !important;          /* 视觉间距靠 padding 拉开 */
   z-index: 9999 !important;
-  padding: 8px 0 !important;
+  padding: 12px 8px !important; /* 整块更容易摸到 */
   pointer-events: auto !important;
 }
 
 .side-nav-item {
+  position: relative !important;
+  width: 28px !important;       /* 热区宽度 */
+  height: 28px !important;      /* 热区高度，好点 */
+  background: transparent !important;
+  border-radius: 2px !important;
+  cursor: pointer !important;
+  transition: none !important;
+  flex-shrink: 0 !important;
+}
+
+/* 真正看到的细线 */
+.side-nav-item::after {
+  content: '' !important;
+  position: absolute !important;
+  right: 0 !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
   width: 18px !important;
   height: 2px !important;
   background: rgba(255, 255, 255, 0.45) !important;
   border-radius: 2px !important;
-  cursor: pointer !important;
   transition: all 0.25s ease !important;
 }
 
-.side-nav-item:hover {
-  background: rgba(255, 255, 255, 0.85) !important;
+.side-nav-item:hover::after {
+  background: rgba(255, 255, 255, 0.9) !important;
   width: 24px !important;
 }
 
-.side-nav-item.active {
+.side-nav-item.active::after {
   background: #ffffff !important;
   width: 28px !important;
   height: 2.5px !important;
 }
 
 @media (max-width: 768px) {
-  .home-page {
-    padding: 0 5%;
-  }
-
-  .page-inner {
-    top: 8vh;
-  }
-
-  .home-page .welcome-content {
-    flex-direction: column !important;
-    gap: 2rem;
-  }
-
-  .home-page .welcome-links {
-    padding-top: 0;
-    flex-direction: row !important;
-    flex-wrap: wrap;
-  }
-
-  #research-card,
-  #projects-card {
-    flex-direction: column !important;
-    min-height: auto;
-    width: 100%;
-  }
-
-  #interest-cards {
-    flex-direction: column;
-  }
-
-  #awards-section {
-    flex-direction: column;
-    gap: 2rem;
-  }
-
   #side-nav {
-    right: 12px;
-    gap: 12px;
+    right: 8px;
+    padding: 8px 6px;
   }
-
   .side-nav-item {
+    width: 24px;
+    height: 24px;
+  }
+  .side-nav-item::after {
     width: 14px;
   }
-
-  .side-nav-item.active {
+  .side-nav-item.active::after {
     width: 20px;
   }
 }
