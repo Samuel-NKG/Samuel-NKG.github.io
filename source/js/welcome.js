@@ -153,6 +153,32 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>
     </div>
 
+    <!-- Finished Projects -->
+    <div class="research-card" id="projects-card">
+      <div class="research-left">
+        <div class="research-btn active" data-project="0">
+          <span class="btn-plus">+</span>
+          <span class="btn-dot"></span>
+          <span class="btn-text">Forest</span>
+        </div>
+        <div class="research-btn" data-project="1">
+          <span class="btn-plus">+</span>
+          <span class="btn-dot"></span>
+          <span class="btn-text">Yolo</span>
+        </div>
+      </div>
+      <div class="research-right">
+        <div class="research-panel active" data-project="0">
+          <h3>Forest: Privacy-Preserving Blockchain for Data Collaboration</h3>
+          <p>A distributed trusted privacy computing solution built for secure multi-party data collaboration. Designed for the China Mobile industrial track, Forest combines blockchain with privacy-preserving computation to enable controllable data sharing without exposing raw information. Led the project as team principal, covering system architecture, trusted collaboration flow, and the overall solution design for enterprise data cooperation scenarios.</p>
+        </div>
+        <div class="research-panel" data-project="1">
+          <h3>Qin Mountains Four Treasures Detection System</h3>
+          <p>A real-time wildlife monitoring system based on YOLOv8 and ESP32-CAM, targeting the “Four Treasures of the Qin Mountains” — giant panda, golden snub-nosed monkey, crested ibis, and takin. The system performs on-device image capture, cloud-side detection, and result logging, achieving over 95% accuracy on the evaluation set with second-level transmission. Also supports remote vehicle control for field deployment. Team member responsible for detection pipeline and system integration.</p>
+        </div>
+      </div>
+    </div>
+
     <!-- Personal Interest -->
     <div class="interest-cards" id="interest-cards">
       <div class="interest-card">
@@ -201,22 +227,38 @@ document.addEventListener('DOMContentLoaded', function () {
   const interestCards = document.getElementById('interest-cards');
   const awardsSection = document.getElementById('awards-section');
   const pubSection = document.getElementById('pub-section');
+  const projectsCard = document.getElementById('projects-card');
   if (!typedEl) return;
 
   if (researchCard) researchCard.classList.add('is-hidden');
   if (interestCards) interestCards.classList.add('is-hidden');
   if (awardsSection) awardsSection.classList.add('is-hidden');
   if (pubSection) pubSection.classList.add('is-hidden');
+  if (projectsCard) projectsCard.classList.add('is-hidden');
 
-  const btns = document.querySelectorAll('.research-btn');
-  const panels = document.querySelectorAll('.research-panel');
+  // Current Research 按钮
+  const btns = document.querySelectorAll('#research-card .research-btn');
+  const panels = document.querySelectorAll('#research-card .research-panel');
   btns.forEach(btn => {
     btn.addEventListener('click', function () {
       const index = this.getAttribute('data-index');
       btns.forEach(b => b.classList.remove('active'));
       this.classList.add('active');
       panels.forEach(p => p.classList.remove('active'));
-      document.querySelector(`.research-panel[data-index="${index}"]`).classList.add('active');
+      document.querySelector(`#research-card .research-panel[data-index="${index}"]`).classList.add('active');
+    });
+  });
+
+  // Finished Projects 按钮
+  const projectBtns = document.querySelectorAll('#projects-card .research-btn');
+  const projectPanels = document.querySelectorAll('#projects-card .research-panel');
+  projectBtns.forEach(btn => {
+    btn.addEventListener('click', function () {
+      const index = this.getAttribute('data-project');
+      projectBtns.forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      projectPanels.forEach(p => p.classList.remove('active'));
+      document.querySelector(`#projects-card .research-panel[data-project="${index}"]`).classList.add('active');
     });
   });
 
@@ -296,12 +338,15 @@ document.addEventListener('DOMContentLoaded', function () {
   function hideAwards() { hideEl(awardsSection); }
   function showPubs() { showEl(pubSection, 'flex'); }
   function hidePubs() { hideEl(pubSection); }
+  function showProjects() { showEl(projectsCard, 'flex'); }
+  function hideProjects() { hideEl(projectsCard); }
 
   function hideAllCards() {
     hideResearchCard();
     hideInterestCards();
     hideAwards();
     hidePubs();
+    hideProjects();
   }
 
   function updateByScroll() {
@@ -402,6 +447,7 @@ document.addEventListener('DOMContentLoaded', function () {
       deleteText(function () {
         typeText(text5, function () {
           currentStage = 19;
+          showProjects();
         });
       });
     }
@@ -427,6 +473,7 @@ document.addEventListener('DOMContentLoaded', function () {
       deleteText(function () {
         typeText(text5, function () {
           currentStage = 19;
+          showProjects();
         });
       });
     }
