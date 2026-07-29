@@ -725,3 +725,56 @@ html {
   transform: translateY(-28px);
   pointer-events: none;
 }
+
+/* 不要盖住动态背景 */
+#web_bg {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+#banner,
+.banner,
+#page-header,
+.page-header {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+#page-header {
+  background: transparent !important;
+}
+
+.home-page {
+  background: transparent !important;
+}
+
+#home-pages,
+#content-inner,
+.layout,
+#body-wrap {
+  background: transparent !important;
+}
+
+/* 页面兜底黑（在 vanta 下层） */
+html,
+body {
+  background: #000 !important;
+}
+
+/* 确保 vanta 画布在内容下面、能看见 */
+#vanta-bg,
+.vanta-canvas,
+canvas.vanta-canvas {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+}
+
+#body-wrap,
+#content-inner,
+#home-pages,
+#page-header {
+  position: relative;
+  z-index: 1;
+}
