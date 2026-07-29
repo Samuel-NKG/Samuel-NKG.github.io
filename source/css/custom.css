@@ -277,11 +277,11 @@ body::-webkit-scrollbar {
   width: 1100px;
   max-width: 92vw;
   min-height: 480px;
-  background: transparent !important;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(12, 12, 14, 0.95) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 20px;
   padding: 2.2rem 2.5rem;
-  box-shadow: none !important;
   backdrop-filter: none !important;
   overflow: hidden;
 }
@@ -415,7 +415,8 @@ body::-webkit-scrollbar {
 
 .interest-card {
   flex: 1;
-  background: transparent !important;
+  background: rgba(16, 16, 18, 0.95) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35) !important;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 22px;
   padding: 1.8rem 1.6rem 1.4rem;
@@ -426,7 +427,6 @@ body::-webkit-scrollbar {
   transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1),
               border-color 0.3s ease;
   cursor: pointer;
-  box-shadow: none !important;
 }
 
 .interest-card:hover {
@@ -568,7 +568,7 @@ body::-webkit-scrollbar {
   padding: 1.1rem 1.25rem;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 16px;
-  background: transparent !important;
+  background: rgba(16, 16, 18, 0.92) !important;
   transition: border-color 0.25s ease, transform 0.25s ease;
 }
 
@@ -734,11 +734,24 @@ html {
 
 #banner,
 .banner,
-#page-header,
-.page-header {
-  background: transparent !important;
-  background-color: transparent !important;
+#page-header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 20 !important;
+  background: #000 !important; /* 开场仍用黑底，盖住后面 */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  pointer-events: none; /* 由 JS 控制，淡出后不挡点击 */
+  transition: none; /* 透明度交给 JS 跟滚动 */
 }
+
 
 #page-header {
   background: transparent !important;
@@ -748,7 +761,13 @@ html {
   background: transparent !important;
 }
 
-#home-pages,
+/* 下面内容从第二屏开始，留出一屏滚动距离用来淡出 */
+#home-pages {
+  padding-top: 100vh; /* 第一屏专门给开场淡出 */
+  position: relative;
+  z-index: 10;
+}
+
 #content-inner,
 .layout,
 #body-wrap {
@@ -777,41 +796,4 @@ canvas.vanta-canvas {
 #page-header {
   position: relative;
   z-index: 1;
-}
-
-/* ========== 强制所有内容卡片透明 ========== */
-#research-card,
-#projects-card,
-#interest-cards,
-.interest-card,
-#pub-section,
-.pub-item,
-#awards-section,
-.awards-col,
-.page-card,
-.research-right,
-.research-left,
-.research-panel {
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-
-/* 边框保留一点轮廓，不要实心底 */
-#research-card,
-#projects-card,
-.interest-card,
-.pub-item {
-  border: 1px solid rgba(255, 255, 255, 0.14) !important;
-}
-
-/* 按钮仍可半透明，方便点按 */
-.research-btn {
-  background: rgba(255, 255, 255, 0.06) !important;
-}
-.research-btn.active {
-  background: rgba(255, 255, 255, 0.14) !important;
 }

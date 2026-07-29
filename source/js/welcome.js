@@ -5,18 +5,15 @@ document.addEventListener('DOMContentLoaded', function () {
     return;
   }
 
-  // 开场页淡出
   var header = document.getElementById('page-header');
   if (header) {
-    header.style.transition = 'opacity 0.15s linear';
+    header.style.pointerEvents = 'none';
     function fadeHeader() {
-      var rect = header.getBoundingClientRect();
-      var progress = 0;
-      if (rect.bottom < window.innerHeight) {
-        progress = 1 - (rect.bottom / window.innerHeight);
-      }
-      progress = Math.min(1, Math.max(0, progress));
-      header.style.opacity = String(1 - progress);
+      // 0 → 滚过约一屏时完全透明
+      var p = Math.min(1, Math.max(0, window.scrollY / (window.innerHeight * 0.85)));
+      header.style.opacity = String(1 - p);
+      // 全透明后沉到下层，避免挡住后面
+      header.style.zIndex = p >= 0.98 ? '0' : '20';
     }
     window.addEventListener('scroll', fadeHeader, { passive: true });
     fadeHeader();
