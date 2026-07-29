@@ -778,3 +778,40 @@ canvas.vanta-canvas {
   position: relative;
   z-index: 1;
 }
+
+/* ========== 强制所有内容卡片透明 ========== */
+#research-card,
+#projects-card,
+#interest-cards,
+.interest-card,
+#pub-section,
+.pub-item,
+#awards-section,
+.awards-col,
+.page-card,
+.research-right,
+.research-left,
+.research-panel {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* 边框保留一点轮廓，不要实心底 */
+#research-card,
+#projects-card,
+.interest-card,
+.pub-item {
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+}
+
+/* 按钮仍可半透明，方便点按 */
+.research-btn {
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+.research-btn.active {
+  background: rgba(255, 255, 255, 0.14) !important;
+}
