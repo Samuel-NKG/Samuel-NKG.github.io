@@ -618,9 +618,25 @@ document.addEventListener('DOMContentLoaded', function () {
     return;
   }
 
+    var header = document.getElementById('page-header');
+  if (header) {
+    header.style.transition = 'opacity 0.15s linear';
+    function fadeHeader() {
+      var rect = header.getBoundingClientRect();
+      var progress = 0;
+      if (rect.bottom < window.innerHeight) {
+        progress = 1 - (rect.bottom / window.innerHeight);
+      }
+      progress = Math.min(1, Math.max(0, progress));
+      header.style.opacity = String(1 - progress);
+    }
+    window.addEventListener('scroll', fadeHeader, { passive: true });
+    fadeHeader();
+  }
+
   // 隐藏原顶栏
-  var header = document.getElementById('page-header');
-  if (header) header.style.opacity = '0';
+  // var header = document.getElementById('page-header');
+  // if (header) header.style.opacity = '0';
 
   var root = document.createElement('div');
   root.id = 'home-pages';

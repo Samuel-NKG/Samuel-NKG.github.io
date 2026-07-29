@@ -26,9 +26,11 @@ header#page-header nav,
 
 #page-header {
   padding-top: 0 !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  height: 0 !important;
+  min-height: 100vh !important;
+  height: 100vh !important;
+  background: #000 !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
   overflow: hidden !important;
 }
 
@@ -598,4 +600,15 @@ header#page-header nav,
   .side-nav-item.active {
     width: 20px;
   }
+}
+
+/* 开场页保持全屏黑底，给 SVG 居中空间 */
+#page-header #site-info,
+#page-header .site-info,
+#page-header .headers {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 100% !important;
+  min-height: 100vh !important;
 }
