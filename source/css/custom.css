@@ -534,3 +534,24 @@ header#page-header nav,
   color: rgba(255, 255, 255, 0.65);
   line-height: 1.4;
 }
+
+/* Finished Projects 隐藏 */
+#projects-card.is-hidden {
+  display: none !important;
+  min-height: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  border: none !important;
+}
+
+/* 保险：所有带 is-hidden 的卡片统一隐藏 */
+#research-card.is-hidden,
+#projects-card.is-hidden,
+#pub-section.is-hidden,
+#awards-section.is-hidden,
+#interest-cards.is-hidden {
+  display: none !important;
+}
