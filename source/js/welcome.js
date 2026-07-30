@@ -115,23 +115,23 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="pub-index">01</div>
             <div class="pub-body">
               <div class="pub-title">Decoupling Confusion via Complementary Attention for Few-Shot Learning</div>
-              <div class="pub-meta">Computer Vision · Few-Shot Learning</div>
+              <div class="pub-meta">Pattern Recognition, Under Review</div>
             </div>
           </div>
           <div class="pub-item">
             <div class="pub-index">02</div>
             <div class="pub-body">
               <div class="pub-title">SMTrack: Subspace Memory via Low-Rank Manifold Modeling</div>
-              <div class="pub-meta">Satellite Video Tracking · Computer Vision</div>
+              <div class="pub-meta">ACMMM 2026</div>
             </div>
           </div>
-          <div class="pub-item">
-            <div class="pub-index">03</div>
-            <div class="pub-body">
-              <div class="pub-title">请替换为你的第三篇论文标题</div>
-              <div class="pub-meta">请替换为会议 / 期刊或领域</div>
-            </div>
-          </div>
+          // <div class="pub-item">
+          //   <div class="pub-index">03</div>
+          //   <div class="pub-body">
+          //     <div class="pub-title">请替换为你的第三篇论文标题</div>
+          //     <div class="pub-meta">请替换为会议 / 期刊或领域</div>
+          //   </div>
+          // </div>
         </div>
       </div>
     </section>
