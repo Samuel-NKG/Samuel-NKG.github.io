@@ -436,28 +436,17 @@ document.addEventListener('DOMContentLoaded', function () {
   var homeNext = null;
   var animTimer = null;
 
-    var siblingLocks = [];
-
-  function lockSiblings(parent, except) {
-    siblingLocks = [];
-    Array.prototype.forEach.call(parent.children, function (el) {
-      if (el === except) return;
-      if (!el.classList || !el.classList.contains('interest-card')) return;
-      var r = el.getBoundingClientRect();
-      el.style.flex = '0 0 ' + r.width + 'px';
-      el.style.width = r.width + 'px';
-      el.style.maxWidth = r.width + 'px';
-      el.style.minWidth = r.width + 'px';
-      siblingLocks.push(el);
-    });
-  }
+  var siblingLocks = [];
 
   function unlockSiblings() {
     siblingLocks.forEach(function (el) {
+      el.style.transition = 'none';
       el.style.flex = '';
       el.style.width = '';
       el.style.maxWidth = '';
       el.style.minWidth = '';
+      void el.offsetWidth;
+      el.style.transition = '';
     });
     siblingLocks = [];
   }
@@ -465,7 +454,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function expandCard(card, data) {
     if (activeCard) return;
 
-    // 先去掉 hover 的 scale，再量真实尺寸
+    // 取消 hover scale 再量尺寸
     card.style.transition = 'none';
     card.style.transform = 'none';
     void card.offsetWidth;
@@ -476,6 +465,18 @@ document.addEventListener('DOMContentLoaded', function () {
     homeParent = card.parentNode;
     homeNext = card.nextSibling;
 
+    // ★ 在任何 DOM 变动前，先量另外两张的原始宽度
+    var siblingWidths = [];
+    Array.prototype.forEach.call(homeParent.children, function (el) {
+      if (el === card) return;
+      if (!el.classList || !el.classList.contains('interest-card')) return;
+      siblingWidths.push({
+        el: el,
+        width: el.getBoundingClientRect().width
+      });
+    });
+
+    // 占位
     spacer = document.createElement('div');
     spacer.className = 'interest-spacer';
     spacer.style.flex = '1 1 0';
@@ -485,8 +486,19 @@ document.addEventListener('DOMContentLoaded', function () {
     spacer.style.visibility = 'hidden';
     spacer.style.pointerEvents = 'none';
     homeParent.insertBefore(spacer, card);
-    lockSiblings(homeParent, card);
 
+    // ★ 用变动前的宽度锁定兄弟
+    siblingLocks = [];
+    siblingWidths.forEach(function (item) {
+      item.el.style.transition = 'none';
+      item.el.style.flex = '0 0 ' + item.width + 'px';
+      item.el.style.width = item.width + 'px';
+      item.el.style.maxWidth = item.width + 'px';
+      item.el.style.minWidth = item.width + 'px';
+      siblingLocks.push(item.el);
+    });
+
+    // 详细内容
     var body = card.querySelector('.interest-card-content');
     if (body) {
       body.dataset.shortHtml = body.innerHTML;
@@ -495,6 +507,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var plus = card.querySelector('.interest-plus');
     if (plus) plus.textContent = '×';
 
+    // 挪到 body
     document.body.appendChild(card);
     card.classList.add('is-expanding');
     card.style.position = 'fixed';
@@ -505,7 +518,6 @@ document.addEventListener('DOMContentLoaded', function () {
     card.style.margin = '0';
     card.style.zIndex = '10002';
     card.style.transform = 'none';
-    // 恢复过渡（量完再开）
     card.style.transition =
       'top 0.4s cubic-bezier(0.22,1,0.36,1),' +
       'left 0.4s cubic-bezier(0.22,1,0.36,1),' +
@@ -537,7 +549,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!activeCard || !originRect) return;
     var card = activeCard;
 
-    // 先恢复短内容，避免按长文高度回去
     var body = card.querySelector('.interest-card-content');
     if (body && body.dataset.shortHtml) {
       body.innerHTML = body.dataset.shortHtml;
@@ -556,7 +567,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (animTimer) clearTimeout(animTimer);
     animTimer = setTimeout(function () {
-      // 关掉过渡，避免 width/height 从 px 动画到 auto 再弹一下
       card.style.transition = 'none';
       void card.offsetWidth;
 
@@ -582,7 +592,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       }
 
-      unlockSiblings();  // ← 加这行
+      unlockSiblings();
 
       spacer = null;
       homeParent = null;
