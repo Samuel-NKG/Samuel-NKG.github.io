@@ -388,6 +388,7 @@ document.addEventListener('DOMContentLoaded', function () {
   setTimeout(updateByScroll, 300);
 
   // 节点点击
+    // 节点点击
   document.querySelectorAll('.side-nav-item').forEach(function (item) {
     item.addEventListener('click', function () {
       var section = parseInt(this.getAttribute('data-section'), 10);
@@ -395,4 +396,68 @@ document.addEventListener('DOMContentLoaded', function () {
       if (target) target.scrollIntoView({ behavior: 'smooth' });
     });
   });
-});
+
+  // Personal Interest 展开
+  var interestData = {
+    Sports: {
+      title: 'Sports',
+      html: `
+        <p>Staying active through basketball, running and fitness is a consistent part of my routine. Movement keeps both body and mind sharp, and competitive sports also train focus under pressure.</p>
+        <p>I enjoy team sports for the coordination and rhythm, and individual training for discipline. Whether on the court or on a long run, sports remain a reliable way to reset and recharge.</p>
+      `
+    },
+    Photography: {
+      title: 'Photography',
+      html: `
+        <p>Photography is how I observe light, composition and everyday scenes more carefully. I am drawn to street moments, architecture and quiet natural details.</p>
+        <p>Through the lens I practice framing, timing and visual storytelling—skills that also feed back into how I think about visual systems in research.</p>
+      `
+    },
+    Games: {
+      title: 'Games',
+      html: `
+        <p>From competitive esports to immersive single-player worlds, games are both relaxation and inspiration. Strategy titles train planning; narrative games explore design and atmosphere.</p>
+        <p>I treat games as another form of interactive media—useful for thinking about systems, feedback and user experience.</p>
+      `
+    }
+  };
+
+  if (!document.getElementById('interest-overlay')) {
+    var overlay = document.createElement('div');
+    overlay.id = 'interest-overlay';
+    overlay.innerHTML = `
+      <div id="interest-modal" role="dialog" aria-modal="true">
+        <button class="modal-close" type="button" aria-label="Close">×</button>
+        <h2 id="interest-modal-title"></h2>
+        <div class="modal-body" id="interest-modal-body"></div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+
+    function closeInterestModal() {
+      overlay.classList.remove('open');
+    }
+
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeInterestModal();
+    });
+    overlay.querySelector('.modal-close').addEventListener('click', closeInterestModal);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeInterestModal();
+    });
+  }
+
+  document.querySelectorAll('#interest-cards .interest-card').forEach(function (card) {
+    card.addEventListener('click', function () {
+      var titleEl = card.querySelector('h3');
+      var key = titleEl ? titleEl.textContent.trim() : '';
+      var data = interestData[key];
+      if (!data) return;
+
+      var ov = document.getElementById('interest-overlay');
+      document.getElementById('interest-modal-title').textContent = data.title;
+      document.getElementById('interest-modal-body').innerHTML = data.html;
+      ov.classList.add('open');
+    });
+  });
+});  // DOMContentLoaded 结束 —— 保持只有这一处结尾
