@@ -31,10 +31,13 @@ document.addEventListener('DOMContentLoaded', function () {
               <span class="typed" data-text="Hi, I'm Samuel"></span><span class="cursor">|</span>
             </div>
             <div class="intro-text">
-              Welcome to my personal homepage. My name is Xinyang Shen (Samuel), an undergraduate student in Software Engineering at Xidian University. My research interests are rooted in Computer Vision, with active involvement in projects spanning generative video models, few-shot learning, and advanced vision architectures.
-              This website is built with Hexo and maintained as a living record of my academic and personal journey. It currently includes sections on current research, publications, awards and honors, finished projects, and personal interests, offering a concise overview of both my scholarly work and the activities that shape me beyond the lab.
-              A more formal, academically oriented version of the site is planned for development before October 2026. In the meantime, content will be updated irregularly as new projects, papers, and experiences take shape.
-              Thank you for visiting. I am highly receptive to academic discussions and research collaborations. Should our interests align, please feel free to contact me via the information on the right.
+              <p>Welcome to my personal homepage. My name is Xinyang Shen (Samuel), an undergraduate student in Software Engineering at Xidian University. My research interests are rooted in Computer Vision, with active involvement in projects spanning generative video models, few-shot learning, and advanced vision architectures.</p>
+  
+              <p>This website is built with Hexo and maintained as a living record of my academic and personal journey. It currently includes sections on current research, publications, awards and honors, finished projects, and personal interests, offering a concise overview of both my scholarly work and the activities that shape me beyond the lab.</p>
+  
+              <p>A more formal, academically oriented version of the site is planned for development before October 2026. In the meantime, content will be updated irregularly as new projects, papers, and experiences take shape.</p>
+  
+              <p>Thank you for visiting. I am highly receptive to academic discussions and research collaborations. Should our interests align, please feel free to contact me via the information on the right.</p>
             </div>
           </div>
           <div class="welcome-links">
