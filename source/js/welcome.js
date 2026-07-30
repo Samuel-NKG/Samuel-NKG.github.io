@@ -397,81 +397,67 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Personal Interest 展开
-    // Personal Interest：原卡片自身放大
+    // Personal Interest：原卡片抬到 body 再放大
   var interestData = {
     Sports: {
       title: 'Sports',
       html: `
         <p>Staying active through basketball, running and fitness is a consistent part of my routine. Movement keeps both body and mind sharp, and competitive sports also train focus under pressure.</p>
-        <p>I enjoy team sports for the coordination and rhythm, and individual training for discipline. Whether on the court or on a long run, sports remain a reliable way to reset and recharge.</p>
+        <p>I enjoy team sports for the coordination and rhythm, and individual training for discipline.</p>
       `
     },
     Photography: {
       title: 'Photography',
       html: `
-        <p>Photography is how I observe light, composition and everyday scenes more carefully. I am drawn to street moments, architecture and quiet natural details.</p>
-        <p>Through the lens I practice framing, timing and visual storytelling—skills that also feed back into how I think about visual systems in research.</p>
+        <p>Photography is how I observe light, composition and everyday scenes more carefully.</p>
+        <p>Through the lens I practice framing, timing and visual storytelling.</p>
       `
     },
     Games: {
       title: 'Games',
       html: `
-        <p>From competitive esports to immersive single-player worlds, games are both relaxation and inspiration. Strategy titles train planning; narrative games explore design and atmosphere.</p>
-        <p>I treat games as another form of interactive media—useful for thinking about systems, feedback and user experience.</p>
+        <p>From competitive esports to immersive single-player worlds, games are both relaxation and inspiration.</p>
+        <p>I treat games as another form of interactive media.</p>
       `
     }
   };
 
-  // 遮罩（只负责虚化，不再放内容）
   if (!document.getElementById('interest-overlay')) {
-    var overlay = document.createElement('div');
-    overlay.id = 'interest-overlay';
-    document.body.appendChild(overlay);
+    var ov = document.createElement('div');
+    ov.id = 'interest-overlay';
+    document.body.appendChild(ov);
   }
   var overlay = document.getElementById('interest-overlay');
 
   var activeCard = null;
   var originRect = null;
   var spacer = null;
+  var homeParent = null;
+  var homeNext = null;
   var animTimer = null;
 
-  function lockScroll(lock) {
-    document.body.style.overflow = lock ? 'hidden' : '';
-  }
-
   function expandCard(card, data) {
-    if (activeCard) return; // 已有展开中
+    if (activeCard) return;
 
     var rect = card.getBoundingClientRect();
-    originRect = {
-      top: rect.top,
-      left: rect.left,
-      width: rect.width,
-      height: rect.height
-    };
+    originRect = { top: rect.top, left: rect.left, width: rect.width, height: rect.height };
 
-    // 占位，避免后面卡片跳动
+    // 记录原位置，方便插回
+    homeParent = card.parentNode;
+    homeNext = card.nextSibling;
+
+    // 占位，另外两张不动
     spacer = document.createElement('div');
     spacer.className = 'interest-spacer';
-    spacer.style.width = rect.width + 'px';
-    spacer.style.height = rect.height + 'px';
     spacer.style.flex = '1';
+    spacer.style.width = rect.width + 'px';
+    spacer.style.minHeight = rect.height + 'px';
+    spacer.style.height = rect.height + 'px';
     spacer.style.visibility = 'hidden';
-    card.parentNode.insertBefore(spacer, card);
+    spacer.style.pointerEvents = 'none';
+    homeParent.insertBefore(spacer, card);
 
-    // 卡片本身抬起为 fixed，停在原位置
-    card.classList.add('is-expanding');
-    card.style.position = 'fixed';
-    card.style.top = rect.top + 'px';
-    card.style.left = rect.left + 'px';
-    card.style.width = rect.width + 'px';
-    card.style.height = rect.height + 'px';
-    card.style.margin = '0';
-    card.style.zIndex = '10001';
-    card.style.transition = 'top 0.4s cubic-bezier(0.22,1,0.36,1), left 0.4s cubic-bezier(0.22,1,0.36,1), width 0.4s cubic-bezier(0.22,1,0.36,1), height 0.4s cubic-bezier(0.22,1,0.36,1), border-radius 0.4s ease';
-
-    // 写入详细内容
+    // 详细内容
     var body = card.querySelector('.interest-card-content');
     if (body) {
       body.dataset.shortHtml = body.innerHTML;
@@ -480,8 +466,26 @@ document.addEventListener('DOMContentLoaded', function () {
     var plus = card.querySelector('.interest-plus');
     if (plus) plus.textContent = '×';
 
+    // 挪到 body，避开 sticky/transform 祖先
+    document.body.appendChild(card);
+    card.classList.add('is-expanding');
+    card.style.position = 'fixed';
+    card.style.top = rect.top + 'px';
+    card.style.left = rect.left + 'px';
+    card.style.width = rect.width + 'px';
+    card.style.height = rect.height + 'px';
+    card.style.margin = '0';
+    card.style.zIndex = '10002';
+    card.style.transform = 'none';
+    card.style.transition =
+      'top 0.4s cubic-bezier(0.22,1,0.36,1),' +
+      'left 0.4s cubic-bezier(0.22,1,0.36,1),' +
+      'width 0.4s cubic-bezier(0.22,1,0.36,1),' +
+      'height 0.4s cubic-bezier(0.22,1,0.36,1),' +
+      'border-radius 0.4s ease';
+
     overlay.classList.add('open');
-    lockScroll(true);
+    document.body.style.overflow = 'hidden';
     activeCard = card;
 
     var targetW = Math.min(720, window.innerWidth * 0.92);
@@ -514,7 +518,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (animTimer) clearTimeout(animTimer);
     animTimer = setTimeout(function () {
-      // 恢复短文案
       var body = card.querySelector('.interest-card-content');
       if (body && body.dataset.shortHtml) {
         body.innerHTML = body.dataset.shortHtml;
@@ -523,7 +526,6 @@ document.addEventListener('DOMContentLoaded', function () {
       var plus = card.querySelector('.interest-plus');
       if (plus) plus.textContent = '+';
 
-      // 取消 fixed，回到文档流
       card.classList.remove('is-expanding');
       card.style.position = '';
       card.style.top = '';
@@ -532,22 +534,33 @@ document.addEventListener('DOMContentLoaded', function () {
       card.style.height = '';
       card.style.margin = '';
       card.style.zIndex = '';
+      card.style.transform = '';
       card.style.transition = '';
       card.style.borderRadius = '';
 
-      if (spacer && spacer.parentNode) spacer.parentNode.removeChild(spacer);
+      // 插回原 flex 位置
+      if (homeParent) {
+        if (spacer && spacer.parentNode === homeParent) {
+          homeParent.insertBefore(card, spacer);
+          homeParent.removeChild(spacer);
+        } else if (homeNext && homeNext.parentNode === homeParent) {
+          homeParent.insertBefore(card, homeNext);
+        } else {
+          homeParent.appendChild(card);
+        }
+      }
+
       spacer = null;
+      homeParent = null;
+      homeNext = null;
       activeCard = null;
       originRect = null;
-      lockScroll(false);
+      document.body.style.overflow = '';
       animTimer = null;
     }, 420);
   }
 
-  overlay.addEventListener('click', function () {
-    collapseCard();
-  });
-
+  overlay.addEventListener('click', collapseCard);
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') collapseCard();
   });
@@ -556,7 +569,6 @@ document.addEventListener('DOMContentLoaded', function () {
     card.addEventListener('click', function (e) {
       e.stopPropagation();
       if (card.classList.contains('is-expanding')) {
-        // 已展开时点 × 或再点卡片 → 收回
         collapseCard();
         return;
       }

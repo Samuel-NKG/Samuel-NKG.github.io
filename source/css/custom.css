@@ -766,10 +766,9 @@ canvas.vanta-canvas {
 #interest-overlay {
   position: fixed !important;
   inset: 0 !important;
-  z-index: 10000 !important;
+  z-index: 10000 !important;   /* 比卡片低 */
   background: rgba(0, 0, 0, 0);
   backdrop-filter: blur(0);
-  -webkit-backdrop-filter: blur(0);
   transition: background 0.35s ease, backdrop-filter 0.35s ease;
   pointer-events: none;
 }
@@ -852,15 +851,17 @@ canvas.vanta-canvas {
 .interest-card.is-expanding {
   overflow-y: auto;
   cursor: default;
-  transform: none !important; /* 取消 hover scale，避免和位移动画打架 */
+  transform: none !important;
+  filter: none !important;
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55) !important;
+  background: rgba(16, 16, 18, 0.98) !important;
+}
+
+.interest-spacer {
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .interest-card.is-expanded .interest-plus {
   /* 展开后右上角当关闭用，可按需微调位置 */
-}
-
-.interest-spacer {
-  flex: 1;
-  min-height: 280px;
 }
