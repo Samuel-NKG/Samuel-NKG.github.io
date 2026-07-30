@@ -218,8 +218,15 @@ canvas.vanta-canvas {
 .page-title .cursor,
 .welcome-inner .cursor {
   color: #ffffff;
-  animation: blink 1s step-end infinite;
   margin-left: 2px;
+  opacity: 0;
+  animation: none;
+}
+
+.page-title .cursor.is-typing,
+.welcome-inner .cursor.is-typing {
+  opacity: 1;
+  animation: blink 1s step-end infinite;
 }
 
 @keyframes blink {

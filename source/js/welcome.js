@@ -277,14 +277,20 @@ document.addEventListener('DOMContentLoaded', function () {
   function typeInto(el, text, cursor, done) {
     var i = 0;
     el.textContent = '';
-    if (cursor) cursor.style.opacity = '1';
+    if (cursor) {
+      cursor.classList.add('is-typing');
+      cursor.style.opacity = '1';
+    }
     function tick() {
       if (i <= text.length) {
         el.textContent = text.substring(0, i);
         i++;
         setTimeout(tick, 55);
       } else {
-        if (cursor) cursor.style.opacity = '0';
+        if (cursor) {
+          cursor.classList.remove('is-typing');
+          cursor.style.opacity = '0';
+        }
         if (done) done();
       }
     }
