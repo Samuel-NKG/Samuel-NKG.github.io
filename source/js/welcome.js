@@ -81,8 +81,14 @@ document.addEventListener('DOMContentLoaded', function () {
           </div>
           <div class="research-right">
             <div class="research-panel active" data-index="0">
-              <h3>Decoupling Confusion via Complementary Attention for Few-Shot Learning</h3>
-              <p>Investigated the visual-semantic alignment bottlenecks of CLIP in downstream few-shot learning, identifying two intertwined challenges: inter-class confusion in the logit space and foreground-background confusion in the feature space. Designed PDC, BSD, and CAO modules to collaboratively eliminate representation bias, achieving state-of-the-art 16-shot accuracy of 80.15% across 11 benchmarks.</p>
+              <h3>Few-Shot Learning</h3>
+              <p>Few-shot learning is a machine learning paradigm that enables models to generalize effectively from only a small number of labeled examples per class—typically one to a few dozen samples. Unlike conventional supervised learning, which depends on large annotated datasets, few-shot methods rapidly adapt to novel tasks through meta-learning.</p>
+              <p>In a standard episode, a support set provides the limited examples for each class, while a query set is used for evaluation. Metric-based approaches, such as prototypical networks, embed samples into a feature space and classify by proximity to class prototypes. Optimization-based techniques, including MAML, learn an initialization that adapts quickly with minimal gradient updates.</p>
+              <p>This capability proves especially valuable in data-scarce domains such as medical imaging, rare-species recognition, and personalized systems, where collecting extensive labels remains impractical.</p>
+              <figure class="research-figure">
+                <img src="/img/few-shot-overview.jpeg" alt="Few-shot learning overview: support set, query set, and similarity-based prediction">
+                <figcaption>Image adapted from common few-shot learning illustrations (e.g. support/query episode setup).</figcaption>
+              </figure>
             </div>
             <div class="research-panel" data-index="1">
               <h3>SMTrack: Subspace Memory via Low-Rank Manifold Modeling</h3>

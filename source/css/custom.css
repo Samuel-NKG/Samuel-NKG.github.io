@@ -725,3 +725,28 @@ canvas.vanta-canvas {
     width: 20px;
   }
 }
+
+/* Research 面板配图 */
+.research-figure {
+  margin: 1.2rem 0 0.4rem;
+  padding: 0;
+  width: 80%;
+  max-width: 80%;
+}
+
+.research-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #fff;
+}
+
+.research-figure figcaption {
+  margin-top: 0.45rem;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.2px;
+}
