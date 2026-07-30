@@ -422,53 +422,89 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   };
 
-    if (!document.getElementById('interest-overlay')) {
+      if (!document.getElementById('interest-overlay')) {
     var overlay = document.createElement('div');
     overlay.id = 'interest-overlay';
-    overlay.setAttribute('style',
-      'position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;' +
-      'background:rgba(0,0,0,0.55);opacity:0;pointer-events:none;padding:4vh 4vw;box-sizing:border-box;'
-    );
     overlay.innerHTML = `
-      <div id="interest-modal" role="dialog" aria-modal="true"
-        style="width:min(720px,92vw);max-height:86vh;overflow:auto;background:rgba(16,16,18,0.98);
-        border:1px solid rgba(255,255,255,0.14);border-radius:24px;padding:2rem 2.2rem;color:#fff;
-        opacity:0;transform:scale(0.92) translateY(16px);transition:transform .32s ease,opacity .32s ease;">
-        <button class="modal-close" type="button" aria-label="Close"
-          style="float:right;width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,0.18);
-          background:rgba(255,255,255,0.08);color:#fff;font-size:1.3rem;cursor:pointer;line-height:1;">×</button>
-        <h2 id="interest-modal-title" style="margin:0 0 1rem;font-size:1.7rem;color:#fff;"></h2>
+      <div id="interest-modal" role="dialog" aria-modal="true">
+        <button class="modal-close" type="button" aria-label="Close">×</button>
+        <h2 id="interest-modal-title"></h2>
         <div class="modal-body" id="interest-modal-body"></div>
       </div>
     `;
     document.body.appendChild(overlay);
 
+    var modal = document.getElementById('interest-modal');
+    var lastCardRect = null;
+
     function closeInterestModal() {
-      overlay.classList.remove('open');
-      overlay.style.opacity = '0';
-      overlay.style.pointerEvents = 'none';
-      var m = document.getElementById('interest-modal');
-      if (m) {
-        m.style.opacity = '0';
-        m.style.transform = 'scale(0.92) translateY(16px)';
+      if (!modal.classList.contains('open')) return;
+
+      // 收回到原卡片位置
+      if (lastCardRect) {
+        modal.style.top = lastCardRect.top + 'px';
+        modal.style.left = lastCardRect.left + 'px';
+        modal.style.width = lastCardRect.width + 'px';
+        modal.style.height = lastCardRect.height + 'px';
+        modal.style.borderRadius = '22px';
       }
+      modal.style.opacity = '0';
+      overlay.classList.remove('open');
+
+      setTimeout(function () {
+        modal.classList.remove('open');
+        modal.style.pointerEvents = 'none';
+      }, 380);
     }
 
-    function openInterestModal() {
+    function openInterestModal(card) {
+      var rect = card.getBoundingClientRect();
+      lastCardRect = {
+        top: rect.top,
+        left: rect.left,
+        width: rect.width,
+        height: rect.height
+      };
+
+      // 先放到原卡片位置
+      modal.style.top = rect.top + 'px';
+      modal.style.left = rect.left + 'px';
+      modal.style.width = rect.width + 'px';
+      modal.style.height = rect.height + 'px';
+      modal.style.borderRadius = '22px';
+      modal.style.opacity = '1';
+      modal.style.pointerEvents = 'auto';
+      modal.classList.add('open');
       overlay.classList.add('open');
-      overlay.style.opacity = '1';
-      overlay.style.pointerEvents = 'auto';
-      var m = document.getElementById('interest-modal');
-      if (m) {
-        m.style.opacity = '1';
-        m.style.transform = 'scale(1) translateY(0)';
-      }
+
+      // 下一帧展开到中央
+      var targetW = Math.min(720, window.innerWidth * 0.92);
+      var targetH = Math.min(window.innerHeight * 0.86, 560);
+      var targetLeft = (window.innerWidth - targetW) / 2;
+      var targetTop = (window.innerHeight - targetH) / 2;
+
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          modal.style.top = targetTop + 'px';
+          modal.style.left = targetLeft + 'px';
+          modal.style.width = targetW + 'px';
+          modal.style.height = targetH + 'px';
+          modal.style.borderRadius = '24px';
+        });
+      });
     }
 
     overlay.addEventListener('click', function (e) {
       if (e.target === overlay) closeInterestModal();
     });
-    overlay.querySelector('.modal-close').addEventListener('click', closeInterestModal);
+
+    // 叉号：阻止冒泡，确保能点
+    modal.querySelector('.modal-close').addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      closeInterestModal();
+    });
+
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') closeInterestModal();
     });
@@ -478,7 +514,8 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   document.querySelectorAll('#interest-cards .interest-card').forEach(function (card) {
-    card.addEventListener('click', function () {
+    card.addEventListener('click', function (e) {
+      e.stopPropagation();
       var titleEl = card.querySelector('h3');
       var key = titleEl ? titleEl.textContent.trim() : '';
       var data = interestData[key];
@@ -486,8 +523,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       document.getElementById('interest-modal-title').textContent = data.title;
       document.getElementById('interest-modal-body').innerHTML = data.html;
-      if (window.__openInterestModal) window.__openInterestModal();
-      else document.getElementById('interest-overlay').classList.add('open');
+      window.__openInterestModal(card);
     });
   });
 });  // DOMContentLoaded 结束 —— 保持只有这一处结尾
