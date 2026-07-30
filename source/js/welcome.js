@@ -436,6 +436,32 @@ document.addEventListener('DOMContentLoaded', function () {
   var homeNext = null;
   var animTimer = null;
 
+    var siblingLocks = [];
+
+  function lockSiblings(parent, except) {
+    siblingLocks = [];
+    Array.prototype.forEach.call(parent.children, function (el) {
+      if (el === except) return;
+      if (!el.classList || !el.classList.contains('interest-card')) return;
+      var r = el.getBoundingClientRect();
+      el.style.flex = '0 0 ' + r.width + 'px';
+      el.style.width = r.width + 'px';
+      el.style.maxWidth = r.width + 'px';
+      el.style.minWidth = r.width + 'px';
+      siblingLocks.push(el);
+    });
+  }
+
+  function unlockSiblings() {
+    siblingLocks.forEach(function (el) {
+      el.style.flex = '';
+      el.style.width = '';
+      el.style.maxWidth = '';
+      el.style.minWidth = '';
+    });
+    siblingLocks = [];
+  }
+
   function expandCard(card, data) {
     if (activeCard) return;
 
@@ -459,6 +485,7 @@ document.addEventListener('DOMContentLoaded', function () {
     spacer.style.visibility = 'hidden';
     spacer.style.pointerEvents = 'none';
     homeParent.insertBefore(spacer, card);
+    lockSiblings(homeParent, card);
 
     var body = card.querySelector('.interest-card-content');
     if (body) {
@@ -554,6 +581,8 @@ document.addEventListener('DOMContentLoaded', function () {
           homeParent.appendChild(card);
         }
       }
+
+      unlockSiblings();  // ← 加这行
 
       spacer = null;
       homeParent = null;
