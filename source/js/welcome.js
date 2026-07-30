@@ -448,14 +448,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 占位，另外两张不动
     spacer = document.createElement('div');
-    spacer.className = 'interest-spacer';
-    spacer.style.flex = '1';
-    spacer.style.width = rect.width + 'px';
-    spacer.style.minHeight = rect.height + 'px';
-    spacer.style.height = rect.height + 'px';
-    spacer.style.visibility = 'hidden';
-    spacer.style.pointerEvents = 'none';
-    homeParent.insertBefore(spacer, card);
+      spacer.className = 'interest-spacer';
+    // 和另外两张一样均分，不要写死 width
+      spacer.style.flex = '1 1 0';
+      spacer.style.minWidth = '0';
+      spacer.style.height = rect.height + 'px';
+      spacer.style.minHeight = rect.height + 'px';
+      spacer.style.visibility = 'hidden';
+      spacer.style.pointerEvents = 'none';
+      homeParent.insertBefore(spacer, card);
 
     // 详细内容
     var body = card.querySelector('.interest-card-content');
@@ -541,8 +542,7 @@ document.addEventListener('DOMContentLoaded', function () {
       // 插回原 flex 位置
       if (homeParent) {
         if (spacer && spacer.parentNode === homeParent) {
-          homeParent.insertBefore(card, spacer);
-          homeParent.removeChild(spacer);
+          homeParent.replaceChild(card, spacer); // 占位直接换成原卡片
         } else if (homeNext && homeNext.parentNode === homeParent) {
           homeParent.insertBefore(card, homeNext);
         } else {
