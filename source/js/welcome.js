@@ -275,6 +275,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // 打字机
   function typeInto(el, text, cursor, done) {
+    if (!el) {
+      if (done) done();
+      return;
+    }
     var i = 0;
     el.textContent = '';
     if (cursor) {
@@ -284,7 +288,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function tick() {
       if (i <= text.length) {
         el.textContent = text.substring(0, i);
-        i++;
+        i += 1;
         setTimeout(tick, 55);
       } else {
         if (cursor) {
@@ -340,7 +344,6 @@ document.addEventListener('DOMContentLoaded', function () {
       var rect = inner.getBoundingClientRect();
       var pageRect = page.getBoundingClientRect();
 
-      // 侧栏高亮：可见比例最大的页
       var visible = Math.max(0, Math.min(pageRect.bottom, window.innerHeight) - Math.max(pageRect.top, 0));
       var ratio = visible / window.innerHeight;
       if (ratio > bestRatio) {
@@ -348,17 +351,16 @@ document.addEventListener('DOMContentLoaded', function () {
         best = parseInt(page.getAttribute('data-page'), 10);
       }
 
-      // 标题到达 sticky 高度（约 12vh）再开始打字
+      // 更宽松：内容进入视口上半区就开打
       if (!played[page.id] &&
-          rect.top <= stickyTop + 8 &&
-          rect.top >= stickyTop - 48 &&
-          pageRect.bottom > stickyTop + 80) {
+          rect.top < window.innerHeight * 0.55 &&
+          pageRect.bottom > window.innerHeight * 0.25) {
         playPage(page);
       }
 
-      // 上滑离开：整页上浮消失
       if (played[page.id]) {
-        if (rect.bottom < window.innerHeight * 0.22 || rect.top > window.innerHeight * 0.58) {
+        // 只有滚出视口上方才淡出；还在下方等待进入时不要隐藏
+        if (rect.bottom < window.innerHeight * 0.12) {
           page.classList.add('is-leaving');
         } else {
           page.classList.remove('is-leaving');
@@ -376,8 +378,7 @@ document.addEventListener('DOMContentLoaded', function () {
     stickyTop = window.innerHeight * 0.12;
   }, { passive: true });
 
-  // 首屏 Intro：布局稳定后若已在位置则播放
-  setTimeout(updateByScroll, 250);
+  setTimeout(updateByScroll, 300);
 
   // 节点点击
   document.querySelectorAll('.side-nav-item').forEach(function (item) {
