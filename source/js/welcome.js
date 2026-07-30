@@ -398,6 +398,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // Personal Interest 展开
+    // Personal Interest：原卡片自身放大
   var interestData = {
     Sports: {
       title: 'Sports',
@@ -422,114 +423,148 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   };
 
+  // 遮罩（只负责虚化，不再放内容）
   if (!document.getElementById('interest-overlay')) {
     var overlay = document.createElement('div');
     overlay.id = 'interest-overlay';
-    overlay.innerHTML = `
-      <div id="interest-modal" role="dialog" aria-modal="true">
-        <button class="modal-close" type="button" aria-label="Close">×</button>
-        <h2 id="interest-modal-title"></h2>
-        <div class="modal-body" id="interest-modal-body"></div>
-      </div>
-    `;
     document.body.appendChild(overlay);
-
-    var modal = document.getElementById('interest-modal');
-    var lastCardRect = null;
-    var lastCardEl = null;
-    var closeTimer = null;
-
-    function placeModalAt(rect) {
-      modal.style.top = rect.top + 'px';
-      modal.style.left = rect.left + 'px';
-      modal.style.width = rect.width + 'px';
-      modal.style.height = rect.height + 'px';
-      modal.style.borderRadius = '22px';
-    }
-
-        function closeInterestModal() {
-      if (!modal.classList.contains('open')) return;
-      if (closeTimer) {
-        clearTimeout(closeTimer);
-        closeTimer = null;
-      }
-
-      if (lastCardRect) placeModalAt(lastCardRect);
-      modal.style.opacity = '0';
-      overlay.classList.remove('open');
-
-      closeTimer = setTimeout(function () {
-        modal.classList.remove('open');
-        modal.style.pointerEvents = 'none';
-        closeTimer = null;
-      }, 400);
-    }
-
-    function openInterestModal(card) {
-      if (closeTimer) {
-        clearTimeout(closeTimer);
-        closeTimer = null;
-      }
-
-      var rect = card.getBoundingClientRect();
-      lastCardRect = {
-        top: rect.top,
-        left: rect.left,
-        width: rect.width,
-        height: rect.height
-      };
-
-      // 不再隐藏原卡片
-      placeModalAt(rect);
-      modal.style.opacity = '1';
-      modal.style.pointerEvents = 'auto';
-      modal.classList.add('open');
-      overlay.classList.add('open');
-
-      var targetW = Math.min(720, window.innerWidth * 0.92);
-      var targetH = Math.min(window.innerHeight * 0.86, 560);
-      var targetLeft = (window.innerWidth - targetW) / 2;
-      var targetTop = (window.innerHeight - targetH) / 2;
-
-      void modal.offsetWidth;
-      requestAnimationFrame(function () {
-        modal.style.top = targetTop + 'px';
-        modal.style.left = targetLeft + 'px';
-        modal.style.width = targetW + 'px';
-        modal.style.height = targetH + 'px';
-        modal.style.borderRadius = '24px';
-      });
-    }
-
-    overlay.addEventListener('click', function (e) {
-      if (e.target === overlay) closeInterestModal();
-    });
-
-    modal.querySelector('.modal-close').addEventListener('click', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      closeInterestModal();
-    });
-
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') closeInterestModal();
-    });
-
-    window.__openInterestModal = openInterestModal;
-    window.__closeInterestModal = closeInterestModal;
   }
+  var overlay = document.getElementById('interest-overlay');
+
+  var activeCard = null;
+  var originRect = null;
+  var spacer = null;
+  var animTimer = null;
+
+  function lockScroll(lock) {
+    document.body.style.overflow = lock ? 'hidden' : '';
+  }
+
+  function expandCard(card, data) {
+    if (activeCard) return; // 已有展开中
+
+    var rect = card.getBoundingClientRect();
+    originRect = {
+      top: rect.top,
+      left: rect.left,
+      width: rect.width,
+      height: rect.height
+    };
+
+    // 占位，避免后面卡片跳动
+    spacer = document.createElement('div');
+    spacer.className = 'interest-spacer';
+    spacer.style.width = rect.width + 'px';
+    spacer.style.height = rect.height + 'px';
+    spacer.style.flex = '1';
+    spacer.style.visibility = 'hidden';
+    card.parentNode.insertBefore(spacer, card);
+
+    // 卡片本身抬起为 fixed，停在原位置
+    card.classList.add('is-expanding');
+    card.style.position = 'fixed';
+    card.style.top = rect.top + 'px';
+    card.style.left = rect.left + 'px';
+    card.style.width = rect.width + 'px';
+    card.style.height = rect.height + 'px';
+    card.style.margin = '0';
+    card.style.zIndex = '10001';
+    card.style.transition = 'top 0.4s cubic-bezier(0.22,1,0.36,1), left 0.4s cubic-bezier(0.22,1,0.36,1), width 0.4s cubic-bezier(0.22,1,0.36,1), height 0.4s cubic-bezier(0.22,1,0.36,1), border-radius 0.4s ease';
+
+    // 写入详细内容
+    var body = card.querySelector('.interest-card-content');
+    if (body) {
+      body.dataset.shortHtml = body.innerHTML;
+      body.innerHTML = '<h3>' + data.title + '</h3>' + data.html;
+    }
+    var plus = card.querySelector('.interest-plus');
+    if (plus) plus.textContent = '×';
+
+    overlay.classList.add('open');
+    lockScroll(true);
+    activeCard = card;
+
+    var targetW = Math.min(720, window.innerWidth * 0.92);
+    var targetH = Math.min(window.innerHeight * 0.86, 560);
+    var targetLeft = (window.innerWidth - targetW) / 2;
+    var targetTop = (window.innerHeight - targetH) / 2;
+
+    void card.offsetWidth;
+    requestAnimationFrame(function () {
+      card.style.top = targetTop + 'px';
+      card.style.left = targetLeft + 'px';
+      card.style.width = targetW + 'px';
+      card.style.height = targetH + 'px';
+      card.style.borderRadius = '24px';
+      card.classList.add('is-expanded');
+    });
+  }
+
+  function collapseCard() {
+    if (!activeCard || !originRect) return;
+    var card = activeCard;
+
+    card.classList.remove('is-expanded');
+    card.style.top = originRect.top + 'px';
+    card.style.left = originRect.left + 'px';
+    card.style.width = originRect.width + 'px';
+    card.style.height = originRect.height + 'px';
+    card.style.borderRadius = '22px';
+    overlay.classList.remove('open');
+
+    if (animTimer) clearTimeout(animTimer);
+    animTimer = setTimeout(function () {
+      // 恢复短文案
+      var body = card.querySelector('.interest-card-content');
+      if (body && body.dataset.shortHtml) {
+        body.innerHTML = body.dataset.shortHtml;
+        delete body.dataset.shortHtml;
+      }
+      var plus = card.querySelector('.interest-plus');
+      if (plus) plus.textContent = '+';
+
+      // 取消 fixed，回到文档流
+      card.classList.remove('is-expanding');
+      card.style.position = '';
+      card.style.top = '';
+      card.style.left = '';
+      card.style.width = '';
+      card.style.height = '';
+      card.style.margin = '';
+      card.style.zIndex = '';
+      card.style.transition = '';
+      card.style.borderRadius = '';
+
+      if (spacer && spacer.parentNode) spacer.parentNode.removeChild(spacer);
+      spacer = null;
+      activeCard = null;
+      originRect = null;
+      lockScroll(false);
+      animTimer = null;
+    }, 420);
+  }
+
+  overlay.addEventListener('click', function () {
+    collapseCard();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') collapseCard();
+  });
 
   document.querySelectorAll('#interest-cards .interest-card').forEach(function (card) {
     card.addEventListener('click', function (e) {
       e.stopPropagation();
+      if (card.classList.contains('is-expanding')) {
+        // 已展开时点 × 或再点卡片 → 收回
+        collapseCard();
+        return;
+      }
       var titleEl = card.querySelector('h3');
       var key = titleEl ? titleEl.textContent.trim() : '';
       var data = interestData[key];
       if (!data) return;
-
-      document.getElementById('interest-modal-title').textContent = data.title;
-      document.getElementById('interest-modal-body').innerHTML = data.html;
-      window.__openInterestModal(card);
+      expandCard(card, data);
     });
   });
 });  // DOMContentLoaded 结束 —— 保持只有这一处结尾

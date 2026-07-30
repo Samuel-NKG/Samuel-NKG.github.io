@@ -848,3 +848,19 @@ canvas.vanta-canvas {
 #interest-modal .modal-body p {
   margin: 0 0 1rem 0;
 }
+
+.interest-card.is-expanding {
+  overflow-y: auto;
+  cursor: default;
+  transform: none !important; /* 取消 hover scale，避免和位移动画打架 */
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55) !important;
+}
+
+.interest-card.is-expanded .interest-plus {
+  /* 展开后右上角当关闭用，可按需微调位置 */
+}
+
+.interest-spacer {
+  flex: 1;
+  min-height: 280px;
+}
