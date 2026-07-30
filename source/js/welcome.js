@@ -447,14 +447,13 @@ document.addEventListener('DOMContentLoaded', function () {
       modal.style.borderRadius = '22px';
     }
 
-    function closeInterestModal() {
+        function closeInterestModal() {
       if (!modal.classList.contains('open')) return;
       if (closeTimer) {
         clearTimeout(closeTimer);
         closeTimer = null;
       }
 
-      // 缩回刚才那张卡片的位置
       if (lastCardRect) placeModalAt(lastCardRect);
       modal.style.opacity = '0';
       overlay.classList.remove('open');
@@ -462,25 +461,14 @@ document.addEventListener('DOMContentLoaded', function () {
       closeTimer = setTimeout(function () {
         modal.classList.remove('open');
         modal.style.pointerEvents = 'none';
-        // 恢复原卡片可见
-        if (lastCardEl) {
-          lastCardEl.style.opacity = '';
-          lastCardEl.style.visibility = '';
-        }
-        lastCardEl = null;
         closeTimer = null;
       }, 400);
     }
 
     function openInterestModal(card) {
-      // 若上一次关闭动画还在跑，先清掉并复位
       if (closeTimer) {
         clearTimeout(closeTimer);
         closeTimer = null;
-      }
-      if (lastCardEl && lastCardEl !== card) {
-        lastCardEl.style.opacity = '';
-        lastCardEl.style.visibility = '';
       }
 
       var rect = card.getBoundingClientRect();
@@ -490,13 +478,8 @@ document.addEventListener('DOMContentLoaded', function () {
         width: rect.width,
         height: rect.height
       };
-      lastCardEl = card;
 
-      // 原卡片先藏起来，看起来像同一张在放大
-      card.style.opacity = '0';
-      card.style.visibility = 'hidden';
-
-      // 立刻放到「当前」卡片位置（不要用上一次的位置）
+      // 不再隐藏原卡片
       placeModalAt(rect);
       modal.style.opacity = '1';
       modal.style.pointerEvents = 'auto';
@@ -508,7 +491,6 @@ document.addEventListener('DOMContentLoaded', function () {
       var targetLeft = (window.innerWidth - targetW) / 2;
       var targetTop = (window.innerHeight - targetH) / 2;
 
-      // 强制重绘后再展开，保证从当前卡片起动画
       void modal.offsetWidth;
       requestAnimationFrame(function () {
         modal.style.top = targetTop + 'px';
