@@ -439,26 +439,27 @@ document.addEventListener('DOMContentLoaded', function () {
   function expandCard(card, data) {
     if (activeCard) return;
 
+    // 先去掉 hover 的 scale，再量真实尺寸
+    card.style.transition = 'none';
+    card.style.transform = 'none';
+    void card.offsetWidth;
+
     var rect = card.getBoundingClientRect();
     originRect = { top: rect.top, left: rect.left, width: rect.width, height: rect.height };
 
-    // 记录原位置，方便插回
     homeParent = card.parentNode;
     homeNext = card.nextSibling;
 
-    // 占位，另外两张不动
     spacer = document.createElement('div');
-      spacer.className = 'interest-spacer';
-    // 和另外两张一样均分，不要写死 width
-      spacer.style.flex = '1 1 0';
-      spacer.style.minWidth = '0';
-      spacer.style.height = rect.height + 'px';
-      spacer.style.minHeight = rect.height + 'px';
-      spacer.style.visibility = 'hidden';
-      spacer.style.pointerEvents = 'none';
-      homeParent.insertBefore(spacer, card);
+    spacer.className = 'interest-spacer';
+    spacer.style.flex = '1 1 0';
+    spacer.style.minWidth = '0';
+    spacer.style.height = rect.height + 'px';
+    spacer.style.minHeight = rect.height + 'px';
+    spacer.style.visibility = 'hidden';
+    spacer.style.pointerEvents = 'none';
+    homeParent.insertBefore(spacer, card);
 
-    // 详细内容
     var body = card.querySelector('.interest-card-content');
     if (body) {
       body.dataset.shortHtml = body.innerHTML;
@@ -467,7 +468,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var plus = card.querySelector('.interest-plus');
     if (plus) plus.textContent = '×';
 
-    // 挪到 body，避开 sticky/transform 祖先
     document.body.appendChild(card);
     card.classList.add('is-expanding');
     card.style.position = 'fixed';
@@ -478,6 +478,7 @@ document.addEventListener('DOMContentLoaded', function () {
     card.style.margin = '0';
     card.style.zIndex = '10002';
     card.style.transform = 'none';
+    // 恢复过渡（量完再开）
     card.style.transition =
       'top 0.4s cubic-bezier(0.22,1,0.36,1),' +
       'left 0.4s cubic-bezier(0.22,1,0.36,1),' +
@@ -509,6 +510,15 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!activeCard || !originRect) return;
     var card = activeCard;
 
+    // 先恢复短内容，避免按长文高度回去
+    var body = card.querySelector('.interest-card-content');
+    if (body && body.dataset.shortHtml) {
+      body.innerHTML = body.dataset.shortHtml;
+      delete body.dataset.shortHtml;
+    }
+    var plus = card.querySelector('.interest-plus');
+    if (plus) plus.textContent = '+';
+
     card.classList.remove('is-expanded');
     card.style.top = originRect.top + 'px';
     card.style.left = originRect.left + 'px';
@@ -519,13 +529,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (animTimer) clearTimeout(animTimer);
     animTimer = setTimeout(function () {
-      var body = card.querySelector('.interest-card-content');
-      if (body && body.dataset.shortHtml) {
-        body.innerHTML = body.dataset.shortHtml;
-        delete body.dataset.shortHtml;
-      }
-      var plus = card.querySelector('.interest-plus');
-      if (plus) plus.textContent = '+';
+      // 关掉过渡，避免 width/height 从 px 动画到 auto 再弹一下
+      card.style.transition = 'none';
+      void card.offsetWidth;
 
       card.classList.remove('is-expanding');
       card.style.position = '';
@@ -536,13 +542,12 @@ document.addEventListener('DOMContentLoaded', function () {
       card.style.margin = '';
       card.style.zIndex = '';
       card.style.transform = '';
-      card.style.transition = '';
       card.style.borderRadius = '';
+      card.style.transition = '';
 
-      // 插回原 flex 位置
       if (homeParent) {
         if (spacer && spacer.parentNode === homeParent) {
-          homeParent.replaceChild(card, spacer); // 占位直接换成原卡片
+          homeParent.replaceChild(card, spacer);
         } else if (homeNext && homeNext.parentNode === homeParent) {
           homeParent.insertBefore(card, homeNext);
         } else {
