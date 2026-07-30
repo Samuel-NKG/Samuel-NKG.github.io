@@ -89,6 +89,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 <img src="/img/few-shot-overview.jpg" alt="Few-shot learning overview: support set, query set, and similarity-based prediction">
                 <figcaption>Image adapted from common few-shot learning illustrations (e.g. support/query episode setup).</figcaption>
               </figure>
+              <p>Building upon these foundations, a notable challenge emerges when adapting large-scale vision-language models such as CLIP to few-shot regimes: the frequent entanglement of foreground objects with background context within the extracted visual features. Because pre-training texts commonly co-describe both the target category and its surrounding environment, the resulting representations mix the two signals, weakening precise visual–semantic alignment and causing attention to drift toward irrelevant regions.</p>
+              <p>One effective direction is to explicitly decouple this confusion through complementary modeling. Hierarchical queries can progressively separate multi-level visual features into distinct foreground and background streams; background semantics can be dynamically retrieved from a language-space description pool to supply explicit supervisory signals; and mutual-exclusivity constraints can be imposed directly on the attention maps, encouraging spatial complementarity across layers. The resulting framework preserves the original cross-modal alignment of the pre-trained model while producing cleaner, more interpretable attention distributions and stronger few-shot generalization.</p>
             </div>
             <div class="research-panel" data-index="1">
               <h3>SMTrack: Subspace Memory via Low-Rank Manifold Modeling</h3>
