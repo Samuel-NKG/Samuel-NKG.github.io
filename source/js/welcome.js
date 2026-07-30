@@ -422,7 +422,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   };
 
-      if (!document.getElementById('interest-overlay')) {
+  if (!document.getElementById('interest-overlay')) {
     var overlay = document.createElement('div');
     overlay.id = 'interest-overlay';
     overlay.innerHTML = `
@@ -436,28 +436,53 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var modal = document.getElementById('interest-modal');
     var lastCardRect = null;
+    var lastCardEl = null;
+    var closeTimer = null;
+
+    function placeModalAt(rect) {
+      modal.style.top = rect.top + 'px';
+      modal.style.left = rect.left + 'px';
+      modal.style.width = rect.width + 'px';
+      modal.style.height = rect.height + 'px';
+      modal.style.borderRadius = '22px';
+    }
 
     function closeInterestModal() {
       if (!modal.classList.contains('open')) return;
-
-      // 收回到原卡片位置
-      if (lastCardRect) {
-        modal.style.top = lastCardRect.top + 'px';
-        modal.style.left = lastCardRect.left + 'px';
-        modal.style.width = lastCardRect.width + 'px';
-        modal.style.height = lastCardRect.height + 'px';
-        modal.style.borderRadius = '22px';
+      if (closeTimer) {
+        clearTimeout(closeTimer);
+        closeTimer = null;
       }
+
+      // 缩回刚才那张卡片的位置
+      if (lastCardRect) placeModalAt(lastCardRect);
       modal.style.opacity = '0';
       overlay.classList.remove('open');
 
-      setTimeout(function () {
+      closeTimer = setTimeout(function () {
         modal.classList.remove('open');
         modal.style.pointerEvents = 'none';
-      }, 380);
+        // 恢复原卡片可见
+        if (lastCardEl) {
+          lastCardEl.style.opacity = '';
+          lastCardEl.style.visibility = '';
+        }
+        lastCardEl = null;
+        closeTimer = null;
+      }, 400);
     }
 
     function openInterestModal(card) {
+      // 若上一次关闭动画还在跑，先清掉并复位
+      if (closeTimer) {
+        clearTimeout(closeTimer);
+        closeTimer = null;
+      }
+      if (lastCardEl && lastCardEl !== card) {
+        lastCardEl.style.opacity = '';
+        lastCardEl.style.visibility = '';
+      }
+
       var rect = card.getBoundingClientRect();
       lastCardRect = {
         top: rect.top,
@@ -465,32 +490,32 @@ document.addEventListener('DOMContentLoaded', function () {
         width: rect.width,
         height: rect.height
       };
+      lastCardEl = card;
 
-      // 先放到原卡片位置
-      modal.style.top = rect.top + 'px';
-      modal.style.left = rect.left + 'px';
-      modal.style.width = rect.width + 'px';
-      modal.style.height = rect.height + 'px';
-      modal.style.borderRadius = '22px';
+      // 原卡片先藏起来，看起来像同一张在放大
+      card.style.opacity = '0';
+      card.style.visibility = 'hidden';
+
+      // 立刻放到「当前」卡片位置（不要用上一次的位置）
+      placeModalAt(rect);
       modal.style.opacity = '1';
       modal.style.pointerEvents = 'auto';
       modal.classList.add('open');
       overlay.classList.add('open');
 
-      // 下一帧展开到中央
       var targetW = Math.min(720, window.innerWidth * 0.92);
       var targetH = Math.min(window.innerHeight * 0.86, 560);
       var targetLeft = (window.innerWidth - targetW) / 2;
       var targetTop = (window.innerHeight - targetH) / 2;
 
+      // 强制重绘后再展开，保证从当前卡片起动画
+      void modal.offsetWidth;
       requestAnimationFrame(function () {
-        requestAnimationFrame(function () {
-          modal.style.top = targetTop + 'px';
-          modal.style.left = targetLeft + 'px';
-          modal.style.width = targetW + 'px';
-          modal.style.height = targetH + 'px';
-          modal.style.borderRadius = '24px';
-        });
+        modal.style.top = targetTop + 'px';
+        modal.style.left = targetLeft + 'px';
+        modal.style.width = targetW + 'px';
+        modal.style.height = targetH + 'px';
+        modal.style.borderRadius = '24px';
       });
     }
 
@@ -498,7 +523,6 @@ document.addEventListener('DOMContentLoaded', function () {
       if (e.target === overlay) closeInterestModal();
     });
 
-    // 叉号：阻止冒泡，确保能点
     modal.querySelector('.modal-close').addEventListener('click', function (e) {
       e.preventDefault();
       e.stopPropagation();
