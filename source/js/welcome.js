@@ -422,13 +422,22 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   };
 
-  if (!document.getElementById('interest-overlay')) {
+    if (!document.getElementById('interest-overlay')) {
     var overlay = document.createElement('div');
     overlay.id = 'interest-overlay';
+    overlay.setAttribute('style',
+      'position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;' +
+      'background:rgba(0,0,0,0.55);opacity:0;pointer-events:none;padding:4vh 4vw;box-sizing:border-box;'
+    );
     overlay.innerHTML = `
-      <div id="interest-modal" role="dialog" aria-modal="true">
-        <button class="modal-close" type="button" aria-label="Close">×</button>
-        <h2 id="interest-modal-title"></h2>
+      <div id="interest-modal" role="dialog" aria-modal="true"
+        style="width:min(720px,92vw);max-height:86vh;overflow:auto;background:rgba(16,16,18,0.98);
+        border:1px solid rgba(255,255,255,0.14);border-radius:24px;padding:2rem 2.2rem;color:#fff;
+        opacity:0;transform:scale(0.92) translateY(16px);transition:transform .32s ease,opacity .32s ease;">
+        <button class="modal-close" type="button" aria-label="Close"
+          style="float:right;width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,0.18);
+          background:rgba(255,255,255,0.08);color:#fff;font-size:1.3rem;cursor:pointer;line-height:1;">×</button>
+        <h2 id="interest-modal-title" style="margin:0 0 1rem;font-size:1.7rem;color:#fff;"></h2>
         <div class="modal-body" id="interest-modal-body"></div>
       </div>
     `;
@@ -436,6 +445,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function closeInterestModal() {
       overlay.classList.remove('open');
+      overlay.style.opacity = '0';
+      overlay.style.pointerEvents = 'none';
+      var m = document.getElementById('interest-modal');
+      if (m) {
+        m.style.opacity = '0';
+        m.style.transform = 'scale(0.92) translateY(16px)';
+      }
+    }
+
+    function openInterestModal() {
+      overlay.classList.add('open');
+      overlay.style.opacity = '1';
+      overlay.style.pointerEvents = 'auto';
+      var m = document.getElementById('interest-modal');
+      if (m) {
+        m.style.opacity = '1';
+        m.style.transform = 'scale(1) translateY(0)';
+      }
     }
 
     overlay.addEventListener('click', function (e) {
@@ -445,6 +472,9 @@ document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') closeInterestModal();
     });
+
+    window.__openInterestModal = openInterestModal;
+    window.__closeInterestModal = closeInterestModal;
   }
 
   document.querySelectorAll('#interest-cards .interest-card').forEach(function (card) {
@@ -454,10 +484,10 @@ document.addEventListener('DOMContentLoaded', function () {
       var data = interestData[key];
       if (!data) return;
 
-      var ov = document.getElementById('interest-overlay');
       document.getElementById('interest-modal-title').textContent = data.title;
       document.getElementById('interest-modal-body').innerHTML = data.html;
-      ov.classList.add('open');
+      if (window.__openInterestModal) window.__openInterestModal();
+      else document.getElementById('interest-overlay').classList.add('open');
     });
   });
 });  // DOMContentLoaded 结束 —— 保持只有这一处结尾
