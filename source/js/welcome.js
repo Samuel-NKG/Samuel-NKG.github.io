@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function ()) {
+document.addEventListener('DOMContentLoaded', function () {
   if (!document.body.classList.contains('index') &&
       location.pathname !== '/' &&
       location.pathname !== '/index.html') {
@@ -777,5 +777,5 @@ if (mapBox && !document.getElementById('mapmyvisitors')) {
     childList: true,
     subtree: true
   });
-  }
 }
+}); // ← 结束 DOMContentLoaded
