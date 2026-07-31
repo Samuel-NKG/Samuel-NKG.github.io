@@ -708,74 +708,22 @@ if (mapBox && !document.getElementById('mapmyvisitors')) {
     '&t=n';
   mapBox.appendChild(mapScript);
 
-  // 移除缩放按钮函数
   function removeZoomControls() {
-    var selectors = [
-      '.jvectormap-zoomin',
-      '.jvectormap-zoomout',
-      '.jvectormap-goback'
-    ];
-
-    selectors.forEach(function (sel) {
-      document.querySelectorAll(sel).forEach(function (el) {
-        // 严格限制在地图相关容器内
-        if (mapBox.contains(el) ||
-            (document.getElementById('mapmyvisitors-widget') &&
-             document.getElementById('mapmyvisitors-widget').contains(el))) {
-          el.remove();
-        }
-      });
+    document.querySelectorAll(
+      '.jvectormap-zoomin, .jvectormap-zoomout, .jvectormap-goback'
+    ).forEach(function (el) {
+      el.remove();
     });
-
-    // 兜底清理仅含 + / − 的空节点
-    var mapRoot = document.getElementById('mapmyvisitors-widget') || mapBox;
-    if (mapRoot) {
-      mapRoot.querySelectorAll('button, div, span, a').forEach(function (el) {
-        if (el.children.length > 0) return;
-        var text = (el.textContent || '').replace(/\s/g, '');
-        if (text === '+' || text === '-' || text === '−' || text === '–') {
-          el.remove();
-        }
-      });
-    }
   }
 
-  // 防抖包装
-  var debounceTimer = null;
-  function debouncedRemove() {
-    if (debounceTimer) clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(function () {
-      removeZoomControls();
-    }, 80); // 80ms 防抖，避免连续触发
-  }
-
-  // 初始阶段高频清理（仅前 12 秒）
-  var cleanupCount = 0;
+  var n = 0;
   var initialTimer = setInterval(function () {
     removeZoomControls();
-    cleanupCount += 1;
-    if (cleanupCount >= 30) { // 约 12 秒
-      clearInterval(initialTimer);
-    }
+    if (++n >= 30) clearInterval(initialTimer);
   }, 400);
 
-  // 只监听地图容器（关键修复点）
-  var observer = new MutationObserver(function (mutations) {
-    var hasAdded = false;
-    for (var i = 0; i < mutations.length; i++) {
-      if (mutations[i].addedNodes.length > 0) {
-        hasAdded = true;
-        break;
-      }
-    }
-    if (hasAdded) {
-      debouncedRemove();
-    }
+  var observer = new MutationObserver(function () {
+    removeZoomControls();
   });
-
-  observer.observe(mapBox, {
-    childList: true,
-    subtree: true
-  });
-}
-}); // ← 结束 DOMContentLoaded
+  observer.observe(document.body, { childList: true, subtree: true });
+  setTimeout(function () { observer.disconnect(); }, 15000);

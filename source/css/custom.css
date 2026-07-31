@@ -963,26 +963,20 @@ canvas.vanta-canvas {
 }
 
 /* ========== 彻底隐藏 MapMyVisitors / jVectorMap 缩放按钮 ========== */
-#visitor-map .jvectormap-zoomin,
-#visitor-map .jvectormap-zoomout,
-#visitor-map .jvectormap-goback,
-#mapmyvisitors-widget .jvectormap-zoomin,
-#mapmyvisitors-widget .jvectormap-zoomout,
-#mapmyvisitors-widget .jvectormap-goback,
-.mapmyvisitors-map-container .jvectormap-zoomin,
-.mapmyvisitors-map-container .jvectormap-zoomout,
-.mapmyvisitors-map-container .jvectormap-goback {
+/* 全局隐藏缩放，不要任何父级前缀 */
+.jvectormap-zoomin,
+.jvectormap-zoomout,
+.jvectormap-goback {
   display: none !important;
-  opacity: 0 !important;
   visibility: hidden !important;
+  opacity: 0 !important;
   pointer-events: none !important;
   width: 0 !important;
   height: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
-  border: none !important;
+  border: 0 !important;
   font-size: 0 !important;
-  line-height: 0 !important;
   position: absolute !important;
   left: -9999px !important;
   top: -9999px !important;
