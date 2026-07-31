@@ -885,18 +885,22 @@ canvas.vanta-canvas {
 .data-stats-row {
   display: flex;
   gap: 1.4rem;
-  margin-bottom: 1.6rem;
-  max-width: 1100px;
+  margin-bottom: 1.4rem;
   width: 100%;
 }
 
-/* 与 interest-card 同款质感 */
-.data-stat-card {
-  flex: 1;
+.data-stat-card,
+.data-map-card {
   background: rgba(16, 16, 18, 0.95) !important;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35) !important;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 22px;
+  transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1),
+              border-color 0.3s ease;
+}
+
+.data-stat-card {
+  flex: 1;
   padding: 1.8rem 1.6rem 1.6rem;
   min-height: 200px;
   display: flex;
@@ -905,16 +909,14 @@ canvas.vanta-canvas {
   justify-content: center;
   gap: 1rem;
   text-align: center;
-  transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1),
-              border-color 0.3s ease;
 }
 
-.data-stat-card:hover {
-  transform: scale(1.03);
+.data-stat-card:hover,
+.data-map-card:hover {
+  transform: scale(1.02);
   border-color: rgba(255, 255, 255, 0.28);
 }
 
-/* 对应 Sports 标题位置 */
 .data-stat-label {
   font-size: 1.35rem;
   font-weight: 600;
@@ -923,7 +925,6 @@ canvas.vanta-canvas {
   letter-spacing: 0.02em;
 }
 
-/* 数字：更大、加粗、居中 */
 .data-stat-value {
   font-size: clamp(2.6rem, 5.5vw, 3.6rem);
   font-weight: 700;
@@ -933,32 +934,43 @@ canvas.vanta-canvas {
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
 }
 
-.data-map-wrap {
-  margin-top: 0.2rem;
+/* 第二行整宽地图卡 */
+.data-map-card {
+  width: 100%;
+  padding: 1.6rem 1.6rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  box-sizing: border-box;
 }
 
-.data-map-title {
-  font-size: 0.85rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
-  margin-bottom: 0.9rem;
-  font-weight: 600;
+.data-map-card .data-stat-label {
+  text-align: center;
+  width: 100%;
 }
 
 .data-map-frame {
-  width: 100%;
-  min-height: 280px;
-  border-radius: 16px;
+  width: min(420px, 100%);
+  max-width: 420px;
+  min-height: 180px;
+  margin: 0 auto;
+  border-radius: 12px;
   overflow: hidden;
-  background: rgba(12, 12, 14, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .data-map-frame img,
-.data-map-frame iframe {
+.data-map-frame iframe,
+.data-map-frame canvas {
   max-width: 100% !important;
+  height: auto !important;
   border: none !important;
+  display: block;
+  margin: 0 auto;
 }
 
 @media (max-width: 640px) {
@@ -967,5 +979,9 @@ canvas.vanta-canvas {
   }
   .data-stat-card {
     min-height: 160px;
+  }
+  .data-map-frame {
+    width: 100%;
+    max-width: 100%;
   }
 }
