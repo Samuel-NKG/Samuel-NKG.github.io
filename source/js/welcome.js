@@ -201,7 +201,15 @@ document.addEventListener('DOMContentLoaded', function () {
               <p>Forest tackles these problems through an integrated technical architecture that combines blockchain with advanced privacy-enhancing technologies. At its core are three complementary techniques: Trusted Execution Environments (TEE) that provide hardware-level isolation for sensitive computations; Federated Learning that allows multiple parties to jointly train models without exchanging raw data; and Differential Privacy that injects carefully calibrated noise to prevent individual-level information leakage. Together, these technologies realize a “computation-to-data” paradigm in which data remains usable yet invisible to unauthorized parties.</p>
               <p>The platform offers three primary service modules. The Distributed Model Training Service enables organizations to collaboratively train machine-learning models across institutional boundaries while keeping original datasets local. The Privacy Computing Engine provides a secure environment for performing complex analytics and inference on encrypted or protected data. The Data Matching and Trading Service facilitates precise matching between data suppliers and demanders, supporting secure transactions with clear authorization, auditability, and automated enforcement via smart contracts. Identity authentication protocols, secure storage with ownership confirmation, and verifiable computation processes further ensure end-to-end trustworthiness.</p>
               <p>By embedding privacy and accountability into every stage of the data lifecycle—from access control and computation to result delivery—Forest transforms data from a high-risk liability into a controllable, high-value asset. It supports cross-domain collaboration while aligning with national policies on data-element markets and privacy protection. Ultimately, Forest aims to become a foundational infrastructure for trustworthy data circulation, unlocking the full potential of data for AI advancement and the digital economy without compromising security or individual rights.</p>
-            </div>
+              <figure class="research-figure">
+                <img src="/img/forest-demo-1.gif" alt="Forest platform demo 1">
+                <figcaption>Forest platform demonstration (1).</figcaption>
+              </figure>
+              <figure class="research-figure">
+                <img src="/img/forest-demo-2.gif" alt="Forest blockchain resource details demo">
+                <figcaption>Blockchain resource details interface.</figcaption>
+              </figure>
+              </div>
             <div class="research-panel" data-project="1">
               <h3>Qin Mountains Four Treasures Detection System</h3>
               <p>A real-time wildlife monitoring system based on YOLOv8 and ESP32-CAM, targeting the “Four Treasures of the Qin Mountains” — giant panda, golden snub-nosed monkey, crested ibis, and takin. The system performs on-device image capture, cloud-side detection, and result logging, achieving over 95% accuracy on the evaluation set with second-level transmission. Also supports remote vehicle control for field deployment. Team member responsible for detection pipeline and system integration.</p>
