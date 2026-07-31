@@ -209,10 +209,26 @@ document.addEventListener('DOMContentLoaded', function () {
                 <img class="no-lazy" src="/img/forest-demo-2.gif" alt="Forest blockchain resource details demo">
                 <figcaption>Blockchain resource details interface.</figcaption>
               </figure>
-              </div>
+            </div>
             <div class="research-panel" data-project="1">
-              <h3>Qin Mountains Four Treasures Detection System</h3>
-              <p>A real-time wildlife monitoring system based on YOLOv8 and ESP32-CAM, targeting the “Four Treasures of the Qin Mountains” — giant panda, golden snub-nosed monkey, crested ibis, and takin. The system performs on-device image capture, cloud-side detection, and result logging, achieving over 95% accuracy on the evaluation set with second-level transmission. Also supports remote vehicle control for field deployment. Team member responsible for detection pipeline and system integration.</p>
+              <h3>Qin Mountains Four Treasures Detection System Based on YOLO and ESP32-CAM</h3>
+              <p>The Qinling Four Treasures Detection System is an intelligent wildlife monitoring platform developed to support the protection of four iconic and endangered species native to the Qinling Mountains: the giant panda, golden snub-nosed monkey, crested ibis, and takin. These animals, collectively known as the “Four Treasures of Qinling,” face increasing threats from climate change and human activities. Designed by a student team from Xidian University, the system provides a practical, low-cost solution for real-time detection and monitoring in natural habitats.</p>
+              <p>The core technical approach combines edge hardware with deep learning. An ESP32-CAM module captures and transmits live video streams over the network, while a YOLOv8 object-detection model running on a connected computing unit identifies the target species in real time. Detected animals are automatically cropped, timestamped, and logged for subsequent analysis. The system is mounted on a remotely controllable mobile platform, allowing operators to move the camera forward, backward, or rotate it as needed. On standard test sets the detection accuracy exceeds 95 percent, with end-to-end latency remaining at the second level.</p>
+              <p>Key advantages include low power consumption, portability, cost efficiency, and ease of expansion. Unlike conventional wildlife-monitoring installations that rely on expensive cameras and extensive human patrols, this solution can be deployed flexibly across different terrains while keeping hardware and operational costs modest. The collected detection data further enable studies of animal activity patterns and distribution, offering scientific support for conservation decisions.</p>
+              <p>Beyond pure protection work, the system holds potential for smart eco-tourism, environmental education, and collaborative research. By integrating artificial intelligence with Internet-of-Things technology, it demonstrates how accessible AI tools can contribute to biodiversity conservation. The project embodies the vision of using technology to safeguard the Qinling Mountains and to advance responsible stewardship of China’s natural heritage.</p>
+              <figure class="research-figure">
+                <video
+                  class="no-lazy"
+                  src="/img/finished_project.mp4"
+                  autoplay
+                  loop
+                  muted
+                  playsinline
+                  controls
+                  style="width:100%;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:#000;"
+                ></video>
+                <figcaption>Qin Mountains Four Treasures detection system demo.</figcaption>
+              </figure>
             </div>
           </div>
         </div>
