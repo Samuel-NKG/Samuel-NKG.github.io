@@ -706,26 +706,45 @@ if (mapBox && !document.getElementById('mapmyvisitors')) {
     '&co=0a0a0c' +
     '&cl=ffffff' +
     '&t=m';
-  mapBox.appendChild(mapScript);
-
   function removeZoomControls() {
-    document.querySelectorAll(
-      '.jvectormap-zoomin, .jvectormap-zoomout, .jvectormap-goback'
-    ).forEach(function (el) {
-      el.remove();
-    });
-  }
+  mapBox.querySelectorAll(
+    [
+      // Leaflet
+      '.leaflet-control-zoom',
+      '.leaflet-control-zoom-in',
+      '.leaflet-control-zoom-out',
 
-  var n = 0;
-  var initialTimer = setInterval(function () {
-    removeZoomControls();
-    if (++n >= 30) clearInterval(initialTimer);
-  }, 400);
+      // 旧版 jVectorMap，保留兼容
+      '.jvectormap-zoomin',
+      '.jvectormap-zoomout',
+      '.jvectormap-goback',
 
-  var observer = new MutationObserver(function () {
-    removeZoomControls();
+      // 额外兜底
+      '[title="Zoom in"]',
+      '[title="Zoom out"]',
+      '[aria-label="Zoom in"]',
+      '[aria-label="Zoom out"]'
+    ].join(',')
+  ).forEach(function (el) {
+    el.remove();
   });
-  observer.observe(document.body, { childList: true, subtree: true });
-  setTimeout(function () { observer.disconnect(); }, 15000);
+}
+
+// 必须先监听，再插入第三方脚本，避免加载竞态
+var zoomObserver = new MutationObserver(function () {
+  removeZoomControls();
+});
+
+zoomObserver.observe(mapBox, {
+  childList: true,
+  subtree: true
+});
+
+mapScript.addEventListener('load', function () {
+  removeZoomControls();
+});
+
+// 最后再加载 MapMyVisitors
+mapBox.appendChild(mapScript);
 }
 });
