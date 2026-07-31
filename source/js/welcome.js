@@ -711,12 +711,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 地图渲染后反复清掉缩放按钮
     var killZoom = setInterval(function () {
-      var zooms = document.querySelectorAll(
+      document.querySelectorAll(
         '.jvectormap-zoomin, .jvectormap-zoomout, .jvectormap-goback'
-      );
-      if (zooms.length) {
-        zooms.forEach(function (el) { el.remove(); });
-      }
+      ).forEach(function (el) { el.remove(); });
     }, 400);
     setTimeout(function () { clearInterval(killZoom); }, 8000);
   }
