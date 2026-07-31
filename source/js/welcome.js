@@ -727,3 +727,5 @@ if (mapBox && !document.getElementById('mapmyvisitors')) {
   });
   observer.observe(document.body, { childList: true, subtree: true });
   setTimeout(function () { observer.disconnect(); }, 15000);
+}
+});
