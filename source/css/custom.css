@@ -962,28 +962,40 @@ canvas.vanta-canvas {
   display: none !important;
 }
 
-/* ========== 彻底隐藏 MapMyVisitors / jVectorMap 缩放按钮 ========== */
-/* 隐藏 MapMyVisitors 的 Leaflet / jVectorMap 缩放控件 */
-#visitor-map .leaflet-control-zoom,
-#visitor-map .leaflet-control-zoom-in,
-#visitor-map .leaflet-control-zoom-out,
+/* ========== 彻底隐藏 MapMyVisitors / jVectorMap 缩放按钮（全局强制） ========== */
+.jvectormap-zoomin,
+.jvectormap-zoomout,
+.jvectormap-goback,
+.leaflet-control-zoom,
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out,
 #visitor-map .jvectormap-zoomin,
 #visitor-map .jvectormap-zoomout,
 #visitor-map .jvectormap-goback,
-#visitor-map [title="Zoom in"],
-#visitor-map [title="Zoom out"],
-#visitor-map [aria-label="Zoom in"],
-#visitor-map [aria-label="Zoom out"] {
+#visitor-map .leaflet-control-zoom,
+#visitor-map .leaflet-control-zoom-in,
+#visitor-map .leaflet-control-zoom-out,
+#mapmyvisitors-widget .jvectormap-zoomin,
+#mapmyvisitors-widget .jvectormap-zoomout,
+#mapmyvisitors-widget .jvectormap-goback,
+#mapmyvisitors-widget .leaflet-control-zoom,
+[title="Zoom in"],
+[title="Zoom out"],
+[aria-label="Zoom in"],
+[aria-label="Zoom out"],
+.jvectormap-container .jvectormap-zoomin,
+.jvectormap-container .jvectormap-zoomout {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
   pointer-events: none !important;
-}
-
-/* 额外保险：防止任何残留的 + / − 文本节点显示 */
-#visitor-map button,
-#mapmyvisitors-widget button {
-  /* 仅针对可能的缩放按钮，避免影响其他按钮 */
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  left: -9999px !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
 }
 
 /* 外层透明；不要动地图的 background-image */
