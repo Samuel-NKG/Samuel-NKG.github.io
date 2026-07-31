@@ -202,11 +202,11 @@ document.addEventListener('DOMContentLoaded', function () {
               <p>The platform offers three primary service modules. The Distributed Model Training Service enables organizations to collaboratively train machine-learning models across institutional boundaries while keeping original datasets local. The Privacy Computing Engine provides a secure environment for performing complex analytics and inference on encrypted or protected data. The Data Matching and Trading Service facilitates precise matching between data suppliers and demanders, supporting secure transactions with clear authorization, auditability, and automated enforcement via smart contracts. Identity authentication protocols, secure storage with ownership confirmation, and verifiable computation processes further ensure end-to-end trustworthiness.</p>
               <p>By embedding privacy and accountability into every stage of the data lifecycle—from access control and computation to result delivery—Forest transforms data from a high-risk liability into a controllable, high-value asset. It supports cross-domain collaboration while aligning with national policies on data-element markets and privacy protection. Ultimately, Forest aims to become a foundational infrastructure for trustworthy data circulation, unlocking the full potential of data for AI advancement and the digital economy without compromising security or individual rights.</p>
               <figure class="research-figure">
-                <img src="/img/forest-demo-1.gif" alt="Forest platform demo 1">
+                <img class="no-lazy" src="/img/forest-demo-1.gif" alt="Forest platform demo 1">
                 <figcaption>Forest platform demonstration (1).</figcaption>
               </figure>
               <figure class="research-figure">
-                <img src="/img/forest-demo-2.gif" alt="Forest blockchain resource details demo">
+                <img class="no-lazy" src="/img/forest-demo-2.gif" alt="Forest blockchain resource details demo">
                 <figcaption>Blockchain resource details interface.</figcaption>
               </figure>
               </div>
