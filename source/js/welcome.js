@@ -696,7 +696,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // 访客地图（必须动态插入，innerHTML 里的 script 不会跑）
   var mapBox = document.getElementById('visitor-map');
-  if (mapBox && !document.getElementById('mapmyvisitors')) {
+    if (mapBox && !document.getElementById('mapmyvisitors')) {
     var mapScript = document.createElement('script');
     mapScript.type = 'text/javascript';
     mapScript.id = 'mapmyvisitors';
@@ -704,9 +704,20 @@ document.addEventListener('DOMContentLoaded', function () {
       '//mapmyvisitors.com/map.js' +
       '?d=Yk8bDJHbN9pw73uHb5BMR0oh6f7gQBzG7Nt_sR4Qn2Y' +
       '&w=560' +
-      '&co=0a0a0c' +   // 近黑海洋（和卡片融在一起，看起来像透明）
-      '&cl=ffffff' +   // 白陆地
+      '&co=0a0a0c' +
+      '&cl=ffffff' +
       '&t=n';
     mapBox.appendChild(mapScript);
+
+    // 地图渲染后反复清掉缩放按钮
+    var killZoom = setInterval(function () {
+      var zooms = document.querySelectorAll(
+        '.jvectormap-zoomin, .jvectormap-zoomout, .jvectormap-goback'
+      );
+      if (zooms.length) {
+        zooms.forEach(function (el) { el.remove(); });
+      }
+    }, 400);
+    setTimeout(function () { clearInterval(killZoom); }, 8000);
   }
 });  // DOMContentLoaded 结束 —— 保持只有这一处结尾
