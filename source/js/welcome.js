@@ -267,30 +267,30 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>
     </section>
 
-        <!-- 7. Website Data -->
+    <!-- 7. Website Data -->
     <section class="home-page" id="page-data" data-page="6">
       <div class="page-inner">
         <div class="page-title">
           <span class="typed" data-text="Website Data"></span><span class="cursor">|</span>
         </div>
         <div class="page-card" id="data-section">
-          <div class="data-grid">
-            <div class="data-item">
-              <div class="data-label">Stack</div>
-              <div class="data-value">Hexo · Butterfly · GitHub Pages</div>
+          <div class="data-stats-row">
+            <div class="data-stat-card">
+              <div class="data-stat-value">
+                <span id="busuanzi_value_site_uv">--</span>
+              </div>
+              <div class="data-stat-label">Unique Visitors</div>
             </div>
-            <div class="data-item">
-              <div class="data-label">Theme</div>
-              <div class="data-value">Custom homepage (scroll-driven)</div>
+            <div class="data-stat-card">
+              <div class="data-stat-value">
+                <span id="busuanzi_value_site_pv">--</span>
+              </div>
+              <div class="data-stat-label">Total Visits</div>
             </div>
-            <div class="data-item">
-              <div class="data-label">Status</div>
-              <div class="data-value">Living document · Updated irregularly</div>
-            </div>
-            <div class="data-item">
-              <div class="data-label">Note</div>
-              <div class="data-value">A more formal academic version is planned before October 2026.</div>
-            </div>
+          </div>
+          <div class="data-map-wrap">
+            <div class="data-map-title">Visitor Origins</div>
+            <div class="data-map-frame" id="visitor-map"></div>
           </div>
         </div>
       </div>
@@ -681,4 +681,24 @@ document.addEventListener('DOMContentLoaded', function () {
       expandCard(card, data);
     });
   });
+
+    // ========== Website Data：不蒜子 + MapMyVisitors ==========
+  // 总访问 / 独立访客
+  if (!document.getElementById('busuanzi-script')) {
+    var bz = document.createElement('script');
+    bz.id = 'busuanzi-script';
+    bz.async = true;
+    bz.src = '//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js';
+    document.body.appendChild(bz);
+  }
+
+  // 访客地图（必须动态插入，innerHTML 里的 script 不会跑）
+  var mapBox = document.getElementById('visitor-map');
+  if (mapBox && !document.getElementById('mapmyvisitors')) {
+    var mapScript = document.createElement('script');
+    mapScript.type = 'text/javascript';
+    mapScript.id = 'mapmyvisitors';
+    mapScript.src = '//mapmyvisitors.com/map.js?d=Yk8bDJHbN9pw73uHb5BMR0oh6f7gQBzG7Nt_sR4Qn2Y&cl=ffffff&w=a';
+    mapBox.appendChild(mapScript);
+  }
 });  // DOMContentLoaded 结束 —— 保持只有这一处结尾
