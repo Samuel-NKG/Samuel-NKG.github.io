@@ -696,11 +696,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // 访客地图（必须动态插入，innerHTML 里的 script 不会跑）
   var mapBox = document.getElementById('visitor-map');
-  if (mapBox && !document.getElementById('mapmyvisitors')) {
+    if (mapBox && !document.getElementById('mapmyvisitors')) {
     var mapScript = document.createElement('script');
     mapScript.type = 'text/javascript';
     mapScript.id = 'mapmyvisitors';
-    mapScript.src = '//mapmyvisitors.com/map.js?d=Yk8bDJHbN9pw73uHb5BMR0oh6f7gQBzG7Nt_sR4Qn2Y&cl=ffffff&w=a';
+    // co=海洋/底色  cl=陆地  ct=文字  t=n 隐藏 Pageviews 和日期
+    mapScript.src =
+      '//mapmyvisitors.com/map.js' +
+      '?d=Yk8bDJHbN9pw73uHb5BMR0oh6f7gQBzG7Nt_sR4Qn2Y' +
+      '&w=a' +
+      '&co=0a0a0c' +
+      '&cl=3a3a40' +
+      '&ct=aaaaaa' +
+      '&t=n';
     mapBox.appendChild(mapScript);
   }
 });  // DOMContentLoaded 结束 —— 保持只有这一处结尾

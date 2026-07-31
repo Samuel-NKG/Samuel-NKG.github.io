@@ -985,3 +985,37 @@ canvas.vanta-canvas {
     max-width: 100%;
   }
 }
+
+/* 隐藏缩放按钮和多余控件 */
+#visitor-map .mapmyvisitors-zoom,
+#visitor-map .zoom-control,
+#visitor-map .jvectormap-zoomin,
+#visitor-map .jvectormap-zoomout,
+#visitor-map .jvectormap-goback,
+#mapmyvisitors-widget .mapmyvisitors-visitors,
+#mapmyvisitors-widget .mapmyvisitors-date,
+#mapmyvisitors-widget .mapmyvisitors-bottom-text {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* 地图容器贴合黑卡 */
+.data-map-frame,
+#visitor-map,
+#mapmyvisitors-widget,
+.mapmyvisitors-map-container,
+.mapmyvisitors-map {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.data-map-frame {
+  width: min(420px, 100%);
+  max-width: 420px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 12px;
+}
