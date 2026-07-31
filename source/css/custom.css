@@ -962,10 +962,16 @@ canvas.vanta-canvas {
   display: none !important;
 }
 
-/* 全局隐藏缩放按钮 */
-.jvectormap-zoomin,
-.jvectormap-zoomout,
-.jvectormap-goback {
+/* ========== 彻底隐藏 MapMyVisitors / jVectorMap 缩放按钮 ========== */
+#visitor-map .jvectormap-zoomin,
+#visitor-map .jvectormap-zoomout,
+#visitor-map .jvectormap-goback,
+#mapmyvisitors-widget .jvectormap-zoomin,
+#mapmyvisitors-widget .jvectormap-zoomout,
+#mapmyvisitors-widget .jvectormap-goback,
+.mapmyvisitors-map-container .jvectormap-zoomin,
+.mapmyvisitors-map-container .jvectormap-zoomout,
+.mapmyvisitors-map-container .jvectormap-goback {
   display: none !important;
   opacity: 0 !important;
   visibility: hidden !important;
@@ -974,12 +980,20 @@ canvas.vanta-canvas {
   height: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
-  border: 0 !important;
+  border: none !important;
   font-size: 0 !important;
+  line-height: 0 !important;
   position: absolute !important;
   left: -9999px !important;
   top: -9999px !important;
   overflow: hidden !important;
+  z-index: -1 !important;
+}
+
+/* 额外保险：防止任何残留的 + / − 文本节点显示 */
+#visitor-map button,
+#mapmyvisitors-widget button {
+  /* 仅针对可能的缩放按钮，避免影响其他按钮 */
 }
 
 /* 外层透明；不要动地图的 background-image */
