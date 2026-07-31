@@ -864,4 +864,13 @@ canvas.vanta-canvas {
 
 .interest-card.is-expanded .interest-plus {
   /* 展开后右上角当关闭用，可按需微调位置 */
+} 
+
+.research-figure video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #000;
 }
