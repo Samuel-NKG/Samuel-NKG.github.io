@@ -706,45 +706,73 @@ if (mapBox && !document.getElementById('mapmyvisitors')) {
     '&co=0a0a0c' +
     '&cl=ffffff' +
     '&t=m';
+
   function removeZoomControls() {
-  mapBox.querySelectorAll(
-    [
-      // Leaflet
+    var selectors = [
       '.leaflet-control-zoom',
       '.leaflet-control-zoom-in',
       '.leaflet-control-zoom-out',
-
-      // 旧版 jVectorMap，保留兼容
       '.jvectormap-zoomin',
       '.jvectormap-zoomout',
       '.jvectormap-goback',
-
-      // 额外兜底
       '[title="Zoom in"]',
       '[title="Zoom out"]',
       '[aria-label="Zoom in"]',
       '[aria-label="Zoom out"]'
-    ].join(',')
-  ).forEach(function (el) {
-    el.remove();
+    ].join(',');
+
+    // 从 mapBox 和整个 document 都清一遍（防止挂到 body 或其他地方）
+    [mapBox, document].forEach(function (root) {
+      if (!root || !root.querySelectorAll) return;
+      root.querySelectorAll(selectors).forEach(function (el) {
+        el.style.setProperty('display', 'none', 'important');
+        el.style.setProperty('visibility', 'hidden', 'important');
+        el.style.setProperty('opacity', '0', 'important');
+        el.style.setProperty('pointer-events', 'none', 'important');
+        el.style.setProperty('width', '0', 'important');
+        el.style.setProperty('height', '0', 'important');
+        el.style.setProperty('overflow', 'hidden', 'important');
+        el.style.setProperty('left', '-9999px', 'important');
+        el.style.setProperty('position', 'absolute', 'important');
+        try { el.remove(); } catch (e) {}
+      });
+    });
+  }
+
+  // 必须先监听，再插入第三方脚本，避免加载竞态
+  var zoomObserver = new MutationObserver(function () {
+    removeZoomControls();
   });
-}
 
-// 必须先监听，再插入第三方脚本，避免加载竞态
-var zoomObserver = new MutationObserver(function () {
-  removeZoomControls();
-});
+  zoomObserver.observe(mapBox, {
+    childList: true,
+    subtree: true
+  });
 
-zoomObserver.observe(mapBox, {
-  childList: true,
-  subtree: true
-});
+  // 额外：全局观察 body，防止控件被挂到别的地方
+  var bodyObserver = new MutationObserver(function () {
+    removeZoomControls();
+  });
+  bodyObserver.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
 
-mapScript.addEventListener('load', function () {
-  removeZoomControls();
-});
+  mapScript.addEventListener('load', function () {
+    removeZoomControls();
+    // 加载后持续清一段时间，防止异步/延迟插入
+    var times = 0;
+    var timer = setInterval(function () {
+      removeZoomControls();
+      times += 1;
+      if (times >= 20) { // 约 10 秒
+        clearInterval(timer);
+        // 可选择停止 bodyObserver，但保留 mapBox 的 observer 更安全
+      }
+    }, 500);
+  });
 
-// 最后再加载 MapMyVisitors
-mapBox.appendChild(mapScript);
+  // 最后再加载 MapMyVisitors
+  mapBox.appendChild(mapScript);
 }
 });
