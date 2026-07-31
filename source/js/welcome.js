@@ -695,7 +695,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // 访客地图（必须动态插入，innerHTML 里的 script 不会跑）
-    var mapBox = document.getElementById('visitor-map');
+  var mapBox = document.getElementById('visitor-map');
   if (mapBox && !document.getElementById('mapmyvisitors')) {
     var mapScript = document.createElement('script');
     mapScript.type = 'text/javascript';
@@ -704,7 +704,9 @@ document.addEventListener('DOMContentLoaded', function () {
       '//mapmyvisitors.com/map.js' +
       '?d=Yk8bDJHbN9pw73uHb5BMR0oh6f7gQBzG7Nt_sR4Qn2Y' +
       '&w=560' +
-      '&t=n';   // 只隐藏文字，不要改 co/cl
+      '&co=0a0a0c' +   // 近黑海洋（和卡片融在一起，看起来像透明）
+      '&cl=ffffff' +   // 白陆地
+      '&t=n';
     mapBox.appendChild(mapScript);
   }
 });  // DOMContentLoaded 结束 —— 保持只有这一处结尾
