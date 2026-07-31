@@ -710,22 +710,30 @@ document.addEventListener('DOMContentLoaded', function () {
     mapBox.appendChild(mapScript);
 
     function removeZoomControls() {
-      // 1) 常见 class
       document.querySelectorAll(
         '.jvectormap-zoomin, .jvectormap-zoomout, .jvectormap-goback'
       ).forEach(function (el) { el.remove(); });
 
-      // 2) 按文字内容：只有 “+” / “-” 的小节点
-      var root = document.getElementById('mapmyvisitors-widget') || mapBox;
-      if (!root) return;
-      root.querySelectorAll('div, span, a, button').forEach(function (el) {
-        if (el.children.length > 0) return;
+      document.querySelectorAll('div, span, a, button').forEach(function (el) {
+        if (el.children.length) return;
         var t = (el.textContent || '').replace(/\s/g, '');
-        if (t === '+' || t === '-' || t === '−' || t === '–' || t === '±') {
-          el.remove();
-        }
+        if (t !== '+' && t !== '-' && t !== '−' && t !== '–') return;
+        // 避免误伤兴趣卡片上的 +
+        var map = document.getElementById('mapmyvisitors-widget') ||
+                  document.getElementById('visitor-map');
+        if (map && (map === el || map.contains(el))) el.remove();
       });
     }
+
+    var n = 0;
+    var timer = setInterval(function () {
+      removeZoomControls();
+      if (++n > 30) clearInterval(timer);
+    }, 300);
+
+    var mo = new MutationObserver(removeZoomControls);
+    mo.observe(document.body, { childList: true, subtree: true });
+    setTimeout(function () { mo.disconnect(); }, 15000);
 
     // 定时清 + 监听后续插入
     var n = 0;

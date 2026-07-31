@@ -962,23 +962,24 @@ canvas.vanta-canvas {
   display: none !important;
 }
 
-/* 强力隐藏左下角缩放 */
-#mapmyvisitors-widget .jvectormap-zoomin,
-#mapmyvisitors-widget .jvectormap-zoomout,
-#mapmyvisitors-widget .jvectormap-goback,
-#visitor-map .jvectormap-zoomin,
-#visitor-map .jvectormap-zoomout,
-#visitor-map .jvectormap-goback,
-.mapmyvisitors-map-control .jvectormap-zoomin,
-.mapmyvisitors-map-control .jvectormap-zoomout,
-#mapmyvisitors-widget [class*="zoom"],
-#visitor-map [class*="zoom"] {
+/* 全局隐藏缩放按钮 */
+.jvectormap-zoomin,
+.jvectormap-zoomout,
+.jvectormap-goback {
   display: none !important;
   opacity: 0 !important;
-  width: 0 !important;
-  height: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  font-size: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+  overflow: hidden !important;
 }
 
 /* 外层透明；不要动地图的 background-image */
