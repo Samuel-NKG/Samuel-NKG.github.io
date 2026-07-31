@@ -706,7 +706,7 @@ document.addEventListener('DOMContentLoaded', function () {
       '?d=Yk8bDJHbN9pw73uHb5BMR0oh6f7gQBzG7Nt_sR4Qn2Y' +
       '&w=560' +
       '&co=0d0d10' +   // 近黑海洋
-      '&cl=9a9aa3' +   // 浅灰陆地（能看清轮廓）
+      '&cl=ffffff' +   // 白色陆地
       '&ct=888888' +
       '&t=n';
     mapBox.appendChild(mapScript);
