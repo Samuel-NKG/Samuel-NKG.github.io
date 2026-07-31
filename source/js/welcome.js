@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function ()) {
   if (!document.body.classList.contains('index') &&
       location.pathname !== '/' &&
       location.pathname !== '/index.html') {
@@ -684,7 +684,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-   // ========== Website Data：不蒜子 + MapMyVisitors（优化版） ==========
+// ========== Website Data：不蒜子 + MapMyVisitors（性能安全版） ==========
 if (!document.getElementById('busuanzi-script')) {
   var bz = document.createElement('script');
   bz.id = 'busuanzi-script';
@@ -708,26 +708,26 @@ if (mapBox && !document.getElementById('mapmyvisitors')) {
     '&t=n';
   mapBox.appendChild(mapScript);
 
-  // 优化后的移除函数
+  // 移除缩放按钮函数
   function removeZoomControls() {
-    // 1. 直接移除标准类名按钮
     var selectors = [
       '.jvectormap-zoomin',
       '.jvectormap-zoomout',
       '.jvectormap-goback'
     ];
+
     selectors.forEach(function (sel) {
       document.querySelectorAll(sel).forEach(function (el) {
-        // 仅处理位于地图容器内的元素
-        if (mapBox.contains(el) || 
-            (document.getElementById('mapmyvisitors-widget') && 
+        // 严格限制在地图相关容器内
+        if (mapBox.contains(el) ||
+            (document.getElementById('mapmyvisitors-widget') &&
              document.getElementById('mapmyvisitors-widget').contains(el))) {
           el.remove();
         }
       });
     });
 
-    // 2. 兜底：移除地图容器内仅含 “+” 或 “−” 的空按钮/文本节点
+    // 兜底清理仅含 + / − 的空节点
     var mapRoot = document.getElementById('mapmyvisitors-widget') || mapBox;
     if (mapRoot) {
       mapRoot.querySelectorAll('button, div, span, a').forEach(function (el) {
@@ -740,36 +740,42 @@ if (mapBox && !document.getElementById('mapmyvisitors')) {
     }
   }
 
-  // 初始定时清理（前 20 秒内高频执行，覆盖异步加载窗口）
+  // 防抖包装
+  var debounceTimer = null;
+  function debouncedRemove() {
+    if (debounceTimer) clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(function () {
+      removeZoomControls();
+    }, 80); // 80ms 防抖，避免连续触发
+  }
+
+  // 初始阶段高频清理（仅前 12 秒）
   var cleanupCount = 0;
   var initialTimer = setInterval(function () {
     removeZoomControls();
     cleanupCount += 1;
-    if (cleanupCount >= 50) { // 约 20 秒
+    if (cleanupCount >= 30) { // 约 12 秒
       clearInterval(initialTimer);
     }
   }, 400);
 
-  // 长期 MutationObserver（永不断开，持续监控后续插入）
+  // 只监听地图容器（关键修复点）
   var observer = new MutationObserver(function (mutations) {
-    var needClean = false;
-    mutations.forEach(function (mutation) {
-      if (mutation.addedNodes.length > 0) {
-        needClean = true;
+    var hasAdded = false;
+    for (var i = 0; i < mutations.length; i++) {
+      if (mutations[i].addedNodes.length > 0) {
+        hasAdded = true;
+        break;
       }
-    });
-    if (needClean) {
-      removeZoomControls();
+    }
+    if (hasAdded) {
+      debouncedRemove();
     }
   });
 
-  // 同时监听 mapBox 与 document.body，覆盖所有可能插入位置
   observer.observe(mapBox, {
     childList: true,
     subtree: true
   });
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true
-  });
+  }
 }
