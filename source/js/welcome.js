@@ -696,7 +696,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // 访客地图（必须动态插入，innerHTML 里的 script 不会跑）
   var mapBox = document.getElementById('visitor-map');
-    if (mapBox && !document.getElementById('mapmyvisitors')) {
+  if (mapBox && !document.getElementById('mapmyvisitors')) {
     var mapScript = document.createElement('script');
     mapScript.type = 'text/javascript';
     mapScript.id = 'mapmyvisitors';
@@ -709,12 +709,34 @@ document.addEventListener('DOMContentLoaded', function () {
       '&t=n';
     mapBox.appendChild(mapScript);
 
-    // 地图渲染后反复清掉缩放按钮
-    var killZoom = setInterval(function () {
+    function removeZoomControls() {
+      // 1) 常见 class
       document.querySelectorAll(
         '.jvectormap-zoomin, .jvectormap-zoomout, .jvectormap-goback'
       ).forEach(function (el) { el.remove(); });
+
+      // 2) 按文字内容：只有 “+” / “-” 的小节点
+      var root = document.getElementById('mapmyvisitors-widget') || mapBox;
+      if (!root) return;
+      root.querySelectorAll('div, span, a, button').forEach(function (el) {
+        if (el.children.length > 0) return;
+        var t = (el.textContent || '').replace(/\s/g, '');
+        if (t === '+' || t === '-' || t === '−' || t === '–' || t === '±') {
+          el.remove();
+        }
+      });
+    }
+
+    // 定时清 + 监听后续插入
+    var n = 0;
+    var timer = setInterval(function () {
+      removeZoomControls();
+      n += 1;
+      if (n > 25) clearInterval(timer); // 约 10 秒
     }, 400);
-    setTimeout(function () { clearInterval(killZoom); }, 8000);
+
+    var mo = new MutationObserver(removeZoomControls);
+    mo.observe(mapBox, { childList: true, subtree: true });
+    setTimeout(function () { mo.disconnect(); }, 12000);
   }
 });  // DOMContentLoaded 结束 —— 保持只有这一处结尾
