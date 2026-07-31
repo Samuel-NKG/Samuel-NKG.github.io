@@ -922,23 +922,19 @@ canvas.vanta-canvas {
   font-weight: 600;
   color: #fff;
   line-height: 1.3;
-  letter-spacing: 0.02em;
 }
 
 .data-stat-value {
   font-size: clamp(2.6rem, 5.5vw, 3.6rem);
   font-weight: 700;
-  color: #ffffff;
+  color: #fff;
   line-height: 1.1;
-  letter-spacing: 0.5px;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
 }
 
-/* ========== Website Data 地图 ========== */
 .data-map-card {
   width: 100%;
   min-height: 360px;
-  padding: 1.8rem 1.8rem 1.6rem;
+  padding: 1.8rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -953,22 +949,24 @@ canvas.vanta-canvas {
   margin: 0 auto;
   border-radius: 12px;
   overflow: hidden;
-  background-color: #0d0d10;
   display: flex;
   justify-content: center;
   align-items: center;
+  /* 不要写 background: transparent */
 }
 
-/* 隐藏统计文字和缩放 */
+/* 只藏文字和缩放 */
 #mapmyvisitors-widget .mapmyvisitors-visitors,
 #mapmyvisitors-widget .mapmyvisitors-date,
 #mapmyvisitors-widget .mapmyvisitors-bottom-text,
 #visitor-map .mapmyvisitors-zoom,
 #visitor-map .jvectormap-zoomin,
-#visitor-map .jvectormap-zoomout {
+#visitor-map .jvectormap-zoomout,
+#visitor-map .jvectormap-goback {
   display: none !important;
 }
 
+/* 外层可透明；地图本体禁止动 background */
 #mapmyvisitors-widget,
 .mapmyvisitors-map-container {
   background-color: transparent !important;
@@ -976,64 +974,13 @@ canvas.vanta-canvas {
   border: none !important;
 }
 
-/* 把默认蓝白底图压成深色；不要写 background: transparent */
 .mapmyvisitors-map {
-  border-radius: 10px;
-  filter: brightness(0.42) saturate(0.35) contrast(1.15);
+  border-radius: 10px !important;
+  /* 先不要 filter，确认蓝白底图能显示 */
+  filter: none !important;
 }
 
-.data-map-frame img,
-.data-map-frame iframe,
-.data-map-frame canvas {
-  max-width: 100% !important;
-  height: auto !important;
-  border: none !important;
-  display: block;
-  margin: 0 auto;
-}
 @media (max-width: 640px) {
-  .data-stats-row {
-    flex-direction: column;
-  }
-  .data-stat-card {
-    min-height: 160px;
-  }
-  .data-map-frame {
-    width: 100%;
-    max-width: 100%;
-  }
-}
-
-/* 隐藏缩放按钮和多余控件 */
-#visitor-map .mapmyvisitors-zoom,
-#visitor-map .zoom-control,
-#visitor-map .jvectormap-zoomin,
-#visitor-map .jvectormap-zoomout,
-#visitor-map .jvectormap-goback,
-#mapmyvisitors-widget .mapmyvisitors-visitors,
-#mapmyvisitors-widget .mapmyvisitors-date,
-#mapmyvisitors-widget .mapmyvisitors-bottom-text {
-  display: none !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
-
-/* 地图容器贴合黑卡 */
-.data-map-frame,
-#visitor-map,
-#mapmyvisitors-widget,
-.mapmyvisitors-map-container,
-.mapmyvisitors-map {
-  background: transparent !important;
-  background-color: transparent !important;
-  box-shadow: none !important;
-  border: none !important;
-}
-
-.data-map-frame {
-  width: min(420px, 100%);
-  max-width: 420px;
-  margin: 0 auto;
-  overflow: hidden;
-  border-radius: 12px;
+  .data-stats-row { flex-direction: column; }
+  .data-map-frame { width: 100%; max-width: 100%; }
 }
