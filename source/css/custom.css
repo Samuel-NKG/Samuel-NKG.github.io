@@ -934,7 +934,7 @@ canvas.vanta-canvas {
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
 }
 
-/* 第二行整宽地图卡 */
+/* ========== Website Data 地图 ========== */
 .data-map-card {
   width: 100%;
   min-height: 360px;
@@ -953,26 +953,36 @@ canvas.vanta-canvas {
   margin: 0 auto;
   border-radius: 12px;
   overflow: hidden;
-  background: #0d0d10 !important;
+  background-color: #0d0d10; /* 只用 color，别用 background 简写 */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* 隐藏文字和缩放 */
-#visitor-map .mapmyvisitors-zoom,
-#visitor-map .jvectormap-zoomin,
-#visitor-map .jvectormap-zoomout,
+/* 只藏文字和缩放，不要动地图的 background-image */
 #mapmyvisitors-widget .mapmyvisitors-visitors,
 #mapmyvisitors-widget .mapmyvisitors-date,
-#mapmyvisitors-widget .mapmyvisitors-bottom-text {
+#mapmyvisitors-widget .mapmyvisitors-bottom-text,
+#visitor-map .mapmyvisitors-zoom,
+#visitor-map .zoom-control,
+#visitor-map .jvectormap-zoomin,
+#visitor-map .jvectormap-zoomout,
+#visitor-map .jvectormap-goback {
   display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
+/* 外层容器可以透明，但不要清掉 .mapmyvisitors-map 的图 */
 #mapmyvisitors-widget,
-.mapmyvisitors-map-container,
+.mapmyvisitors-map-container {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* 关键：不要写 background: transparent，会干掉陆地贴图 */
 .mapmyvisitors-map {
-  background: #0d0d10 !important;
   box-shadow: none !important;
   border: none !important;
 }
@@ -986,7 +996,6 @@ canvas.vanta-canvas {
   display: block;
   margin: 0 auto;
 }
-
 @media (max-width: 640px) {
   .data-stats-row {
     flex-direction: column;
