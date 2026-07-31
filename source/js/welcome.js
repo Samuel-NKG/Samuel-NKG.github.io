@@ -693,6 +693,43 @@ if (!document.getElementById('busuanzi-script')) {
   document.body.appendChild(bz);
 }
 
+// 强制隐藏缩放按钮的永久样式（最高优先级）
+if (!document.getElementById('force-hide-map-zoom')) {
+  var forceStyle = document.createElement('style');
+  forceStyle.id = 'force-hide-map-zoom';
+  forceStyle.textContent = `
+    .jvectormap-zoomin,
+    .jvectormap-zoomout,
+    .jvectormap-goback,
+    .leaflet-control-zoom,
+    .leaflet-control-zoom-in,
+    .leaflet-control-zoom-out,
+    [class*="jvectormap-zoom"],
+    [class*="leaflet-control-zoom"] {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      width: 0 !important;
+      height: 0 !important;
+      max-width: 0 !important;
+      max-height: 0 !important;
+      overflow: hidden !important;
+      position: absolute !important;
+      left: -99999px !important;
+      top: -99999px !important;
+      font-size: 0 !important;
+      line-height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      background: transparent !important;
+      z-index: -1 !important;
+    }
+  `;
+  document.head.appendChild(forceStyle);
+}
+
 // 访客地图
 var mapBox = document.getElementById('visitor-map');
 if (mapBox && !document.getElementById('mapmyvisitors')) {
@@ -718,10 +755,11 @@ if (mapBox && !document.getElementById('mapmyvisitors')) {
       '[title="Zoom in"]',
       '[title="Zoom out"]',
       '[aria-label="Zoom in"]',
-      '[aria-label="Zoom out"]'
+      '[aria-label="Zoom out"]',
+      '[class*="jvectormap-zoom"]',
+      '[class*="leaflet-control-zoom"]'
     ].join(',');
 
-    // 从 mapBox 和整个 document 都清一遍（防止挂到 body 或其他地方）
     [mapBox, document].forEach(function (root) {
       if (!root || !root.querySelectorAll) return;
       root.querySelectorAll(selectors).forEach(function (el) {
@@ -732,14 +770,15 @@ if (mapBox && !document.getElementById('mapmyvisitors')) {
         el.style.setProperty('width', '0', 'important');
         el.style.setProperty('height', '0', 'important');
         el.style.setProperty('overflow', 'hidden', 'important');
-        el.style.setProperty('left', '-9999px', 'important');
+        el.style.setProperty('left', '-99999px', 'important');
+        el.style.setProperty('top', '-99999px', 'important');
         el.style.setProperty('position', 'absolute', 'important');
+        el.style.setProperty('z-index', '-1', 'important');
         try { el.remove(); } catch (e) {}
       });
     });
   }
 
-  // 必须先监听，再插入第三方脚本，避免加载竞态
   var zoomObserver = new MutationObserver(function () {
     removeZoomControls();
   });
@@ -749,7 +788,6 @@ if (mapBox && !document.getElementById('mapmyvisitors')) {
     subtree: true
   });
 
-  // 额外：全局观察 body，防止控件被挂到别的地方
   var bodyObserver = new MutationObserver(function () {
     removeZoomControls();
   });
@@ -760,19 +798,17 @@ if (mapBox && !document.getElementById('mapmyvisitors')) {
 
   mapScript.addEventListener('load', function () {
     removeZoomControls();
-    // 加载后持续清一段时间，防止异步/延迟插入
+    // 持续清理 30 秒
     var times = 0;
     var timer = setInterval(function () {
       removeZoomControls();
       times += 1;
-      if (times >= 20) { // 约 10 秒
+      if (times >= 60) {
         clearInterval(timer);
-        // 可选择停止 bodyObserver，但保留 mapBox 的 observer 更安全
       }
     }, 500);
   });
 
-  // 最后再加载 MapMyVisitors
   mapBox.appendChild(mapScript);
 }
 });
