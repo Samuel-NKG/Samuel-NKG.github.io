@@ -705,7 +705,7 @@ if (mapBox && !document.getElementById('mapmyvisitors')) {
     '&w=560' +
     '&co=0a0a0c' +
     '&cl=ffffff' +
-    '&t=n';
+    '&t=m';
   mapBox.appendChild(mapScript);
 
   function removeZoomControls() {
