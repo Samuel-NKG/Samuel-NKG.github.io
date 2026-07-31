@@ -695,20 +695,16 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // 访客地图（必须动态插入，innerHTML 里的 script 不会跑）
-  var mapBox = document.getElementById('visitor-map');
-    if (mapBox && !document.getElementById('mapmyvisitors')) {
+    var mapBox = document.getElementById('visitor-map');
+  if (mapBox && !document.getElementById('mapmyvisitors')) {
     var mapScript = document.createElement('script');
     mapScript.type = 'text/javascript';
     mapScript.id = 'mapmyvisitors';
-    // co=海洋/底色  cl=陆地  ct=文字  t=n 隐藏 Pageviews 和日期
     mapScript.src =
       '//mapmyvisitors.com/map.js' +
       '?d=Yk8bDJHbN9pw73uHb5BMR0oh6f7gQBzG7Nt_sR4Qn2Y' +
       '&w=560' +
-      '&co=0d0d10' +   // 近黑海洋
-      '&cl=ffffff' +   // 白色陆地
-      '&ct=888888' +
-      '&t=n';
+      '&t=n';   // 只隐藏文字，不要改 co/cl
     mapBox.appendChild(mapScript);
   }
 });  // DOMContentLoaded 结束 —— 保持只有这一处结尾

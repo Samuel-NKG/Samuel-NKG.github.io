@@ -953,27 +953,22 @@ canvas.vanta-canvas {
   margin: 0 auto;
   border-radius: 12px;
   overflow: hidden;
-  background-color: #0d0d10; /* 只用 color，别用 background 简写 */
+  background-color: #0d0d10;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* 只藏文字和缩放，不要动地图的 background-image */
+/* 隐藏统计文字和缩放 */
 #mapmyvisitors-widget .mapmyvisitors-visitors,
 #mapmyvisitors-widget .mapmyvisitors-date,
 #mapmyvisitors-widget .mapmyvisitors-bottom-text,
 #visitor-map .mapmyvisitors-zoom,
-#visitor-map .zoom-control,
 #visitor-map .jvectormap-zoomin,
-#visitor-map .jvectormap-zoomout,
-#visitor-map .jvectormap-goback {
+#visitor-map .jvectormap-zoomout {
   display: none !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
 }
 
-/* 外层容器可以透明，但不要清掉 .mapmyvisitors-map 的图 */
 #mapmyvisitors-widget,
 .mapmyvisitors-map-container {
   background-color: transparent !important;
@@ -981,10 +976,10 @@ canvas.vanta-canvas {
   border: none !important;
 }
 
-/* 关键：不要写 background: transparent，会干掉陆地贴图 */
+/* 把默认蓝白底图压成深色；不要写 background: transparent */
 .mapmyvisitors-map {
-  box-shadow: none !important;
-  border: none !important;
+  border-radius: 10px;
+  filter: brightness(0.42) saturate(0.35) contrast(1.15);
 }
 
 .data-map-frame img,
