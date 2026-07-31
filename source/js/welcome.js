@@ -266,6 +266,35 @@ document.addEventListener('DOMContentLoaded', function () {
         </div>
       </div>
     </section>
+
+        <!-- 7. Website Data -->
+    <section class="home-page" id="page-data" data-page="6">
+      <div class="page-inner">
+        <div class="page-title">
+          <span class="typed" data-text="Website Data"></span><span class="cursor">|</span>
+        </div>
+        <div class="page-card" id="data-section">
+          <div class="data-grid">
+            <div class="data-item">
+              <div class="data-label">Stack</div>
+              <div class="data-value">Hexo · Butterfly · GitHub Pages</div>
+            </div>
+            <div class="data-item">
+              <div class="data-label">Theme</div>
+              <div class="data-value">Custom homepage (scroll-driven)</div>
+            </div>
+            <div class="data-item">
+              <div class="data-label">Status</div>
+              <div class="data-value">Living document · Updated irregularly</div>
+            </div>
+            <div class="data-item">
+              <div class="data-label">Note</div>
+              <div class="data-value">A more formal academic version is planned before October 2026.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   `;
 
   var content = document.getElementById('content-inner') || document.querySelector('.layout');
@@ -284,6 +313,7 @@ document.addEventListener('DOMContentLoaded', function () {
       <div class="side-nav-item" data-section="3" title="Awards and Honors"></div>
       <div class="side-nav-item" data-section="4" title="Finished Projects"></div>
       <div class="side-nav-item" data-section="5" title="Personal Interest"></div>
+      <div class="side-nav-item" data-section="6" title="Website Data"></div>
     `;
     document.body.appendChild(sideNav);
   }
