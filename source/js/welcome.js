@@ -276,16 +276,16 @@ document.addEventListener('DOMContentLoaded', function () {
         <div class="page-card" id="data-section">
           <div class="data-stats-row">
             <div class="data-stat-card">
+              <div class="data-stat-label">Unique Visitors</div>
               <div class="data-stat-value">
                 <span id="busuanzi_value_site_uv">--</span>
               </div>
-              <div class="data-stat-label">Unique Visitors</div>
             </div>
             <div class="data-stat-card">
+              <div class="data-stat-label">Total Visits</div>
               <div class="data-stat-value">
                 <span id="busuanzi_value_site_pv">--</span>
               </div>
-              <div class="data-stat-label">Total Visits</div>
             </div>
           </div>
           <div class="data-map-wrap">
