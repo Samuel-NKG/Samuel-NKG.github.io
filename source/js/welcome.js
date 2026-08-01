@@ -724,26 +724,79 @@ document.addEventListener('DOMContentLoaded', function () {
     setTimeout(function () { if (visitorMap) visitorMap.invalidateSize(); }, 600);
   }
 
+  // 先按坐标网格聚合（约 0.2° ≈ 20km），再在同格内选更好的城市名
+  function isBadCityName(name) {
+    if (!name) return true;
+    var s = String(name).trim();
+    if (!s || s === 'Unknown') return true;
+    if (/[\uFFFD]/.test(s)) return true;
+    if (/省$/.test(s) && s.length <= 4) return true;
+    var ok = (s.match(/[A-Za-z\u4e00-\u9fff]/g) || []).join('').length;
+    if (ok < 2) return true;
+    return false;
+  }
+
+  function cityNameScore(name) {
+    if (isBadCityName(name)) return -100;
+    var s = String(name);
+    var score = 0;
+    if (/^[A-Za-z]/.test(s)) score += 5;
+    if (/[\u4e00-\u9fff]/.test(s) && !/省$/.test(s)) score += 3;
+    if (/市$/.test(s)) score += 1;
+    if (/省$/.test(s)) score -= 5;
+    score += Math.min(s.length, 12) * 0.1;
+    return score;
+  }
+
   function renderMarkers(cities) {
     if (!visitorMap || !markerLayer) return;
     markerLayer.clearLayers();
     var groups = {};
+
     (cities || []).forEach(function (c) {
       var lat = Number(c.lat), lng = Number(c.lng);
       if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
-      var key = (c.countryCode || c.country || '') + '|' + (c.city || 'Unknown');
-      if (!groups[key]) groups[key] = { city: c.city || 'Unknown', country: c.country || c.countryCode || '', lat: lat, lng: lng, count: 0 };
-      groups[key].count += 1;
+
+      // 先坐标：约 0.2° 一格
+      var gLat = Math.round(lat * 5) / 5;
+      var gLng = Math.round(lng * 5) / 5;
+      var key = gLat + ',' + gLng;
+
+      var city = (c.city || '').toString().trim() || 'Unknown';
+      var country = (c.country || c.countryCode || '').toString();
+
+      if (!groups[key]) {
+        groups[key] = {
+          city: city,
+          country: country,
+          sumLat: lat,
+          sumLng: lng,
+          count: 1
+        };
+      } else {
+        var g = groups[key];
+        g.count += 1;
+        g.sumLat += lat;
+        g.sumLng += lng;
+        // 同格内再比名字质量（Nanjing 会赢过乱码/省名）
+        if (cityNameScore(city) > cityNameScore(g.city)) {
+          g.city = city;
+          if (country) g.country = country;
+        }
+      }
     });
+
     var bounds = [];
     Object.keys(groups).forEach(function (key) {
       var g = groups[key];
+      var lat = g.sumLat / g.count;
+      var lng = g.sumLng / g.count;
       var radius = Math.min(18, 5 + Math.sqrt(g.count) * 3.2);
       var label = g.city + (g.country ? ', ' + g.country : '') + ' · ' + g.count + (g.count > 1 ? ' visits' : ' visit');
-      markerLayer.addLayer(L.circleMarker([g.lat, g.lng], {
+      markerLayer.addLayer(L.circleMarker([lat, lng], {
         radius: radius, color: '#ff6b2c', weight: 1.5, fillColor: '#ff6b2c', fillOpacity: 0.75
       }).bindPopup(label));
-      bounds.push([g.lat, g.lng]);
+      bounds.push([lat, lng]);
     });
     if (bounds.length > 0) {
       try { visitorMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 5 }); } catch (e) {}
