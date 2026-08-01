@@ -692,18 +692,19 @@ if (!document.getElementById('busuanzi-script')) {
   document.body.appendChild(bz);
 }
 
-// 访客地图（干净加载，不再做任何 zoom 按钮删除）
+// 访客地图
 var mapBox = document.getElementById('visitor-map');
 if (mapBox && !document.getElementById('mapmyvisitors')) {
   var mapScript = document.createElement('script');
   mapScript.type = 'text/javascript';
   mapScript.id = 'mapmyvisitors';
+  // 使用你新提供的密钥
   mapScript.src =
     '//mapmyvisitors.com/map.js' +
-    '?d=Yk8bDJHbN9pw73uHb5BMR0oh6f7gQBzG7Nt_sR4Qn2Y' +
-    '&w=560' +
-    '&co=0a0a0c' +
+    '?d=I3KaCcHeVmpomoJCyBV0UG6kDJq9doBsCQGfi44_Rnc' +
     '&cl=ffffff' +
+    '&w=a' +
+    '&co=0a0a0c' +
     '&t=m';
   mapBox.appendChild(mapScript);
 }
