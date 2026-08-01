@@ -1,4 +1,4 @@
-LOADINGdocument.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
   if (!document.body.classList.contains('index') &&
       location.pathname !== '/' &&
       location.pathname !== '/index.html') {
