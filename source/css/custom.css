@@ -130,7 +130,6 @@ footer,
   pointer-events: none !important;
 }
 
-/* 去掉滚动条 */
 html {
   scrollbar-width: none;
 }
@@ -141,7 +140,6 @@ body::-webkit-scrollbar {
   height: 0 !important;
 }
 
-/* 页面兜底黑 + vanta 在下层 */
 html,
 body {
   background: #000 !important;
@@ -168,7 +166,6 @@ canvas.vanta-canvas {
   flex-wrap: nowrap !important;
 }
 
-/* ========== 多页内容：第一屏留给开场淡出 ========== */
 #home-pages {
   width: 100%;
   padding-top: 100vh !important;
@@ -233,7 +230,6 @@ canvas.vanta-canvas {
   50% { opacity: 0; }
 }
 
-/* Intro 左右布局 */
 .home-page .welcome-content {
   display: flex !important;
   flex-direction: row !important;
@@ -312,7 +308,6 @@ canvas.vanta-canvas {
   opacity: 0.9;
 }
 
-/* ========== 卡片：默认隐藏，进入后上浮 ========== */
 .page-card {
   opacity: 0;
   transform: translateY(28px);
@@ -326,7 +321,6 @@ canvas.vanta-canvas {
   pointer-events: auto !important;
 }
 
-/* ========== Current Research / Finished Projects（黑底） ========== */
 #research-card,
 #projects-card {
   display: flex !important;
@@ -375,10 +369,6 @@ canvas.vanta-canvas {
   transform: translateY(-1px);
 }
 
-.research-btn:active {
-  transform: translateY(1px) scale(0.98);
-}
-
 .research-btn.active {
   background: rgba(255, 255, 255, 0.16) !important;
   border-color: rgba(255, 255, 255, 0.38) !important;
@@ -416,25 +406,11 @@ canvas.vanta-canvas {
   max-height: 560px;
   overflow-y: auto;
   padding-right: 0.6rem;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
-}
-
-.research-right::-webkit-scrollbar {
-  width: 5px;
-}
-.research-right::-webkit-scrollbar-track {
-  background: transparent;
-}
-.research-right::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.22);
-  border-radius: 10px;
 }
 
 .research-panel {
   display: none !important;
   color: #ffffff;
-  animation: researchFadeIn 0.4s ease;
 }
 
 .research-panel.active {
@@ -445,7 +421,6 @@ canvas.vanta-canvas {
   font-size: 1.15rem;
   font-weight: 600;
   margin: 0 0 0.85rem 0;
-  line-height: 1.4;
   color: #ffffff;
 }
 
@@ -457,12 +432,6 @@ canvas.vanta-canvas {
   color: #ffffff;
 }
 
-@keyframes researchFadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ========== Personal Interest（黑底） ========== */
 #interest-cards {
   display: flex;
   gap: 1.4rem;
@@ -482,14 +451,7 @@ canvas.vanta-canvas {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1),
-              border-color 0.3s ease;
   cursor: pointer;
-}
-
-.interest-card:hover {
-  transform: scale(1.04);
-  border-color: rgba(255, 255, 255, 0.28);
 }
 
 .interest-card h3 {
@@ -497,7 +459,6 @@ canvas.vanta-canvas {
   font-weight: 600;
   color: #fff;
   margin: 0 0 0.75rem 0;
-  line-height: 1.3;
 }
 
 .interest-card p {
@@ -513,7 +474,6 @@ canvas.vanta-canvas {
   margin-top: 1.5rem;
 }
 
-/* 加号光学居中 */
 .interest-plus {
   width: 32px;
   height: 32px;
@@ -523,8 +483,6 @@ canvas.vanta-canvas {
   align-items: center;
   justify-content: center;
   color: #fff;
-  transition: background 0.25s ease;
-  padding: 0;
   position: relative;
   font-size: 0;
 }
@@ -533,18 +491,12 @@ canvas.vanta-canvas {
   content: '+';
   font-size: 1.35rem;
   line-height: 1;
-  font-weight: 400;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -52%);
 }
 
-.interest-card:hover .interest-plus {
-  background: rgba(255, 255, 255, 0.22);
-}
-
-/* ========== Awards and Honors ========== */
 #awards-section {
   display: flex;
   flex-direction: row;
@@ -572,27 +524,7 @@ canvas.vanta-canvas {
   display: flex;
   gap: 1.2rem;
   align-items: flex-start;
-  position: relative;
-  padding-left: 1.1rem;
   margin-bottom: 1.6rem;
-}
-
-.award-item::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.35rem;
-  bottom: -1.6rem;
-  width: 2px;
-  background: rgba(255, 255, 255, 0.22);
-}
-
-.award-item:last-child {
-  margin-bottom: 0;
-}
-
-.award-item:last-child::before {
-  bottom: 0.3rem;
 }
 
 .award-year {
@@ -600,30 +532,20 @@ canvas.vanta-canvas {
   font-size: 1.05rem;
   font-weight: 700;
   color: #ffffff;
-  letter-spacing: 0.3px;
-  line-height: 1.35;
-  flex-shrink: 0;
-}
-
-.award-content {
-  flex: 1;
 }
 
 .award-title {
   font-size: 0.98rem;
   font-weight: 600;
   color: #ffffff;
-  line-height: 1.45;
   margin-bottom: 0.2rem;
 }
 
 .award-detail {
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.7);
-  line-height: 1.5;
 }
 
-/* ========== Publication（黑底） ========== */
 #pub-section {
   display: flex;
   flex-direction: column;
@@ -636,17 +558,10 @@ canvas.vanta-canvas {
 .pub-item {
   display: flex;
   gap: 1.2rem;
-  align-items: flex-start;
   padding: 1.1rem 1.25rem;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 16px;
   background: rgba(16, 16, 18, 0.92) !important;
-  transition: border-color 0.25s ease, transform 0.25s ease;
-}
-
-.pub-item:hover {
-  border-color: rgba(255, 255, 255, 0.28);
-  transform: translateY(-2px);
 }
 
 .pub-index {
@@ -654,24 +569,20 @@ canvas.vanta-canvas {
   font-weight: 700;
   color: rgba(255, 255, 255, 0.4);
   min-width: 28px;
-  padding-top: 0.15rem;
 }
 
 .pub-title {
   font-size: 1.02rem;
   font-weight: 600;
   color: #fff;
-  line-height: 1.45;
   margin-bottom: 0.3rem;
 }
 
 .pub-meta {
   font-size: 0.88rem;
   color: rgba(255, 255, 255, 0.65);
-  line-height: 1.4;
 }
 
-/* ========== 右侧节点导航 ========== */
 #side-nav {
   position: fixed !important;
   right: 20px !important;
@@ -682,7 +593,6 @@ canvas.vanta-canvas {
   gap: 6px !important;
   z-index: 9999 !important;
   padding: 12px 8px !important;
-  pointer-events: auto !important;
 }
 
 .side-nav-item {
@@ -690,10 +600,7 @@ canvas.vanta-canvas {
   width: 28px !important;
   height: 28px !important;
   background: transparent !important;
-  border-radius: 2px !important;
   cursor: pointer !important;
-  transition: none !important;
-  flex-shrink: 0 !important;
 }
 
 .side-nav-item::after {
@@ -709,170 +616,23 @@ canvas.vanta-canvas {
   transition: all 0.25s ease !important;
 }
 
-.side-nav-item:hover::after {
-  background: rgba(255, 255, 255, 0.9) !important;
-  width: 24px !important;
-}
-
 .side-nav-item.active::after {
   background: #ffffff !important;
   width: 28px !important;
-  height: 2.5px !important;
 }
 
-@media (max-width: 768px) {
-  #side-nav {
-    right: 8px;
-    padding: 8px 6px;
-  }
-  .side-nav-item {
-    width: 24px;
-    height: 24px;
-  }
-  .side-nav-item::after {
-    width: 14px;
-  }
-  .side-nav-item.active::after {
-    width: 20px;
-  }
-}
-
-/* Research 面板配图 */
-.research-figure {
-  margin: 1.2rem 0 0.4rem;
-  padding: 0;
-  width: 80%;
-  max-width: 80%;
-}
-
-.research-figure img {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: #fff;
-}
-
-.research-figure figcaption {
-  margin-top: 0.45rem;
-  font-size: 0.78rem;
-  line-height: 1.4;
-  color: rgba(255, 255, 255, 0.55);
-  letter-spacing: 0.2px;
-}
-
-/* ========== Interest 展开层（支持从卡片位置 FLIP） ========== */
 #interest-overlay {
   position: fixed !important;
   inset: 0 !important;
-  z-index: 10000 !important;   /* 比卡片低 */
+  z-index: 10000 !important;
   background: rgba(0, 0, 0, 0);
-  backdrop-filter: blur(0);
-  transition: background 0.35s ease, backdrop-filter 0.35s ease;
   pointer-events: none;
 }
 
 #interest-overlay.open {
   background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
   pointer-events: auto;
-}
-
-#interest-modal {
-  position: fixed;
-  z-index: 10001;
-  box-sizing: border-box;
-  overflow: auto;
-  background: rgba(16, 16, 18, 0.98);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 22px;
-  color: #fff;
-  padding: 2rem 2.2rem 1.8rem;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
-  opacity: 0;
-  pointer-events: none;
-  /* top/left/width/height 由 JS 控制 */
-  transition: top 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-              left 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-              width 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-              height 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-              opacity 0.25s ease,
-              border-radius 0.4s ease;
-}
-
-#interest-modal.open {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-#interest-modal .modal-close {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
-  font-size: 1.25rem;
-  line-height: 1;
-  cursor: pointer;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-}
-
-#interest-modal .modal-close:hover {
-  background: rgba(255, 255, 255, 0.18);
-}
-
-#interest-modal h2 {
-  margin: 0 2.5rem 1rem 0;
-  font-size: 1.7rem;
-  font-weight: 700;
-  color: #fff;
-}
-
-#interest-modal .modal-body {
-  font-size: 0.98rem;
-  line-height: 1.75;
-  color: rgba(255, 255, 255, 0.88);
-}
-
-#interest-modal .modal-body p {
-  margin: 0 0 1rem 0;
-}
-
-.interest-card.is-expanding {
-  overflow-y: auto;
-  cursor: default;
-  transform: none !important;
-  filter: none !important;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55) !important;
-  background: rgba(16, 16, 18, 0.98) !important;
-}
-
-.interest-spacer {
-  flex: 1 1 0;
-  min-width: 0;
-}
-
-.interest-card.is-expanded .interest-plus {
-  /* 展开后右上角当关闭用，可按需微调位置 */
-} 
-
-.research-figure video {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: #000;
 }
 
 /* ========== Website Data ========== */
@@ -895,8 +655,6 @@ canvas.vanta-canvas {
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35) !important;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 22px;
-  transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1),
-              border-color 0.3s ease;
 }
 
 .data-stat-card {
@@ -911,29 +669,21 @@ canvas.vanta-canvas {
   text-align: center;
 }
 
-.data-stat-card:hover,
-.data-map-card:hover {
-  transform: scale(1.02);
-  border-color: rgba(255, 255, 255, 0.28);
-}
-
 .data-stat-label {
   font-size: 1.35rem;
   font-weight: 600;
   color: #fff;
-  line-height: 1.3;
 }
 
 .data-stat-value {
   font-size: clamp(2.6rem, 5.5vw, 3.6rem);
   font-weight: 700;
   color: #fff;
-  line-height: 1.1;
 }
 
 .data-map-card {
   width: 100%;
-  min-height: 360px;
+  min-height: 280px;
   padding: 1.8rem;
   display: flex;
   flex-direction: column;
@@ -943,77 +693,49 @@ canvas.vanta-canvas {
 }
 
 .data-map-frame {
-  position: relative; /* 必须有，伪元素才能定位 */
-  width: min(560px, 100%);
-  max-width: 560px;
-  min-height: 260px;
+  width: 100%;
+  max-width: 720px;
+  min-height: 180px;
   margin: 0 auto;
-  border-radius: 12px;
-  overflow: hidden;
+}
+
+/* 城市列表样式 */
+.city-list {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem 1rem;
   justify-content: center;
-  align-items: center;
+  width: 100%;
+  padding: 0.5rem 0;
 }
 
-/* 隐藏 Pageviews / 日期 */
-#mapmyvisitors-widget .mapmyvisitors-visitors,
-#mapmyvisitors-widget .mapmyvisitors-date,
-#mapmyvisitors-widget .mapmyvisitors-bottom-text {
-  display: none !important;
+.city-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding: 0.45rem 0.9rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.92rem;
 }
 
-/* ========== 彻底隐藏 MapMyVisitors / jVectorMap 缩放按钮（全局强制） ========== */
-.jvectormap-zoomin,
-.jvectormap-zoomout,
-.jvectormap-goback,
-.leaflet-control-zoom,
-.leaflet-control-zoom-in,
-.leaflet-control-zoom-out,
-#visitor-map .jvectormap-zoomin,
-#visitor-map .jvectormap-zoomout,
-#visitor-map .jvectormap-goback,
-#visitor-map .leaflet-control-zoom,
-#visitor-map .leaflet-control-zoom-in,
-#visitor-map .leaflet-control-zoom-out,
-#mapmyvisitors-widget .jvectormap-zoomin,
-#mapmyvisitors-widget .jvectormap-zoomout,
-#mapmyvisitors-widget .jvectormap-goback,
-#mapmyvisitors-widget .leaflet-control-zoom,
-[title="Zoom in"],
-[title="Zoom out"],
-[aria-label="Zoom in"],
-[aria-label="Zoom out"],
-.jvectormap-container .jvectormap-zoomin,
-.jvectormap-container .jvectormap-zoomout {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  width: 0 !important;
-  height: 0 !important;
-  overflow: hidden !important;
-  position: absolute !important;
-  left: -9999px !important;
-  font-size: 0 !important;
-  line-height: 0 !important;
+.city-name {
+  font-weight: 600;
 }
 
-/* 外层透明；不要动地图的 background-image */
-#mapmyvisitors-widget,
-.mapmyvisitors-map-container {
-  background-color: transparent !important;
-  box-shadow: none !important;
-  border: none !important;
+.city-country {
+  opacity: 0.55;
+  font-size: 0.82rem;
 }
 
-.mapmyvisitors-map {
-  border-radius: 10px !important;
-  filter: none !important;
-  box-shadow: none !important;
-  /* 禁止写 background: transparent */
+.city-empty {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.95rem;
+  padding: 2rem 0;
 }
 
 @media (max-width: 640px) {
   .data-stats-row { flex-direction: column; }
-  .data-map-frame { width: 100%; max-width: 100%; }
 }
