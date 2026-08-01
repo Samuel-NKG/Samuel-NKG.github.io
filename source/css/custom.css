@@ -402,6 +402,7 @@ canvas.vanta-canvas {
   min-height: 0;
   max-height: 560px;
   overflow-y: auto;
+  overflow-x: hidden;
   padding-right: 0.6rem;
 }
 
@@ -427,6 +428,39 @@ canvas.vanta-canvas {
   opacity: 0.88;
   margin: 0;
   color: #ffffff;
+}
+
+.research-panel p + p {
+  margin-top: 0.85rem;
+}
+
+/* 图片/视频：宽 80%，不溢出 */
+.research-figure {
+  margin: 1.2rem 0 1rem;
+  width: 80%;
+  max-width: 80%;
+  box-sizing: border-box;
+}
+
+.research-figure img,
+.research-figure video,
+.research-panel img,
+.research-panel video {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #000;
+  box-sizing: border-box;
+}
+
+.research-figure figcaption {
+  margin-top: 0.55rem;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.45;
 }
 
 #interest-cards {
@@ -506,6 +540,8 @@ canvas.vanta-canvas {
 .awards-col {
   flex: 1;
   min-width: 0;
+  position: relative;
+  padding-left: 0.35rem;
 }
 
 .awards-col-title {
@@ -517,11 +553,40 @@ canvas.vanta-canvas {
   font-weight: 600;
 }
 
+/* 奖学金/奖项：年份前竖线时间轴 */
 .award-item {
+  position: relative;
   display: flex;
   gap: 1.2rem;
   align-items: flex-start;
   margin-bottom: 1.6rem;
+  padding-left: 1.15rem;
+}
+
+.award-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.35rem;
+  bottom: -1.6rem;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.award-item:last-child::before {
+  bottom: 0.2rem;
+}
+
+.award-item::after {
+  content: '';
+  position: absolute;
+  left: -3px;
+  top: 0.45rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff6b2c;
+  box-shadow: 0 0 0 3px rgba(255, 107, 44, 0.2);
 }
 
 .award-year {
@@ -529,6 +594,13 @@ canvas.vanta-canvas {
   font-size: 1.05rem;
   font-weight: 700;
   color: #ffffff;
+  line-height: 1.3;
+  flex-shrink: 0;
+}
+
+.award-content {
+  flex: 1;
+  min-width: 0;
 }
 
 .award-title {
@@ -707,7 +779,6 @@ canvas.vanta-canvas {
   background: #0a0a0c;
 }
 
-/* Leaflet 深色主题微调 */
 #visitor-leaflet-map .leaflet-control-zoom a {
   background: rgba(20, 20, 24, 0.92) !important;
   color: #fff !important;
@@ -741,5 +812,9 @@ canvas.vanta-canvas {
   #visitor-leaflet-map {
     height: 280px;
     min-height: 280px;
+  }
+  .research-figure {
+    width: 100%;
+    max-width: 100%;
   }
 }
