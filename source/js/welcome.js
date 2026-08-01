@@ -448,7 +448,6 @@ document.addEventListener('DOMContentLoaded', function () {
   setTimeout(updateByScroll, 300);
 
   // 节点点击
-    // 节点点击
   document.querySelectorAll('.side-nav-item').forEach(function (item) {
     item.addEventListener('click', function () {
       var section = parseInt(this.getAttribute('data-section'), 10);
@@ -457,7 +456,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-    // Personal Interest：原卡片抬到 body 再放大
+  // Personal Interest：原卡片抬到 body 再放大
   var interestData = {
     Sports: {
       title: 'Sports',
@@ -684,7 +683,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-// ========== Website Data：不蒜子 + MapMyVisitors（性能安全版） ==========
+// ========== Website Data：不蒜子 + MapMyVisitors ==========
 if (!document.getElementById('busuanzi-script')) {
   var bz = document.createElement('script');
   bz.id = 'busuanzi-script';
@@ -693,44 +692,7 @@ if (!document.getElementById('busuanzi-script')) {
   document.body.appendChild(bz);
 }
 
-// 强制隐藏缩放按钮的永久样式（最高优先级）
-if (!document.getElementById('force-hide-map-zoom')) {
-  var forceStyle = document.createElement('style');
-  forceStyle.id = 'force-hide-map-zoom';
-  forceStyle.textContent = `
-    .jvectormap-zoomin,
-    .jvectormap-zoomout,
-    .jvectormap-goback,
-    .leaflet-control-zoom,
-    .leaflet-control-zoom-in,
-    .leaflet-control-zoom-out,
-    [class*="jvectormap-zoom"],
-    [class*="leaflet-control-zoom"] {
-      display: none !important;
-      visibility: hidden !important;
-      opacity: 0 !important;
-      pointer-events: none !important;
-      width: 0 !important;
-      height: 0 !important;
-      max-width: 0 !important;
-      max-height: 0 !important;
-      overflow: hidden !important;
-      position: absolute !important;
-      left: -99999px !important;
-      top: -99999px !important;
-      font-size: 0 !important;
-      line-height: 0 !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      border: none !important;
-      background: transparent !important;
-      z-index: -1 !important;
-    }
-  `;
-  document.head.appendChild(forceStyle);
-}
-
-// 访客地图
+// 访客地图（干净加载，不再做任何 zoom 按钮删除）
 var mapBox = document.getElementById('visitor-map');
 if (mapBox && !document.getElementById('mapmyvisitors')) {
   var mapScript = document.createElement('script');
@@ -743,72 +705,6 @@ if (mapBox && !document.getElementById('mapmyvisitors')) {
     '&co=0a0a0c' +
     '&cl=ffffff' +
     '&t=m';
-
-  function removeZoomControls() {
-    var selectors = [
-      '.leaflet-control-zoom',
-      '.leaflet-control-zoom-in',
-      '.leaflet-control-zoom-out',
-      '.jvectormap-zoomin',
-      '.jvectormap-zoomout',
-      '.jvectormap-goback',
-      '[title="Zoom in"]',
-      '[title="Zoom out"]',
-      '[aria-label="Zoom in"]',
-      '[aria-label="Zoom out"]',
-      '[class*="jvectormap-zoom"]',
-      '[class*="leaflet-control-zoom"]'
-    ].join(',');
-
-    [mapBox, document].forEach(function (root) {
-      if (!root || !root.querySelectorAll) return;
-      root.querySelectorAll(selectors).forEach(function (el) {
-        el.style.setProperty('display', 'none', 'important');
-        el.style.setProperty('visibility', 'hidden', 'important');
-        el.style.setProperty('opacity', '0', 'important');
-        el.style.setProperty('pointer-events', 'none', 'important');
-        el.style.setProperty('width', '0', 'important');
-        el.style.setProperty('height', '0', 'important');
-        el.style.setProperty('overflow', 'hidden', 'important');
-        el.style.setProperty('left', '-99999px', 'important');
-        el.style.setProperty('top', '-99999px', 'important');
-        el.style.setProperty('position', 'absolute', 'important');
-        el.style.setProperty('z-index', '-1', 'important');
-        try { el.remove(); } catch (e) {}
-      });
-    });
-  }
-
-  var zoomObserver = new MutationObserver(function () {
-    removeZoomControls();
-  });
-
-  zoomObserver.observe(mapBox, {
-    childList: true,
-    subtree: true
-  });
-
-  var bodyObserver = new MutationObserver(function () {
-    removeZoomControls();
-  });
-  bodyObserver.observe(document.body, {
-    childList: true,
-    subtree: true
-  });
-
-  mapScript.addEventListener('load', function () {
-    removeZoomControls();
-    // 持续清理 30 秒
-    var times = 0;
-    var timer = setInterval(function () {
-      removeZoomControls();
-      times += 1;
-      if (times >= 60) {
-        clearInterval(timer);
-      }
-    }, 500);
-  });
-
   mapBox.appendChild(mapScript);
 }
 });
