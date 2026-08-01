@@ -254,7 +254,7 @@ document.addEventListener('DOMContentLoaded', function () {
           <div class="data-map-card">
             <div class="data-stat-label">Visitor Origins</div>
             <div class="data-map-frame" id="visitor-map">
-              <div id="city-list" class="city-list">Loading...</div>
+              <div id="visitor-leaflet-map"></div>
             </div>
           </div>
         </div>
@@ -383,20 +383,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Personal Interest expand/collapse (kept minimal)
-  var interestData = {
-    Sports: { title: 'Sports', html: '<p>Staying active through basketball, running and fitness.</p>' },
-    Photography: { title: 'Photography', html: '<p>Capturing moments through the lens.</p>' },
-    Games: { title: 'Games', html: '<p>From competitive esports to immersive single-player worlds.</p>' }
-  };
-
   if (!document.getElementById('interest-overlay')) {
     var ov = document.createElement('div');
     ov.id = 'interest-overlay';
     document.body.appendChild(ov);
   }
 
-  // ========== Website Data：不蒜子 + 自己的访客城市 ==========
+  // ========== Website Data：不蒜子 + Leaflet 访客地图 ==========
   if (!document.getElementById('busuanzi-script')) {
     var bz = document.createElement('script');
     bz.id = 'busuanzi-script';
@@ -405,48 +398,97 @@ document.addEventListener('DOMContentLoaded', function () {
     document.body.appendChild(bz);
   }
 
-  // Cloudflare Worker 地址
   var WORKER_URL = 'https://visitor-map-worker.samuel04personal.workers.dev';
+  var visitorMap = null;
+  var markerLayer = null;
 
-  function renderCities(cities) {
-    var el = document.getElementById('city-list');
-    if (!el) return;
-    if (!cities || cities.length === 0) {
-      el.innerHTML = '<div class="city-empty">No visitors yet</div>';
+  function loadLeaflet(callback) {
+    if (window.L) {
+      callback();
       return;
     }
-    // 去重显示（按 city+country）
-    var seen = {};
-    var unique = [];
-    cities.forEach(function (c) {
-      var k = (c.countryCode || c.country || '') + '|' + (c.city || '');
-      if (!seen[k]) {
-        seen[k] = true;
-        unique.push(c);
-      }
+    if (!document.getElementById('leaflet-css')) {
+      var link = document.createElement('link');
+      link.id = 'leaflet-css';
+      link.rel = 'stylesheet';
+      link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+      document.head.appendChild(link);
+    }
+    var script = document.createElement('script');
+    script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+    script.onload = callback;
+    document.body.appendChild(script);
+  }
+
+  function initMap() {
+    var el = document.getElementById('visitor-leaflet-map');
+    if (!el || visitorMap) return;
+
+    visitorMap = L.map(el, {
+      zoomControl: true,
+      attributionControl: true,
+      worldCopyJump: true
+    }).setView([20, 10], 2);
+
+    // Dark tiles (Carto Dark Matter)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OpenStreetMap &copy; CARTO',
+      subdomains: 'abcd',
+      maxZoom: 18
+    }).addTo(visitorMap);
+
+    markerLayer = L.layerGroup().addTo(visitorMap);
+
+    // Fix size after card animation
+    setTimeout(function () {
+      if (visitorMap) visitorMap.invalidateSize();
+    }, 600);
+  }
+
+  function renderMarkers(cities) {
+    if (!visitorMap || !markerLayer) return;
+    markerLayer.clearLayers();
+
+    var bounds = [];
+    (cities || []).forEach(function (c) {
+      var lat = Number(c.lat);
+      var lng = Number(c.lng);
+      if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
+
+      // slight jitter so overlapping same-city visits remain visible
+      var jLat = lat + (Math.random() - 0.5) * 0.08;
+      var jLng = lng + (Math.random() - 0.5) * 0.08;
+
+      var label = (c.city || 'Unknown') + (c.country ? ', ' + c.country : '');
+      var marker = L.circleMarker([jLat, jLng], {
+        radius: 6,
+        color: '#ff6b2c',
+        weight: 1.5,
+        fillColor: '#ff6b2c',
+        fillOpacity: 0.85
+      }).bindPopup(label);
+
+      markerLayer.addLayer(marker);
+      bounds.push([jLat, jLng]);
     });
-    el.innerHTML = unique.slice(0, 24).map(function (c) {
-      var flag = c.countryCode ? c.countryCode : '';
-      var name = c.city || 'Unknown';
-      var country = c.country || '';
-      return '<div class="city-item"><span class="city-name">' + name + '</span><span class="city-country">' + country + '</span></div>';
-    }).join('');
+
+    if (bounds.length > 0) {
+      try {
+        visitorMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 5 });
+      } catch (e) {}
+    }
   }
 
   function loadCities() {
     fetch(WORKER_URL + '/cities')
       .then(function (r) { return r.json(); })
       .then(function (data) {
-        renderCities(data.cities || []);
+        renderMarkers(data.cities || []);
       })
-      .catch(function () {
-        var el = document.getElementById('city-list');
-        if (el) el.innerHTML = '<div class="city-empty">Unable to load</div>';
-      });
+      .catch(function () {});
   }
 
   function reportVisit() {
-    // 使用免费 IP 定位（只取城市）
     fetch('https://ipapi.co/json/')
       .then(function (r) { return r.json(); })
       .then(function (geo) {
@@ -457,18 +499,22 @@ document.addEventListener('DOMContentLoaded', function () {
           body: JSON.stringify({
             city: geo.city || '',
             country: geo.country_name || '',
-            countryCode: geo.country_code || ''
+            countryCode: geo.country_code || '',
+            lat: geo.latitude,
+            lng: geo.longitude
           })
         });
       })
       .then(function () {
-        // 上报后再刷新一次列表
-        setTimeout(loadCities, 800);
+        setTimeout(loadCities, 900);
       })
       .catch(function () {});
   }
 
-  // 启动
-  loadCities();
-  reportVisit();
+  // 启动地图
+  loadLeaflet(function () {
+    initMap();
+    loadCities();
+    reportVisit();
+  });
 });
