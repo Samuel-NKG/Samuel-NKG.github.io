@@ -267,7 +267,6 @@ document.addEventListener('DOMContentLoaded', function () {
     content.insertBefore(root, content.firstChild);
   }
 
-  // 右侧节点
   if (!document.getElementById('side-nav')) {
     var sideNav = document.createElement('div');
     sideNav.id = 'side-nav';
@@ -283,7 +282,6 @@ document.addEventListener('DOMContentLoaded', function () {
     document.body.appendChild(sideNav);
   }
 
-  // 按钮切换
   document.querySelectorAll('#research-card .research-btn').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var index = this.getAttribute('data-index');
@@ -303,7 +301,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // 打字机
   function typeInto(el, text, cursor, done) {
     if (!el) { if (done) done(); return; }
     var i = 0;
@@ -430,7 +427,6 @@ document.addEventListener('DOMContentLoaded', function () {
       worldCopyJump: true
     }).setView([20, 10], 2);
 
-    // Dark tiles (Carto Dark Matter)
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
       attribution: '&copy; OpenStreetMap &copy; CARTO',
       subdomains: 'abcd',
@@ -439,37 +435,53 @@ document.addEventListener('DOMContentLoaded', function () {
 
     markerLayer = L.layerGroup().addTo(visitorMap);
 
-    // Fix size after card animation
     setTimeout(function () {
       if (visitorMap) visitorMap.invalidateSize();
     }, 600);
   }
 
+  // Aggregate by city key, radius scales with visit count
   function renderMarkers(cities) {
     if (!visitorMap || !markerLayer) return;
     markerLayer.clearLayers();
 
-    var bounds = [];
+    var groups = {};
     (cities || []).forEach(function (c) {
       var lat = Number(c.lat);
       var lng = Number(c.lng);
       if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
 
-      // slight jitter so overlapping same-city visits remain visible
-      var jLat = lat + (Math.random() - 0.5) * 0.08;
-      var jLng = lng + (Math.random() - 0.5) * 0.08;
+      var key = (c.countryCode || c.country || '') + '|' + (c.city || 'Unknown');
+      if (!groups[key]) {
+        groups[key] = {
+          city: c.city || 'Unknown',
+          country: c.country || c.countryCode || '',
+          lat: lat,
+          lng: lng,
+          count: 0
+        };
+      }
+      groups[key].count += 1;
+      // keep a stable position (first seen coords)
+    });
 
-      var label = (c.city || 'Unknown') + (c.country ? ', ' + c.country : '');
-      var marker = L.circleMarker([jLat, jLng], {
-        radius: 6,
+    var bounds = [];
+    Object.keys(groups).forEach(function (key) {
+      var g = groups[key];
+      // radius: 5 ~ 18 based on count
+      var radius = Math.min(18, 5 + Math.sqrt(g.count) * 3.2);
+      var label = g.city + (g.country ? ', ' + g.country : '') + ' · ' + g.count + (g.count > 1 ? ' visits' : ' visit');
+
+      var marker = L.circleMarker([g.lat, g.lng], {
+        radius: radius,
         color: '#ff6b2c',
         weight: 1.5,
         fillColor: '#ff6b2c',
-        fillOpacity: 0.85
+        fillOpacity: 0.75
       }).bindPopup(label);
 
       markerLayer.addLayer(marker);
-      bounds.push([jLat, jLng]);
+      bounds.push([g.lat, g.lng]);
     });
 
     if (bounds.length > 0) {
@@ -488,30 +500,19 @@ document.addEventListener('DOMContentLoaded', function () {
       .catch(function () {});
   }
 
+  // No third-party IP API — Worker reads request.cf (works in mainland China)
   function reportVisit() {
-    fetch('https://ipapi.co/json/')
-      .then(function (r) { return r.json(); })
-      .then(function (geo) {
-        if (!geo || geo.error) return;
-        return fetch(WORKER_URL + '/hit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            city: geo.city || '',
-            country: geo.country_name || '',
-            countryCode: geo.country_code || '',
-            lat: geo.latitude,
-            lng: geo.longitude
-          })
-        });
-      })
+    fetch(WORKER_URL + '/hit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: '{}'
+    })
       .then(function () {
-        setTimeout(loadCities, 900);
+        setTimeout(loadCities, 800);
       })
       .catch(function () {});
   }
 
-  // 启动地图
   loadLeaflet(function () {
     initMap();
     loadCities();
