@@ -93,14 +93,12 @@ header#page-header nav,
   width: auto !important;
 }
 
-/* 隐藏首页文章卡片 */
 #recent-posts,
 .recent-posts,
 .recent-post-item {
   display: none !important;
 }
 
-/* 去掉右下角设置 / 回顶 */
 #rightside,
 #go-up,
 .go-up,
@@ -113,7 +111,6 @@ header#page-header nav,
   pointer-events: none !important;
 }
 
-/* 去掉主题遮罩 / 页脚 */
 #mask,
 .mask,
 #loading-box,
@@ -683,59 +680,66 @@ canvas.vanta-canvas {
 
 .data-map-card {
   width: 100%;
-  min-height: 280px;
-  padding: 1.8rem;
+  min-height: 420px;
+  padding: 1.6rem 1.6rem 1.4rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1.1rem;
+  align-items: stretch;
+  gap: 1rem;
   box-sizing: border-box;
 }
 
 .data-map-frame {
   width: 100%;
-  max-width: 720px;
-  min-height: 180px;
-  margin: 0 auto;
+  height: 340px;
+  min-height: 340px;
+  margin: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #0a0a0c;
 }
 
-/* 城市列表样式 */
-.city-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.7rem 1rem;
-  justify-content: center;
+#visitor-leaflet-map {
   width: 100%;
-  padding: 0.5rem 0;
+  height: 100%;
+  min-height: 340px;
+  background: #0a0a0c;
 }
 
-.city-item {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.4rem;
-  padding: 0.45rem 0.9rem;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 999px;
+/* Leaflet 深色主题微调 */
+#visitor-leaflet-map .leaflet-control-zoom a {
+  background: rgba(20, 20, 24, 0.92) !important;
+  color: #fff !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+#visitor-leaflet-map .leaflet-control-attribution {
+  background: rgba(0, 0, 0, 0.55) !important;
+  color: rgba(255, 255, 255, 0.55) !important;
+  font-size: 10px !important;
+}
+
+#visitor-leaflet-map .leaflet-control-attribution a {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+#visitor-leaflet-map .leaflet-popup-content-wrapper {
+  background: rgba(20, 20, 24, 0.96);
   color: #fff;
-  font-size: 0.92rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
 }
 
-.city-name {
-  font-weight: 600;
-}
-
-.city-country {
-  opacity: 0.55;
-  font-size: 0.82rem;
-}
-
-.city-empty {
-  color: rgba(255, 255, 255, 0.45);
-  font-size: 0.95rem;
-  padding: 2rem 0;
+#visitor-leaflet-map .leaflet-popup-tip {
+  background: rgba(20, 20, 24, 0.96);
 }
 
 @media (max-width: 640px) {
   .data-stats-row { flex-direction: column; }
+  .data-map-frame,
+  #visitor-leaflet-map {
+    height: 280px;
+    min-height: 280px;
+  }
 }
