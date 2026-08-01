@@ -273,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <div class="page-title">
           <span class="typed" data-text="Website Data"></span><span class="cursor">|</span>
         </div>
-                <div class="page-card" id="data-section">
+        <div class="page-card" id="data-section">
           <div class="data-stats-row">
             <div class="data-stat-card">
               <div class="data-stat-label">Unique Visitors</div>
@@ -292,7 +292,9 @@ document.addEventListener('DOMContentLoaded', function () {
           <!-- 第二行：独占一张同款卡片 -->
           <div class="data-map-card">
             <div class="data-stat-label">Visitor Origins</div>
-            <div class="data-map-frame" id="visitor-map"></div>
+            <div class="data-map-frame" id="visitor-map">
+              <div id="visitor-leaflet-map"></div>
+            </div>
           </div>
         </div>
       </div>
