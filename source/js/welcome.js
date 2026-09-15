@@ -57,6 +57,10 @@ document.addEventListener('DOMContentLoaded', function () {
               <svg class="link-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.5 15.5h-2v-9h2v9zm1.5-11c-.83 0-1.5-.67-1.5-1.5S11.17 3.5 12 3.5s1.5.67 1.5 1.5S12.83 6.5 12 6.5zm5.5 11h-2v-9h2v1.1c.5-.8 1.3-1.3 2.4-1.3 1.8 0 3 1.2 3 3.5v5.7z"/></svg>
               ORCID
             </a>
+            <a href="/transcript.pdf" target="_blank" class="link-item">
+              <svg class="link-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M4 4h10l6 6v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm9 1.5V11h5.5L13 5.5zM6 13h8v1.5H6V13zm0 3h8v1.5H6V16zm0 3h5v1.5H6V19z"/></svg>
+              Transcript
+            </a>
           </div>
         </div>
       </div>
